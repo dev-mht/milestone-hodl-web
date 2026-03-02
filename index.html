@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milestone HODL (MHT) - Dashboard</title>
+    <title>Milestone HODL (MHT) - Official Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -18,6 +18,10 @@
         .stats-card { background: var(--card-bg); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); height: 100%; }
         .baron-img { max-width: 280px; border-radius: 50%; border: 4px solid var(--primary-color); box-shadow: 0 0 40px rgba(59, 130, 246, 0.3); margin-top: 20px; }
         .nav-logo { width: 45px; height: 45px; object-fit: cover; border-radius: 10px; }
+        /* Style pour le traducteur Google */
+        #google_translate_element { margin-right: 15px; }
+        .goog-te-gadget-simple { background-color: transparent !important; border: 1px solid rgba(255,255,255,0.2) !important; padding: 5px !important; border-radius: 8px !important; }
+        .goog-te-gadget-simple span { color: white !important; }
     </style>
 </head>
 <body>
@@ -30,31 +34,36 @@
                     MILESTONE <span class="text-primary">HODL</span>
                 </span>
             </div>
-            <button class="btn-connect" id="btn-connect">
-                <i class="bi bi-wallet2 me-2"></i>Connecter Wallet
-            </button>
+            
+            <div class="d-flex align-items-center">
+                <div id="google_translate_element"></div>
+                
+                <button class="btn-connect" id="btn-connect">
+                    <i class="bi bi-wallet2 me-2"></i>Connect Wallet
+                </button>
+            </div>
         </div>
     </nav>
 
     <div class="container">
         <section class="hero-section">
             <h1 class="h2 fw-bold mb-3" style="font-family: 'Orbitron', sans-serif; color: var(--secondary-color);">
-                BIENVENUE, HEUREUX POSSESSEUR MILESTONE HODL TOKEN MHT
+                WELCOME, HAPPY MILESTONE HODL TOKEN (MHT) OWNER
             </h1>
-            <p class="lead text-secondary">Votre interface de gestion décentralisée</p>
-            <img src="baron.png" alt="Le Jeune Baron" class="baron-img shadow-lg">
+            <p class="lead text-secondary">Your decentralized asset management interface</p>
+            <img src="baron.png" alt="The Young Baron" class="baron-img shadow-lg">
         </section>
 
         <div class="row g-4 mb-5 text-center">
             <div class="col-md-6">
                 <div class="stats-card">
-                    <h5 class="text-secondary mb-3">Statut du Wallet</h5>
-                    <div id="status-text" class="h6 text-danger">Non connecté</div>
+                    <h5 class="text-secondary mb-3">Wallet Status</h5>
+                    <div id="status-text" class="h6 text-danger">Not Connected</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="stats-card">
-                    <h5 class="text-secondary mb-3">Votre Solde MHT</h5>
+                    <h5 class="text-secondary mb-3">Your MHT Balance</h5>
                     <div id="balance-value" class="h3 fw-bold">0.00 MHT</div>
                 </div>
             </div>
@@ -70,13 +79,20 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('tokenChart').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Public Sale', 'Liquidité', 'Équipe', 'Marketing', 'Réserve'],
+                labels: ['Public Sale', 'DEX Liquidity', 'Team', 'Marketing', 'Reserve'],
                 datasets: [{
                     data: [40, 30, 10, 10, 10],
                     backgroundColor: ['#3b82f6', '#8b5cf6', '#1e293b', '#64748b', '#0ea5e9'],
