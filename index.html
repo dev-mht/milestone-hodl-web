@@ -116,5 +116,44 @@
         }
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('tokenChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Réserve Milestones', 'Liquidité (Pool)', 'Prévente (PinkSale)', 'Marketing', 'Fondateur'],
+                datasets: [{
+                    data: [50, 20, 15, 10, 5],
+                    backgroundColor: ['#3b82f6', '#64748b', '#10b981', '#f59e0b', '#ef4444'],
+                    hoverOffset: 25,
+                    borderWidth: 0
+                }]
+            },
+            options: { plugins: { legend: { display: false } }, cutout: '65%', maintainAspectRatio: true }
+        });
+
+        document.getElementById('connectWalletBtn').addEventListener('click', function() {
+            alert("Connection to MetaMask/TrustWallet available soon!");
+        });
+    </script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'fr,en,es,de,it', // Tu peux ajouter les langues que tu veux
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+        /* Petit correctif visuel pour forcer le texte en blanc dans le menu Google */
+        .goog-te-menu-value span { color: white !important; }
+        .goog-te-gadget-simple { background-color: rgba(255,255,255,0.1) !important; border: 1px solid var(--primary-color) !important; }
+    </style>
 </body>
 </html>
