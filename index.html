@@ -10,54 +10,69 @@
     
     <style>
         :root { --primary-color: #3b82f6; --secondary-color: #8b5cf6; --dark-bg: #0f172a; --card-bg: #1e293b; }
-        body { background-color: var(--dark-bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; top: 0 !important; }
-        
-        /* Nettoyage Google Translate pour éviter les doublons et les bugs */
-        .goog-te-banner-frame.skiptranslate, .goog-te-banner { display: none !important; } 
-        body > .skiptranslate { display: none !important; }
+        body { background-color: var(--dark-bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
         /* Navbar */
         .navbar { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 1rem; }
         .nav-logo { width: 45px; height: 45px; object-fit: contain; }
         .brand-text { font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 1.5rem; letter-spacing: 1px; }
-        .nav-controls { display: flex; align-items: center; gap: 20px; }
-
-        /* Style du bouton de langue corrigé */
-        #google_translate_element { min-width: 160px; }
-        .goog-te-gadget-simple { 
-            background-color: #1e293b !important; 
-            border: 1px solid #3b82f6 !important; 
-            padding: 5px 10px !important; 
-            border-radius: 8px !important; 
-            cursor: pointer !important;
-            display: flex !important;
-            align-items: center !important;
-        }
-        .goog-te-gadget-simple span { color: white !important; font-weight: bold !important; font-size: 0.85rem !important; }
         
-        /* FIX: Pour voir toutes les langues (dont le Thaï) sans être bloqué */
-        .goog-te-menu-frame {
-            max-height: 500px !important;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
-        }
-        iframe.goog-te-menu-frame {
-            position: absolute !important;
-            top: 60px !important; /* Force l'ouverture vers le bas */
-        }
+        .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .btn-connect:hover { opacity: 0.9; transform: scale(1.05); }
 
-        .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 20px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; white-space: nowrap; }
+        /* Header & Progression */
         .main-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #ff0000; margin-bottom: -15px; margin-top: 20px; text-align: center; font-weight: bold; }
-        .milestone-container { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; max-width: 1400px; margin: 0 auto 20px auto; padding: 0 40px; }
+        
+        .milestone-container { 
+            display: flex; 
+            align-items: flex-start; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 1400px; 
+            margin: 0 auto 20px auto; 
+            padding: 0 40px;
+        }
         .milestone-logo { width: 220px; height: 220px; object-fit: contain; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.4)); margin-top: -10px; } 
         .progress-box { flex-grow: 1; max-width: 700px; background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 45px; }
-        .main-dashboard { display: flex; align-items: stretch; justify-content: space-between; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
+        /* Dashboard Central */
+        .main-dashboard { 
+            display: flex; 
+            align-items: stretch; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 0 40px; 
+        }
+        
         .token-col, .wallet-col { width: 340px; display: flex; flex-direction: column; justify-content: space-between; }
-        .center-col { display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding-bottom: 5px; }
+        
+        .center-col { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center;
+            padding-bottom: 5px; 
+        }
+
         .wallet-card { background: var(--card-bg); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        
         .chart-container { position: relative; width: 240px; height: 240px; margin: 0 auto; }
         .pinksale-mention { font-size: 0.75rem; color: #94a3b8; margin-top: 20px; font-style: italic; line-height: 1.4; margin-bottom: 0; }
-        .baron-img { width: 450px; height: 280px; object-fit: cover; border-radius: 225px / 140px; border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); margin-top: 20px; }
+
+        .baron-img { 
+            width: 450px; 
+            height: 280px; 
+            object-fit: cover;
+            border-radius: 225px / 140px; 
+            border: 4px solid var(--primary-color); 
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); 
+            margin-top: 20px;
+        }
+
         .btn-buy { background: #22c55e; color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; text-decoration: none; transition: 0.3s; font-size: 1rem; }
+        .btn-buy:hover { background: #16a34a; transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -68,8 +83,7 @@
                 <img src="logo.png" alt="MHT Logo" class="nav-logo me-3">
                 <span class="brand-text">MHT &nbsp;&nbsp; MILESTONE HODL TOKEN</span>
             </div>
-            <div class="nav-controls"> 
-                <div id="google_translate_element"></div>
+            <div class="ms-auto"> 
                 <button class="btn-connect" id="connectWalletBtn"><i class="bi bi-wallet2 me-2"></i>Connect Wallet</button>
             </div>
         </div>
@@ -77,6 +91,7 @@
 
     <div class="container-fluid">
         <h1 class="main-title">REWARDING GROWTH, NOT LUCK.</h1>
+        
         <div class="milestone-container">
             <img src="logo.png" class="milestone-logo" alt="Logo L">
             <div class="progress-box">
@@ -93,19 +108,35 @@
                 <div class="wallet-card text-center" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
                         <h6 class="small text-secondary mb-3 fw-bold">TOKEN ALLOCATION</h6>
-                        <div class="chart-container"><canvas id="tokenChart"></canvas></div>
+                        <div class="chart-container">
+                            <canvas id="tokenChart"></canvas>
+                        </div>
                     </div>
-                    <p class="pinksale-mention"><i class="bi bi-shield-check me-1 text-primary"></i> 20% de la supply forme la Paire MHT/BNB sur <strong>PancakeSwap</strong> via PinkSale.</p>
+                    <p class="pinksale-mention">
+                        <i class="bi bi-shield-check me-1 text-primary"></i> 
+                        20% de la supply forme la Paire MHT/BNB sur <strong>PancakeSwap</strong> via PinkSale.
+                    </p>
                 </div>
             </div>
+
             <div class="center-col">
                 <img src="baron.png" alt="The Baron" class="baron-img">
                 <a href="https://pancakeswap.finance" target="_blank" class="btn-buy">Buy MHT on PancakeSwap</a>
             </div>
+
             <div class="wallet-col">
-                <div class="wallet-card"><small class="text-secondary d-block">Wallet Status</small><span class="fw-bold text-danger">Not Connected</span></div>
-                <div class="wallet-card"><small class="text-secondary d-block">Your Balance</small><span class="fw-bold">0.00 MHT</span></div>
-                <div class="wallet-card"><small class="text-secondary d-block">Market Cap</small><span class="fw-bold text-success">$1,245,000</span></div>
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Wallet Status</small>
+                    <span class="fw-bold text-danger">Not Connected</span>
+                </div>
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Your Balance</small>
+                    <span class="fw-bold">0.00 MHT</span>
+                </div>
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Market Cap</small>
+                    <span class="fw-bold text-success">$1,245,000</span>
+                </div>
             </div>
         </div>
     </div>
@@ -125,24 +156,17 @@
                     borderWidth: 0
                 }]
             },
-            options: { plugins: { legend: { display: false } }, cutout: '65%', maintainAspectRatio: true }
+            options: { 
+                plugins: { legend: { display: false } }, 
+                cutout: '65%',
+                maintainAspectRatio: true
+            }
         });
 
+        // Activation du bouton Connect Wallet
         document.getElementById('connectWalletBtn').addEventListener('click', function() {
-            alert("Connection to MetaMask/TrustWallet coming soon!");
+            alert("Connection to MetaMask/TrustWallet available soon!");
         });
     </script>
-
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
