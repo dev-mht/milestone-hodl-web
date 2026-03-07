@@ -1,7 +1,7 @@
 /**
  * MHT DASHBOARD - V2.4 (OpenZeppelin v5.0 Compatible)
  */
-const contractAddress = "TON_ADRESSE_DE_CONTRAT_DEPLOYE"; // <--- COPIE L'ADRESSE ICI
+const contractAddress = "0xAda33C64977cF1813a9aE8778a3c65b31AfC7e75"; // <--- COPIE L'ADRESSE ICI
 const contractABI = [
     "function balanceOf(address owner) view returns (uint256)",
     "function claimRewards() public",
