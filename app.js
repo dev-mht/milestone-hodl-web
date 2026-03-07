@@ -4,7 +4,7 @@
  */
 
 // --- 1. CONFIGURATION ---
-const contractAddress = "0xD157158bDad3E8eA733c808F573a4fCdf4a77034";
+const contractAddress = "0xe9EBc45CdE442e6f88300AC09A9aaD2c05DDC93c";
 const BSC_TESTNET_ID = 97; 
 const EXPLORER_URL = "https://testnet.bscscan.com/tx/";
 
