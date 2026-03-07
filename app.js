@@ -99,15 +99,47 @@ async function connectWallet() {
 async function refreshBlockchainData(address) {
     try {
         const contract = new ethers.Contract(contractAddress, contractABI, provider);
+        
+        // 1. Mise à jour du solde
         const balance = await contract.balanceOf(address);
-        const formattedBalance = ethers.utils.formatUnits(balance, 18);
-        if (balanceText) {
-            balanceText.innerText = parseFloat(formattedBalance).toLocaleString() + " MHT";
+        balanceText.innerText = parseFloat(ethers.utils.formatEther(balance)).toLocaleString() + " MHT";
+
+        // 2. Vérification si l'utilisateur a déjà réclamé
+        const rewardPerToken = await contract.milestoneRewardPerToken();
+        const paid = await contract.userRewardPerTokenPaid(address);
+        
+        // 3. Update du bouton Claim
+        if (rewardPerToken.gt(0) && paid.eq(rewardPerToken)) {
+            btnClaim.innerHTML = `<i class="bi bi-check-all me-2"></i>Already Claimed`;
+            btnClaim.disabled = true;
+            btnClaim.style.background = "#64748b"; // Gris ardoise élégant
+            btnClaim.style.cursor = "not-allowed";
+        } else if (rewardPerToken.eq(0)) {
+            btnClaim.innerHTML = `<i class="bi bi-clock-history me-2"></i>Waiting Milestone`;
+            btnClaim.disabled = true;
+        } else {
+            btnClaim.innerHTML = `<i class="bi bi-gift me-2"></i>Claim Rewards`;
+            btnClaim.disabled = false;
         }
-        updateMilestoneUI(contract);
-    } catch (e) {
-        console.log("Erreur lecture balance:", e);
-    }
+
+        // 4. Mise à jour de la barre de progression
+        const vaultBal = await contract.vaultBalance();
+        const totalVault = ethers.utils.parseEther("500000000");
+        const releasedNum = parseFloat(ethers.utils.formatEther(totalVault.sub(vaultBal)));
+
+        const progressBar = document.getElementById('milestoneBar');
+        const milestoneStatus = document.getElementById('milestoneStatus');
+
+        if (releasedNum > 0) {
+            progressBar.style.width = "100%";
+            progressBar.innerText = "$1,000,000 / $1,000,000";
+            milestoneStatus.innerText = "Milestone Achieved!";
+        } else {
+            progressBar.style.width = "35%";
+            progressBar.innerText = "$350,000 / $1,000,000";
+            milestoneStatus.innerText = "Next Milestone: $1,000,000";
+        }
+    } catch (e) { console.log("Erreur synchro UI:", e); }
 }
 
 async function updateMilestoneUI(contract) {
