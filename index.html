@@ -93,12 +93,20 @@
         
         <section class="milestone-container">
             <img src="logo.png" class="milestone-logo" alt="Logo">
-            <div class="progress-box">
-                <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $10M Milestone Progression</p>
-                <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 35%; font-weight: bold;">$3.5M / $10M</div>
-                </div>
-            </div>
+           <div class="progress-box">
+    <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $1M Milestone Progression</p>
+    
+    <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);">
+        <div id="milestoneBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+             style="width: 0%; font-weight: bold; transition: width 1s ease-in-out;">
+             $0 / $1,000,000
+        </div>
+    </div>
+    
+    <p class="text-center x-small mt-2 text-muted" style="font-size: 0.75rem;">
+        Status: <span id="milestoneStatus" class="text-success fw-bold">Calculating...</span>
+    </p>
+</div>
             <img src="logo.png" class="milestone-logo" alt="Logo">
         </section>
 
@@ -133,13 +141,13 @@
                     <small class="text-secondary d-block">Account Status</small>
                     <span class="fw-bold text-danger">Not Connected</span>
                 </div>
-               <div class="wallet-card">
-    <small class="text-secondary d-block">Your MHT Balance</small>
-    <span class="fw-bold d-block mb-2">0.00 MHT</span>
-    <button class="btn-claim" id="claimBtn">
-        <i class="bi bi-gift me-2"></i>Claim Rewards
-    </button>
-    </div>
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Your MHT Balance</small>
+                    <span class="fw-bold d-block mb-2">0.00 MHT</span>
+                    <button class="btn-claim" onclick="alert('Please connect your wallet first')">
+                        <i class="bi bi-gift me-2"></i>Claim Rewards
+                    </button>
+                </div>
                 <div class="wallet-card">
                     <small class="text-secondary d-block">Current Market Cap</small>
                     <span class="fw-bold text-success">$1,245,000</span>
@@ -147,88 +155,96 @@
             </div>
         </section>
 
-        <section class="roadmap-section">
-            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 1</span>
-                    <h4>Genesis & Launch</h4>
-                    <ul>
-                        <li>PancakeSwap Listing & Locked Liquidity</li>
-                        <li>Smart Contract Audit (Certik/Techrate)</li>
-                        <li>MHT Dashboard Beta Release</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 2</span>
-                    <h4>$10M Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 50,000,000 MHT Released from Vault</strong></li>
-                        <li>Every +$10M Market Cap triggers a new claimable drop</li>
-                        <li>Global Marketing Blitz & Influencer Partnerships</li>
-                        <li>Coingecko & CoinMarketCap Listing</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 3</span>
-                    <h4>$50M Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Major Milestone Reward Distribution</strong></li>
-                        <li>Tier-2 Centralized Exchange (CEX) Listings</li>
-                        <li>Chainlink VRF Integration for Automated Rewards</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 4</span>
-                    <h4>$100M+ Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
-                        <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
-                        <li>Full Baron Ecosystem Expansion & Governance</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+       <section class="roadmap-section">
+    <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
+    
+    <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+            <span class="roadmap-phase">PHASE 1</span>
+            <h4>Genesis & Launch</h4>
+            <ul>
+                <li>PancakeSwap Listing & Locked Liquidity</li>
+                <li>Initial Smart Contract Security Audit</li>
+                <li>MHT Dashboard V2 Release (1M$ Ready)</li>
+            </ul>
+        </div>
+    </div>
 
-        <section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
-                    <p class="text-secondary">
-                        Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
-                    </p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="whitepaper.pdf" target="_blank" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                            <i class="bi bi-file-earmark-pdf me-2"></i>WHITE PAPER (PDF)
-                        </a>
-                        <a href="#" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold disabled">
-                            <i class="bi bi-shield-check me-2"></i>AUDIT (COMING SOON)
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 mt-4 mt-lg-0">
-                    <div class="doc-card">
-                        <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
-                        <ul class="list-unstyled small text-secondary">
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
-                            <li><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
-                        </ul>
-                    </div>
-                </div>
+    <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+            <span class="roadmap-phase">PHASE 2</span>
+            <h4>$1M Market Cap</h4>
+            <ul>
+                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
+                <li>Every +$1M Market Cap triggers a new automated drop</li>
+                <li>Chainlink Automation Integration (Mainnet)</li>
+                <li>Coingecko & CoinMarketCap Listing Application</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+            <span class="roadmap-phase">PHASE 3</span>
+            <h4>$10M Market Cap</h4>
+            <ul>
+                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
+                <li>Global Marketing Blitz & Influencer Partnerships</li>
+                <li>Tier-2 Centralized Exchange (CEX) Listings</li>
+                <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="roadmap-item">
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+            <span class="roadmap-phase">PHASE 4</span>
+            <h4>$100M+ Market Cap</h4>
+            <ul>
+                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
+                <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
+                <li>Full Baron Ecosystem Expansion & Governance DAO</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
+            <p class="text-secondary">
+                Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                    <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
+                </a>
+                <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                    <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
+                </a>
+                <a href="#" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold disabled">
+                    <i class="bi bi-shield-check me-2"></i>AUDIT (COMING SOON)
+                </a>
             </div>
-        </section>
+        </div>
+        <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="doc-card">
+                <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
+                <ul class="list-unstyled small text-secondary">
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
+                    <li><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
         <section class="container my-5 py-5">
             <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 3px;">FREQUENTLY ASKED QUESTIONS</h2>
@@ -306,8 +322,12 @@
             },
             options: { plugins: { legend: { display: false } }, cutout: '70%', maintainAspectRatio: true }
         });
-        document.getElementById('connectWalletBtn').addEventListener('click', function() { alert("Web3 Wallet integration coming soon!"); });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js">
+    </script>
+    <script src="app.js"></script>
     <style>
     .coin-rain-container {
         position: fixed;
