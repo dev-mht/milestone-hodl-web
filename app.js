@@ -119,8 +119,7 @@ async function updateRewards() {
     const amount = parseFloat(ethers.utils.formatEther(raw));
     if (btnClaim) {
         if (amount > 0) {
-            btnClaim.innerHTML = `<i class="bi bi-gift-fill me-2"></i>Claim ${amount.toFixed(4)} MHT`;
-            btnClaim.disabled  = false;
+btnClaim.innerHTML = `<i class="bi bi-gift-fill me-2"></i>Claim ${amount.toLocaleString("en-US", {maximumFractionDigits: 2})} MHT`;            btnClaim.disabled  = false;
         } else {
             btnClaim.innerHTML = `<i class="bi bi-gift me-2"></i>No Rewards Yet`;
             btnClaim.disabled  = true;
