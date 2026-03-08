@@ -5,8 +5,20 @@
  */
 
 const CONFIG = {
-contractAddress : "0xA0FE718815ab57D953E4FA99dE8646D2810b9f7D",
-    chainId         : 97,
+contractAddress : "0x95d1A53c121E8F863E7B737c25A7cC318B6Ba6bC",
+// Étape 1 - Simuler $1,000,001
+setManualMarketCap(1000001000000000000000000)
+
+// Étape 2 - Vérifier
+getMarketCap() → doit retourner 1000001000000000000000000
+getNextMilestoneUSD() → doit retourner 1000000000000000000000000
+
+// Étape 3 - Déclencher
+performUpkeep(0x)
+
+// Étape 4 - Vérifier le résultat
+milestonesReached → doit être 1
+pendingRewardsOf(0x78581eCF79c1cEec3e1BB9A7b8c514E63F818176) → doit être ~3,500,000 * 1e18    chainId         : 97,
     rpcUrl          : "https://data-seed-prebsc-1-s1.binance.org:8545/",
     explorerUrl     : "https://testnet.bscscan.com/tx/",
     chainName       : "BSC Testnet",
