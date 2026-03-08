@@ -5,7 +5,7 @@
  */
 
 const CONFIG = {
-    contractAddress : "0x48A1490DB1a75f7b5648B01013240439E1ddC61F",
+    contractAddress : "0x4d79F48E5bF104F2303620F23abC9C2512077e4D",
     chainId         : 97,
     rpcUrl          : "https://data-seed-prebsc-1-s1.binance.org:8545/",
     explorerUrl     : "https://testnet.bscscan.com/tx/",
