@@ -1,16 +1,13 @@
-/**
- * MHT DASHBOARD - V3.1
- * Contract : 0x95d1A53c121E8F863E7B737c25A7cC318B6Ba6bC
- * Network  : BSC Testnet (chainId 97)
- */
+// ─────────────────────────────────────────────
+//  MHT — Milestone HODL Token — app.js V3.2
+//  Compatible avec le nouveau Wallet Modal
+// ─────────────────────────────────────────────
 
 const CONFIG = {
     contractAddress : "0x4d79F48E5bF104F2303620F23abC9C2512077e4D",
     chainId         : 97,
     rpcUrl          : "https://data-seed-prebsc-1-s1.binance.org:8545/",
     explorerUrl     : "https://testnet.bscscan.com/tx/",
-    chainName       : "BSC Testnet",
-    nativeCurrency  : { name: "BNB", symbol: "BNB", decimals: 18 },
 };
 
 const ABI = [
@@ -21,225 +18,148 @@ const ABI = [
     "function nextMilestoneUSD() view returns (uint256)",
     "function milestonesReached() view returns (uint256)",
     "function getMarketCap() view returns (uint256)",
-    "function manualMarketCapUSD() view returns (uint256)",
     "function getRewardsPool() view returns (uint256)",
     "function getCirculatingSupply() view returns (uint256)",
 ];
 
-let provider, signer, contract, userAddress;
+let _provider, _signer, _contract, _userAddress;
+let _refreshInterval = null;
 
-// ── Éléments UI ──────────────────────────────────────────────
-const btnConnect        = document.getElementById("connectWalletBtn");
-const btnClaim          = document.getElementById("claimBtn");
-const elStatus          = document.querySelector(".wallet-card span.fw-bold");
-const elBalance         = document.querySelector(".wallet-col .wallet-card:nth-child(2) span.fw-bold");
-const elMarketCap       = document.querySelector(".wallet-card:last-child span.fw-bold");
-const elMilestoneBar    = document.getElementById("milestoneBar");
-const elMilestoneStatus = document.getElementById("milestoneStatus");
+// ── Appelée par le modal après connexion ──────
+window.initMHT = async function(provider, signer, address) {
+    _provider    = provider;
+    _signer      = signer;
+    _userAddress = address;
+    _contract    = new ethers.Contract(CONFIG.contractAddress, ABI, signer);
 
-// ── Connexion Wallet ─────────────────────────────────────────
-async function connectWallet() {
+    await updateUI();
+
+    if (_refreshInterval) clearInterval(_refreshInterval);
+    _refreshInterval = setInterval(updateUI, 30000);
+};
+
+// ── Mise à jour de l'interface ────────────────
+async function updateUI() {
+    if (!_contract || !_userAddress) return;
+
     try {
-        if (!window.ethereum) {
-            const install = confirm("Aucun portefeuille détecté. Installer MetaMask ?");
-            if (install) window.open("https://metamask.io/download/", "_blank");
-            return;
+        const [
+            balance,
+            pending,
+            nextMilestone,
+            milestonesDone,
+            marketCap,
+        ] = await Promise.all([
+            _contract.balanceOf(_userAddress),
+            _contract.pendingRewardsOf(_userAddress),
+            _contract.nextMilestoneUSD(),
+            _contract.milestonesReached(),
+            _contract.getMarketCap(),
+        ]);
+
+        const fmt = (v, d = 2) =>
+            parseFloat(ethers.utils.formatUnits(v, 18)).toLocaleString("fr-FR", {
+                minimumFractionDigits: d,
+                maximumFractionDigits: d,
+            });
+
+        const fmtUSD = (v) =>
+            "$" + parseFloat(ethers.utils.formatUnits(v, 18)).toLocaleString("en-US", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            });
+
+        // Balance
+        const balEl = document.getElementById("mht-balance");
+        if (balEl) balEl.textContent = fmt(balance, 2) + " MHT";
+
+        // Market Cap
+        const mcEl = document.getElementById("market-cap");
+        if (mcEl) mcEl.textContent = fmtUSD(marketCap);
+
+        // Account status
+        const statusEl = document.getElementById("accountStatus");
+        if (statusEl) {
+            statusEl.textContent = "Connected (BSC Testnet)";
+            statusEl.className = "fw-bold text-success";
         }
 
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
+        // Milestones
+        const msEl = document.getElementById("milestoneStatus");
+        if (msEl) msEl.textContent = milestonesDone.toString() + " Milestone(s) Reached! 🎉";
 
-        const { chainId } = await provider.getNetwork();
-        if (chainId !== CONFIG.chainId) {
-            try {
-                await window.ethereum.request({
-                    method: "wallet_switchEthereumChain",
-                    params: [{ chainId: "0x61" }],
-                });
-                provider = new ethers.providers.Web3Provider(window.ethereum);
-            } catch (switchError) {
-                if (switchError.code === 4902) {
-                    await window.ethereum.request({
-                        method: "wallet_addEthereumChain",
-                        params: [{
-                            chainId          : "0x61",
-                            chainName        : CONFIG.chainName,
-                            nativeCurrency   : CONFIG.nativeCurrency,
-                            rpcUrls          : [CONFIG.rpcUrl],
-                            blockExplorerUrls: ["https://testnet.bscscan.com"],
-                        }],
-                    });
-                    provider = new ethers.providers.Web3Provider(window.ethereum);
-                } else {
-                    alert("Veuillez basculer sur BSC Testnet.");
-                    return;
-                }
+        // Barre de progression
+        const STEP = ethers.utils.parseUnits("1000000", 18);
+        const prevMilestone = nextMilestone.sub(STEP);
+        let progress = 0;
+        if (marketCap.gte(nextMilestone)) {
+            progress = 100;
+        } else if (marketCap.gt(prevMilestone)) {
+            progress = marketCap.sub(prevMilestone).mul(100).div(nextMilestone.sub(prevMilestone)).toNumber();
+        }
+
+        const progressBar = document.getElementById("milestoneBar");
+        if (progressBar) {
+            progressBar.style.width = progress + "%";
+            progressBar.textContent = fmtUSD(marketCap) + " / " + fmtUSD(nextMilestone);
+        }
+
+        // Bouton Claim
+        const claimBtn = document.getElementById("claimBtn");
+        const pendingFloat = parseFloat(ethers.utils.formatUnits(pending, 18));
+        if (claimBtn) {
+            if (pendingFloat > 0) {
+                claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>Claim ${fmt(pending, 2)} MHT`;
+                claimBtn.disabled = false;
+            } else {
+                claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>No Rewards Yet`;
+                claimBtn.disabled = true;
             }
         }
 
-        signer      = provider.getSigner();
-        userAddress = await signer.getAddress();
-        contract    = new ethers.Contract(CONFIG.contractAddress, ABI, signer);
-
-        updateStatusUI(userAddress);
-        await refreshData();
-
-        window.ethereum.on("accountsChanged", () => window.location.reload());
-        window.ethereum.on("chainChanged",    () => window.location.reload());
-
     } catch (err) {
-        console.error("Connexion annulée :", err);
+        console.error("Erreur updateUI :", err);
     }
 }
 
-// ── Refresh toutes les données ───────────────────────────────
-async function refreshData() {
-    if (!userAddress || !contract) return;
-    try {
-        await Promise.all([
-            updateBalance(),
-            updateRewards(),
-            updateMilestone(),
-            updateMarketCap(),
-        ]);
-    } catch (e) {
-        console.error("Erreur refresh :", e);
-    }
-}
-
-async function updateBalance() {
-    const raw = await contract.balanceOf(userAddress);
-    const bal = parseFloat(ethers.utils.formatEther(raw));
-    if (elBalance) elBalance.innerText = bal.toLocaleString("en-US", { maximumFractionDigits: 2 }) + " MHT";
-}
-
-async function updateRewards() {
-    const raw    = await contract.pendingRewardsOf(userAddress);
-    const amount = parseFloat(ethers.utils.formatEther(raw));
-    if (btnClaim) {
-        if (amount > 0) {
-            btnClaim.innerHTML = `<i class="bi bi-gift-fill me-2"></i>Claim ${amount.toLocaleString("en-US", { maximumFractionDigits: 2 })} MHT`;
-            btnClaim.disabled  = false;
-        } else {
-            btnClaim.innerHTML = `<i class="bi bi-gift me-2"></i>No Rewards Yet`;
-            btnClaim.disabled  = true;
-        }
-    }
-}
-
-async function updateMarketCap() {
-    const raw = await contract.getMarketCap();
-    const usd = parseFloat(ethers.utils.formatEther(raw));
-    if (elMarketCap) {
-        elMarketCap.innerText = "$" + usd.toLocaleString("en-US", { maximumFractionDigits: 0 });
-    }
-}
-
-async function updateMilestone() {
-    const [vaultRaw, nextRaw, reachedRaw, mcapRaw] = await Promise.all([
-        contract.vaultBalance(),
-        contract.nextMilestoneUSD(),
-        contract.milestonesReached(),
-        contract.getMarketCap(),
-    ]);
-
-    const mcap    = parseFloat(ethers.utils.formatEther(mcapRaw));
-    const next    = parseFloat(ethers.utils.formatEther(nextRaw));
-    const reached = reachedRaw.toNumber();
-    const prev    = next - 1_000_000;
-
-    const progress = Math.min(((mcap - prev) / 1_000_000) * 100, 100);
-    const pct      = Math.max(0, Math.round(progress));
-
-    if (elMilestoneBar) {
-        elMilestoneBar.style.width = pct + "%";
-        elMilestoneBar.innerText   = `$${mcap.toLocaleString("en-US", { maximumFractionDigits: 0 })} / $${next.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
-    }
-
-    if (elMilestoneStatus) {
-        if (reached === 0) {
-            elMilestoneStatus.innerText = "Awaiting First Milestone 🚀";
-            elMilestoneStatus.className = "text-warning fw-bold";
-        } else {
-            elMilestoneStatus.innerText = `${reached} Milestone(s) Reached! 🎉`;
-            elMilestoneStatus.className = "text-success fw-bold";
-        }
-    }
-}
-
-// ── Claim Rewards ────────────────────────────────────────────
+// ── Claim Rewards ─────────────────────────────
 async function claimRewards() {
-    if (!signer) { alert("Connectez votre wallet d'abord."); return; }
+    if (!_contract) return;
     try {
-        btnClaim.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Transaction...`;
-        btnClaim.disabled  = true;
+        const claimBtn = document.getElementById("claimBtn");
+        if (claimBtn) claimBtn.innerHTML = `<i class="bi bi-hourglass me-2"></i>En cours…`;
 
-        const tx = await contract.claimRewards();
-        alert(`Transaction envoyée !\n${CONFIG.explorerUrl}${tx.hash}`);
+        const tx = await _contract.claimRewards();
         await tx.wait();
-        alert("🎉 Rewards reçus dans votre wallet !");
-        await refreshData();
+
+        const explorerLink = CONFIG.explorerUrl + tx.hash;
+        await updateUI();
+        alert("✅ Rewards réclamés avec succès !\n\n" + explorerLink);
 
     } catch (err) {
-        console.error(err);
-        alert("Erreur : " + (err.data?.message || err.message));
-        await updateRewards();
+        console.error("Erreur claim :", err);
+        alert("Erreur : " + (err.reason || err.message));
+        await updateUI();
     }
 }
 
-// ── UI helpers ───────────────────────────────────────────────
-function updateStatusUI(address) {
-    const short = address.slice(0, 6) + "..." + address.slice(-4);
-    btnConnect.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i>${short}`;
-    if (elStatus) {
-        elStatus.innerText = "Connected (BSC Testnet)";
-        elStatus.className = "fw-bold text-success";
+// ── Init ──────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+    const claimBtn = document.getElementById("claimBtn");
+    if (claimBtn) claimBtn.addEventListener("click", claimRewards);
+
+    // Auto-connect si déjà connecté (même session)
+    if (window.ethereum && window.ethereum.selectedAddress) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        provider.getSigner().getAddress().then(address => {
+            window.initMHT(provider, provider.getSigner(), address);
+            const short = address.slice(0, 6) + '…' + address.slice(-4);
+            const connectBtn = document.getElementById('connectWalletBtn');
+            if (connectBtn) {
+                connectBtn.innerHTML = `<i class="bi bi-check-circle me-2"></i>${short}`;
+                connectBtn.style.background = 'linear-gradient(45deg, #10b981, #3b82f6)';
+                window._mhtConnected = true;
+            }
+        }).catch(() => {});
     }
-}
-
-// ── Chargement public (sans wallet) ─────────────────────────
-async function loadPublicData() {
-    try {
-        const publicProvider = new ethers.providers.JsonRpcProvider(CONFIG.rpcUrl);
-        const publicContract = new ethers.Contract(CONFIG.contractAddress, ABI, publicProvider);
-
-        const [mcapRaw, nextRaw, reachedRaw] = await Promise.all([
-            publicContract.getMarketCap(),
-            publicContract.nextMilestoneUSD(),
-            publicContract.milestonesReached(),
-        ]);
-
-        const mcap    = parseFloat(ethers.utils.formatEther(mcapRaw));
-        const next    = parseFloat(ethers.utils.formatEther(nextRaw));
-        const reached = reachedRaw.toNumber();
-        const prev    = next - 1_000_000;
-        const pct     = Math.max(0, Math.min(Math.round(((mcap - prev) / 1_000_000) * 100), 100));
-
-        if (elMilestoneBar) {
-            elMilestoneBar.style.width = pct + "%";
-            elMilestoneBar.innerText   = `$${mcap.toLocaleString("en-US", { maximumFractionDigits: 0 })} / $${next.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
-        }
-        if (elMilestoneStatus) {
-            elMilestoneStatus.innerText = reached > 0 ? `${reached} Milestone(s) Reached! 🎉` : "Awaiting First Milestone 🚀";
-            elMilestoneStatus.className = reached > 0 ? "text-success fw-bold" : "text-warning fw-bold";
-        }
-        if (elMarketCap) {
-            elMarketCap.innerText = "$" + mcap.toLocaleString("en-US", { maximumFractionDigits: 0 });
-        }
-    } catch (e) {
-        console.error("Erreur chargement public :", e);
-    }
-}
-
-// ── Events ───────────────────────────────────────────────────
-btnConnect.addEventListener("click", connectWallet);
-if (btnClaim) btnClaim.addEventListener("click", claimRewards);
-
-// Refresh auto toutes les 30 secondes
-setInterval(() => {
-    if (userAddress) refreshData();
-    else loadPublicData();
-}, 30_000);
-
-// Chargement initial sans wallet
-window.addEventListener("load", loadPublicData);
+});
