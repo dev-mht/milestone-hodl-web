@@ -262,6 +262,26 @@
             .token-col, .wallet-col, .center-col { width: 100%; }
             .milestone-logo { display: none; }
             .wallet-modal { margin: 20px; }
+
+            /* ── Fix navbar mobile ── */
+            .nav-center { display: none; }
+            .nav-left { min-width: unset; }
+            .nav-right { min-width: unset; }
+            .brand-text { font-size: 0.95rem; }
+
+            /* ── Fix roadmap cards mobile ── */
+            .roadmap-content h4 { font-size: 0.95rem; }
+            .roadmap-content ul { font-size: 0.8rem; line-height: 1.5; }
+            .roadmap-phase { font-size: 0.75rem; }
+            .roadmap-content { padding: 16px; }
+        }
+
+        @media (max-width: 576px) {
+            .main-title { font-size: 1.2rem; }
+            .btn-connect { padding: 7px 16px; font-size: 0.78rem; }
+            .baron-img { width: 90%; height: auto; }
+            .roadmap-content h4 { font-size: 0.88rem; }
+            .roadmap-content ul { font-size: 0.75rem; }
         }
     </style>
 </head>
