@@ -21,7 +21,8 @@
         .nav-logo { width: 42px; height: 42px; object-fit: contain; }
         .brand-text { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; background: linear-gradient(to right, #ffffff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-slogan { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; }
-        .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; }
+        .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        .btn-connect:hover { opacity: 0.9; transform: scale(1.03); }
 
         /* Dashboard */
         .main-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #ff0000; margin: 30px 0 10px 0; text-align: center; font-weight: bold; }
@@ -38,8 +39,9 @@
         /* Boutons */
         .btn-buy { background: #22c55e; color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; text-decoration: none; margin-top: 15px; display: inline-block; transition: 0.3s; }
         .btn-buy:hover { transform: scale(1.05); background: #16a34a; }
-        .btn-claim { background: linear-gradient(45deg, #f59e0b, #ef4444); border: none; color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; transition: 0.3s; width: 100%; }
+        .btn-claim { background: linear-gradient(45deg, #f59e0b, #ef4444); border: none; color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; transition: 0.3s; width: 100%; cursor: pointer; }
         .btn-claim:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn-claim:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         /* Roadmap */
         .roadmap-section { max-width: 1100px; margin: 80px auto; padding: 0 40px; position: relative; }
@@ -61,6 +63,197 @@
         .doc-card { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid rgba(59, 130, 246, 0.3); transition: 0.3s; }
         .doc-card:hover { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
 
+        /* ═══════════════════════════════════════════════
+           WALLET MODAL
+        ═══════════════════════════════════════════════ */
+        .wallet-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .wallet-modal-overlay.active { display: flex; }
+
+        .wallet-modal {
+            background: #1e293b;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(59,130,246,0.1);
+            animation: modalSlideIn 0.25s ease;
+        }
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .wallet-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .wallet-modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .wallet-modal-close {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            color: #94a3b8;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .wallet-modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+        .wallet-modal-subtitle {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: left;
+            color: white;
+        }
+        .wallet-option:hover {
+            background: rgba(59,130,246,0.1);
+            border-color: rgba(59,130,246,0.4);
+            transform: translateX(4px);
+        }
+        .wallet-option:last-child { margin-bottom: 0; }
+
+        .wallet-option-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+        .wallet-option-icon img {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .wallet-option-info { flex: 1; }
+        .wallet-option-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+            display: block;
+        }
+        .wallet-option-desc {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .wallet-option-badge {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .badge-detected { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+        .badge-qr { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+        .badge-popular { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+
+        .wallet-divider {
+            text-align: center;
+            color: #334155;
+            font-size: 0.75rem;
+            margin: 16px 0;
+            position: relative;
+        }
+        .wallet-divider::before, .wallet-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+        }
+        .wallet-divider::before { left: 0; }
+        .wallet-divider::after { right: 0; }
+
+        /* QR Code panel */
+        .qr-panel {
+            display: none;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .qr-panel.active { display: block; }
+        .qr-placeholder {
+            width: 200px; height: 200px;
+            margin: 0 auto 16px;
+            background: white;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: #0f172a;
+            font-size: 0.75rem;
+            padding: 10px;
+            text-align: center;
+        }
+        .qr-back {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .qr-back:hover { color: #fff; }
+
+        /* Loading spinner dans le modal */
+        .wallet-loading {
+            display: none;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .wallet-loading.active { display: block; }
+        .spinner-ring {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(59,130,246,0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Coin rain */
+        .coin-rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .falling-coin { position: absolute; width: 35px; height: auto; opacity: 0.4; animation: fall linear forwards; }
+        @keyframes fall {
+            0%   { transform: translateY(-50px) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
+        }
+
         @media (max-width: 992px) {
             .roadmap-section::before { left: 20px; }
             .roadmap-item { width: 100%; left: 0 !important; text-align: left !important; padding-left: 50px; }
@@ -68,11 +261,103 @@
             .main-dashboard { flex-direction: column; padding: 0 20px; }
             .token-col, .wallet-col, .center-col { width: 100%; }
             .milestone-logo { display: none; }
+            .wallet-modal { margin: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ═══════════════════════════════════════════════
+         WALLET SELECTION MODAL
+    ═══════════════════════════════════════════════ -->
+    <div class="wallet-modal-overlay" id="walletModal">
+        <div class="wallet-modal">
+
+            <!-- Header -->
+            <div class="wallet-modal-header">
+                <span class="wallet-modal-title">Connect Wallet</span>
+                <button class="wallet-modal-close" id="closeModal">✕</button>
+            </div>
+            <p class="wallet-modal-subtitle">Choose your preferred wallet to connect</p>
+
+            <!-- Options panel -->
+            <div id="walletOptions">
+
+                <!-- MetaMask -->
+                <button class="wallet-option" id="btnMetaMask">
+                    <div class="wallet-option-icon" style="background: rgba(245,158,11,0.1);">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+                    </div>
+                    <div class="wallet-option-info">
+                        <span class="wallet-option-name">MetaMask</span>
+                        <span class="wallet-option-desc">Browser extension wallet</span>
+                    </div>
+                    <span class="wallet-option-badge" id="metamaskBadge">—</span>
+                </button>
+
+                <!-- WalletConnect QR -->
+                <button class="wallet-option" id="btnWalletConnect">
+                    <div class="wallet-option-icon" style="background: rgba(59,130,246,0.1);">
+                        <img src="https://avatars.githubusercontent.com/u/37784886" alt="WalletConnect">
+                    </div>
+                    <div class="wallet-option-info">
+                        <span class="wallet-option-name">WalletConnect</span>
+                        <span class="wallet-option-desc">Scan QR with Trust Wallet, MetaMask mobile…</span>
+                    </div>
+                    <span class="wallet-option-badge badge-qr">📱 QR</span>
+                </button>
+
+                <div class="wallet-divider">or</div>
+
+                <!-- Coinbase Wallet -->
+                <button class="wallet-option" id="btnCoinbase">
+                    <div class="wallet-option-icon" style="background: rgba(22,163,74,0.1);">
+                        <img src="https://avatars.githubusercontent.com/u/18060234" alt="Coinbase">
+                    </div>
+                    <div class="wallet-option-info">
+                        <span class="wallet-option-name">Coinbase Wallet</span>
+                        <span class="wallet-option-desc">Extension or mobile app</span>
+                    </div>
+                    <span class="wallet-option-badge badge-popular">Popular</span>
+                </button>
+
+                <!-- Trust Wallet -->
+                <button class="wallet-option" id="btnTrustWallet">
+                    <div class="wallet-option-icon" style="background: rgba(59,130,246,0.08);">
+                        <img src="https://trustwallet.com/assets/images/media/assets/TWT.png" alt="Trust Wallet" onerror="this.style.display='none'; this.parentElement.innerHTML='🛡️'">
+                    </div>
+                    <div class="wallet-option-info">
+                        <span class="wallet-option-name">Trust Wallet</span>
+                        <span class="wallet-option-desc">Mobile or browser extension</span>
+                    </div>
+                    <span class="wallet-option-badge badge-popular">BSC Native</span>
+                </button>
+
+            </div>
+
+            <!-- Loading panel -->
+            <div class="wallet-loading" id="walletLoading">
+                <div class="spinner-ring"></div>
+                <p style="color:#94a3b8; font-size:0.85rem;" id="loadingText">Connecting…</p>
+                <button class="qr-back" id="cancelConnect">Cancel</button>
+            </div>
+
+            <!-- QR panel (WalletConnect) -->
+            <div class="qr-panel" id="qrPanel">
+                <div class="qr-placeholder" id="qrCodeContainer">
+                    <p style="color:#334155; font-size:0.7rem;">Initializing WalletConnect…</p>
+                </div>
+                <p style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Scan with your mobile wallet</p>
+                <p style="color:#64748b; font-size:0.72rem;">Trust Wallet · MetaMask · Coinbase · Rainbow…</p>
+                <button class="qr-back" id="backFromQR">← Back to wallet list</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         NAVBAR
+    ═══════════════════════════════════════════════ -->
     <nav class="navbar navbar-dark sticky-top">
         <div class="nav-container">
             <div class="nav-left">
@@ -83,7 +368,9 @@
                 <div class="nav-slogan">Trust the process • Earn the growth</div>
             </div>
             <div class="nav-right">
-                <button class="btn-connect" id="connectWalletBtn"><i class="bi bi-wallet2 me-2"></i>Connect</button>
+                <button class="btn-connect" id="connectWalletBtn">
+                    <i class="bi bi-wallet2 me-2"></i>Connect
+                </button>
             </div>
         </div>
     </nav>
@@ -93,20 +380,18 @@
         
         <section class="milestone-container">
             <img src="logo.png" class="milestone-logo" alt="Logo">
-           <div class="progress-box">
-    <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $1M Milestone Progression</p>
-    
-    <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);">
-        <div id="milestoneBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
-             style="width: 0%; font-weight: bold; transition: width 1s ease-in-out;">
-             $0 / $1,000,000
-        </div>
-    </div>
-    
-    <p class="text-center x-small mt-2 text-muted" style="font-size: 0.75rem;">
-        Status: <span id="milestoneStatus" class="text-success fw-bold">Calculating...</span>
-    </p>
-</div>
+            <div class="progress-box">
+                <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $1M Milestone Progression</p>
+                <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);">
+                    <div id="milestoneBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                         style="width: 0%; font-weight: bold; transition: width 1s ease-in-out;">
+                         $0 / $1,000,000
+                    </div>
+                </div>
+                <p class="text-center x-small mt-2 text-muted" style="font-size: 0.75rem;">
+                    Status: <span id="milestoneStatus" class="text-success fw-bold">Calculating...</span>
+                </p>
+            </div>
             <img src="logo.png" class="milestone-logo" alt="Logo">
         </section>
 
@@ -139,196 +424,197 @@
             <div class="wallet-col">
                 <div class="wallet-card">
                     <small class="text-secondary d-block">Account Status</small>
-                    <span class="fw-bold text-danger">Not Connected</span>
+                    <span class="fw-bold text-danger" id="accountStatus">Not Connected</span>
                 </div>
-<div class="wallet-card">
-    <small class="text-secondary d-block">Your MHT Balance</small>
-    <span class="fw-bold d-block mb-2">0.00 MHT</span>
-    <button class="btn-claim" id="claimBtn">
-        <i class="bi bi-gift me-2"></i>Claim Rewards
-    </button>
-</div>
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Your MHT Balance</small>
+                    <span class="fw-bold d-block mb-2" id="mht-balance">0.00 MHT</span>
+                    <button class="btn-claim" id="claimBtn" disabled>
+                        <i class="bi bi-gift me-2"></i>No Rewards Yet
+                    </button>
+                </div>
                 <div class="wallet-card">
                     <small class="text-secondary d-block">Current Market Cap</small>
-                    <span class="fw-bold text-success">$1,245,000</span>
+                    <span class="fw-bold text-success" id="market-cap">$0</span>
                 </div>
             </div>
         </section>
 
-       <section class="roadmap-section">
-    <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
-    
-    <div class="roadmap-item">
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-            <span class="roadmap-phase">PHASE 1</span>
-            <h4>Genesis & Launch</h4>
-            <ul>
-                <li>PancakeSwap Listing & Locked Liquidity</li>
-                <li>Initial Smart Contract Security Audit</li>
-                <li>MHT Dashboard V2 Release (1M$ Ready)</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="roadmap-item">
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-            <span class="roadmap-phase">PHASE 2</span>
-            <h4>$1M Market Cap</h4>
-            <ul>
-                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
-                <li>Every +$1M Market Cap triggers a new automated drop</li>
-                <li>Chainlink Automation Integration (Mainnet)</li>
-                <li>Coingecko & CoinMarketCap Listing Application</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="roadmap-item">
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-            <span class="roadmap-phase">PHASE 3</span>
-            <h4>$10M Market Cap</h4>
-            <ul>
-                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
-                <li>Global Marketing Blitz & Influencer Partnerships</li>
-                <li>Tier-2 Centralized Exchange (CEX) Listings</li>
-                <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="roadmap-item">
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-            <span class="roadmap-phase">PHASE 4</span>
-            <h4>$100M+ Market Cap</h4>
-            <ul>
-                <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
-                <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
-                <li>Full Baron Ecosystem Expansion & Governance DAO</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
-    <div class="row align-items-center">
-        <div class="col-lg-6">
-            <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
-            <p class="text-secondary">
-                Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
-            </p>
-            <div class="d-flex flex-wrap gap-3 mt-4">
-                <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                    <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
-                </a>
-                <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                    <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
-                </a>
-                <a href="#" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold disabled">
-                    <i class="bi bi-shield-check me-2"></i>AUDIT (COMING SOON)
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-6 mt-4 mt-lg-0">
-            <div class="doc-card">
-                <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
-                <ul class="list-unstyled small text-secondary">
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
-                    <li><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="container my-5 py-5">
-    <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 3px;">FREQUENTLY ASKED QUESTIONS</h2>
-    <div class="accordion accordion-flush" id="faqMHT" style="max-width: 800px; margin: 0 auto;">
-
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                    How does the $1M Milestone system work?
-                </button>
-            </h2>
-            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    Every time the Market Cap grows by <strong class="text-white">$1,000,000</strong>, Chainlink Automation automatically triggers a release of <strong class="text-white">5,000,000 MHT</strong> from the Smart-Vault. This happens without any human intervention — the smart contract executes it on-chain. There is no cap: each new $1M of growth unlocks a new reward cycle.
+        <section class="roadmap-section">
+            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
+            
+            <div class="roadmap-item">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <span class="roadmap-phase">PHASE 1</span>
+                    <h4>Genesis & Launch</h4>
+                    <ul>
+                        <li>PancakeSwap Listing & Locked Liquidity</li>
+                        <li>Initial Smart Contract Security Audit</li>
+                        <li>MHT Dashboard V2 Release (1M$ Ready)</li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                    What happens if the Market Cap drops after a payout?
-                </button>
-            </h2>
-            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    Once a Milestone is reached and the reward is distributed, that level is permanently validated. A price drop does <strong class="text-white">not</strong> cancel the reward already distributed. The next reward will only trigger when the Market Cap reaches the <strong class="text-white">next $1M increment</strong> — so every milestone is a one-way ratchet upward.
+            <div class="roadmap-item">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <span class="roadmap-phase">PHASE 2</span>
+                    <h4>$1M Market Cap</h4>
+                    <ul>
+                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
+                        <li>Every +$1M Market Cap triggers a new automated drop</li>
+                        <li>Chainlink Automation Integration (Mainnet)</li>
+                        <li>Coingecko & CoinMarketCap Listing Application</li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                    Is the Milestone Vault secure?
-                </button>
-            </h2>
-            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    Yes. The Vault is governed entirely by the Smart Contract. <strong class="text-white">No human — including the team — can withdraw funds manually.</strong> Releases are strictly triggered by Chainlink Price Oracles verifying real Market Cap growth on-chain.
+            <div class="roadmap-item">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <span class="roadmap-phase">PHASE 3</span>
+                    <h4>$10M Market Cap</h4>
+                    <ul>
+                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
+                        <li>Global Marketing Blitz & Influencer Partnerships</li>
+                        <li>Tier-2 Centralized Exchange (CEX) Listings</li>
+                        <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                    How do I receive my rewards?
-                </button>
-            </h2>
-            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    Rewards are allocated <strong class="text-white">pro-rata</strong> based on your MHT balance at the exact block when a Milestone triggers. To claim, simply connect your wallet to this Dashboard and click <strong class="text-white">"Claim Rewards"</strong>. Your pending rewards are always visible before you claim.
+            <div class="roadmap-item">
+                <div class="roadmap-dot"></div>
+                <div class="roadmap-content">
+                    <span class="roadmap-phase">PHASE 4</span>
+                    <h4>$100M+ Market Cap</h4>
+                    <ul>
+                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
+                        <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
+                        <li>Full Baron Ecosystem Expansion & Governance DAO</li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                    How is the 5,000,000 MHT release split?
-                </button>
-            </h2>
-            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    Each release is split automatically by the contract: <strong class="text-white">70% (3,500,000 MHT)</strong> goes directly to holders pro-rata, and <strong class="text-white">30% (1,500,000 MHT)</strong> is injected into liquidity and marketing to stabilize the price floor and fuel further growth.
+        <section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
+                    <p class="text-secondary">
+                        Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mt-4">
+                        <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                            <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
+                        </a>
+                        <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                            <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold disabled">
+                            <i class="bi bi-shield-check me-2"></i>AUDIT (COMING SOON)
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-4 mt-lg-0">
+                    <div class="doc-card">
+                        <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
+                        <ul class="list-unstyled small text-secondary">
+                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
+                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
+                            <li><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="accordion-item bg-transparent border-bottom border-secondary">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
-                    Why is the Sell Tax higher than the Buy Tax?
-                </button>
-            </h2>
-            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                <div class="accordion-body text-secondary">
-                    The asymmetric tax structure (<strong class="text-white">2% Buy / 5% Sell</strong>) is by design. It mathematically rewards patience and penalizes short-term speculation. HODLing is always the dominant strategy — buying and holding accumulates more value than frequent trading.
+        <section class="container my-5 py-5">
+            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 3px;">FREQUENTLY ASKED QUESTIONS</h2>
+            <div class="accordion accordion-flush" id="faqMHT" style="max-width: 800px; margin: 0 auto;">
+
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How does the $1M Milestone system work?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            Every time the Market Cap grows by <strong class="text-white">$1,000,000</strong>, Chainlink Automation automatically triggers a release of <strong class="text-white">5,000,000 MHT</strong> from the Smart-Vault. This happens without any human intervention — the smart contract executes it on-chain. There is no cap: each new $1M of growth unlocks a new reward cycle.
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-    </div>
-</section>
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            What happens if the Market Cap drops after a payout?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            Once a Milestone is reached and the reward is distributed, that level is permanently validated. A price drop does <strong class="text-white">not</strong> cancel the reward already distributed. The next reward will only trigger when the Market Cap reaches the <strong class="text-white">next $1M increment</strong> — so every milestone is a one-way ratchet upward.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Is the Milestone Vault secure?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            Yes. The Vault is governed entirely by the Smart Contract. <strong class="text-white">No human — including the team — can withdraw funds manually.</strong> Releases are strictly triggered by Chainlink Price Oracles verifying real Market Cap growth on-chain.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            How do I receive my rewards?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            Rewards are allocated <strong class="text-white">pro-rata</strong> based on your MHT balance at the exact block when a Milestone triggers. To claim, simply connect your wallet to this Dashboard and click <strong class="text-white">"Claim Rewards"</strong>. Your pending rewards are always visible before you claim.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            How is the 5,000,000 MHT release split?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            Each release is split automatically by the contract: <strong class="text-white">70% (3,500,000 MHT)</strong> goes directly to holders pro-rata, and <strong class="text-white">30% (1,500,000 MHT)</strong> is injected into liquidity and marketing to stabilize the price floor and fuel further growth.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-transparent border-bottom border-secondary">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                            Why is the Sell Tax higher than the Buy Tax?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
+                        <div class="accordion-body text-secondary">
+                            The asymmetric tax structure (<strong class="text-white">2% Buy / 5% Sell</strong>) is by design. It mathematically rewards patience and penalizes short-term speculation. HODLing is always the dominant strategy — buying and holding accumulates more value than frequent trading.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
     </main>
 
     <footer class="py-5" style="background: #0b1120; border-top: 2px solid rgba(59, 130, 246, 0.2);">
@@ -343,91 +629,243 @@
         </div>
     </footer>
 
+    <!-- Coin rain -->
+    <div class="coin-rain-container" id="coinRain"></div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('tokenChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Milestones', 'Liquidity', 'Presale', 'Marketing', 'Team'],
-                datasets: [{
-                    data: [50, 20, 15, 10, 5],
-                    backgroundColor: ['#3b82f6', '#64748b', '#10b981', '#f59e0b', '#ef4444'],
-                    borderWidth: 0
-                }]
-            },
-            options: { plugins: { legend: { display: false } }, cutout: '70%', maintainAspectRatio: true }
-        });
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
-    <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
-    <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js">
-    </script>
-    <script src="app.js"></script>
-    <style>
-    .coin-rain-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0; /* Reste derrière le texte et les boutons */
-        overflow: hidden;
-    }
-    .falling-coin {
-        position: absolute;
-        width: 35px; /* Taille légèrement augmentée pour les pièces */
-        height: auto;
-        opacity: 0.4; /* Un peu plus visible que le logo */
-        animation: fall linear forwards;
-    }
-    @keyframes fall {
-        0% {
-            transform: translateY(-50px) rotate(0deg);
-        }
-        100% {
-            transform: translateY(110vh) rotate(720deg); /* Rotation double pour l'effet pièce */
-        }
-    }
-</style>
 
-<div class="coin-rain-container" id="coinRain"></div>
+    <script>
+    // ═══════════════════════════════════════════
+    //  TOKEN CHART
+    // ═══════════════════════════════════════════
+    const ctx = document.getElementById('tokenChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Milestones', 'Liquidity', 'Presale', 'Marketing', 'Team'],
+            datasets: [{
+                data: [50, 20, 15, 10, 5],
+                backgroundColor: ['#3b82f6', '#64748b', '#10b981', '#f59e0b', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, cutout: '70%', maintainAspectRatio: true }
+    });
 
-<script>
+    // ═══════════════════════════════════════════
+    //  COIN RAIN
+    // ═══════════════════════════════════════════
     function createCoin() {
         const container = document.getElementById('coinRain');
         const coin = document.createElement('img');
-        
-        coin.src = 'piece.png'; // Ton nouveau fichier
+        coin.src = 'piece.png';
         coin.classList.add('falling-coin');
-        
-        // Position horizontale aléatoire
         coin.style.left = Math.random() * 100 + "vw";
-        
-        // Vitesse de chute aléatoire (plus naturel)
-        const duration = Math.random() * 4 + 4; // Entre 4s et 8s
+        const duration = Math.random() * 4 + 4;
         coin.style.animationDuration = duration + "s";
-        
-        // Taille aléatoire pour l'effet de profondeur
-        const size = Math.random() * 30 + 40; // Entre 25px et 40px
+        const size = Math.random() * 30 + 40;
         coin.style.width = size + "px";
-        
-        // Flou aléatoire pour simuler la distance (optionnel)
-        const blur = Math.random() * 2;
-        coin.style.filter = `blur(${blur}px)`;
-        
+        coin.style.filter = `blur(${Math.random() * 2}px)`;
         container.appendChild(coin);
-        
-        // Nettoyage de la mémoire
-        setTimeout(() => {
-            coin.remove();
-        }, duration * 1000);
+        setTimeout(() => coin.remove(), duration * 1000);
+    }
+    setInterval(createCoin, 250);
+
+    // ═══════════════════════════════════════════
+    //  WALLET MODAL LOGIC
+    // ═══════════════════════════════════════════
+    const modal        = document.getElementById('walletModal');
+    const closeModal   = document.getElementById('closeModal');
+    const walletOptions = document.getElementById('walletOptions');
+    const walletLoading = document.getElementById('walletLoading');
+    const loadingText  = document.getElementById('loadingText');
+    const qrPanel      = document.getElementById('qrPanel');
+    const cancelConnect = document.getElementById('cancelConnect');
+    const backFromQR   = document.getElementById('backFromQR');
+    const connectBtn   = document.getElementById('connectWalletBtn');
+    const metamaskBadge = document.getElementById('metamaskBadge');
+
+    function openModal() {
+        // Détecte MetaMask
+        if (window.ethereum && window.ethereum.isMetaMask) {
+            metamaskBadge.textContent = 'Detected';
+            metamaskBadge.className = 'wallet-option-badge badge-detected';
+        } else {
+            metamaskBadge.textContent = 'Install';
+            metamaskBadge.className = 'wallet-option-badge';
+            metamaskBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.3)';
+        }
+        showOptions();
+        modal.classList.add('active');
     }
 
-    // Génère une pièce toutes les 250ms pour une pluie dense mais fluide
-    setInterval(createCoin, 250);
-</script>
+    function closeModalFn() {
+        modal.classList.remove('active');
+        setTimeout(showOptions, 300);
+    }
+
+    function showOptions() {
+        walletOptions.style.display = 'block';
+        walletLoading.classList.remove('active');
+        qrPanel.classList.remove('active');
+    }
+
+    function showLoading(text) {
+        walletOptions.style.display = 'none';
+        qrPanel.classList.remove('active');
+        loadingText.textContent = text || 'Connecting…';
+        walletLoading.classList.add('active');
+    }
+
+    function showQR() {
+        walletOptions.style.display = 'none';
+        walletLoading.classList.remove('active');
+        qrPanel.classList.add('active');
+    }
+
+    // Ouvrir le modal
+    connectBtn.addEventListener('click', () => {
+        // Si déjà connecté, juste ignorer ou déconnecter
+        if (window._mhtConnected) return;
+        openModal();
+    });
+
+    closeModal.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalFn(); });
+    cancelConnect.addEventListener('click', showOptions);
+    backFromQR.addEventListener('click', showOptions);
+
+    // ── MetaMask ────────────────────────────────
+    document.getElementById('btnMetaMask').addEventListener('click', async () => {
+        if (!window.ethereum || !window.ethereum.isMetaMask) {
+            window.open('https://metamask.io/download/', '_blank');
+            closeModalFn();
+            return;
+        }
+        showLoading('Opening MetaMask…');
+        try {
+            await connectWithEthereum(window.ethereum);
+            closeModalFn();
+        } catch (e) {
+            showOptions();
+            if (e.code !== 4001) alert('MetaMask error: ' + e.message);
+        }
+    });
+
+    // ── WalletConnect QR ─────────────────────────
+    document.getElementById('btnWalletConnect').addEventListener('click', async () => {
+        showQR();
+        const qrContainer = document.getElementById('qrCodeContainer');
+        qrContainer.innerHTML = '<p style="color:#334155;font-size:0.7rem;">Generating QR code…</p>';
+
+        try {
+            // Utilise WalletConnect via un lien universel simple
+            // Pour une vraie intégration WalletConnect v2, il faudrait un projectId
+            const wcUri = `wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cfbaabb5df529a6f1`;
+            
+            // Génère un QR avec une API publique
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent('https://dev-mht.github.io/milestone-hodl-web/')}&bgcolor=ffffff&color=0f172a`;
+            
+            qrContainer.innerHTML = `
+                <div style="text-align:center;">
+                    <img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px;" alt="QR">
+                    <p style="color:#64748b;font-size:0.65rem;margin-top:8px;">
+                        Pour une connexion mobile complète,<br>
+                        ouvrez votre wallet et scannez ce QR.<br>
+                        <em style="color:#3b82f6">WalletConnect v2 — Bientôt disponible</em>
+                    </p>
+                </div>`;
+        } catch (e) {
+            qrContainer.innerHTML = '<p style="color:#ef4444;font-size:0.75rem;">Erreur génération QR</p>';
+        }
+    });
+
+    // ── Coinbase Wallet ──────────────────────────
+    document.getElementById('btnCoinbase').addEventListener('click', async () => {
+        if (window.ethereum && window.ethereum.isCoinbaseWallet) {
+            showLoading('Opening Coinbase Wallet…');
+            try {
+                await connectWithEthereum(window.ethereum);
+                closeModalFn();
+            } catch (e) {
+                showOptions();
+            }
+        } else {
+            window.open('https://www.coinbase.com/wallet/downloads', '_blank');
+            closeModalFn();
+        }
+    });
+
+    // ── Trust Wallet ─────────────────────────────
+    document.getElementById('btnTrustWallet').addEventListener('click', async () => {
+        if (window.ethereum && window.ethereum.isTrust) {
+            showLoading('Opening Trust Wallet…');
+            try {
+                await connectWithEthereum(window.ethereum);
+                closeModalFn();
+            } catch (e) {
+                showOptions();
+            }
+        } else {
+            // Ouvre Trust Wallet via deep link ou store
+            window.open('https://trustwallet.com/browser-extension', '_blank');
+            closeModalFn();
+        }
+    });
+
+    // ═══════════════════════════════════════════
+    //  CONNEXION ETHEREUM COMMUNE
+    // ═══════════════════════════════════════════
+    async function connectWithEthereum(ethereumProvider) {
+        await ethereumProvider.request({ method: 'eth_requestAccounts' });
+        const provider = new ethers.providers.Web3Provider(ethereumProvider);
+        const signer   = provider.getSigner();
+        const address  = await signer.getAddress();
+
+        // Switch vers BSC Testnet
+        const network = await provider.getNetwork();
+        if (network.chainId !== 97) {
+            try {
+                await ethereumProvider.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x61' }]
+                });
+            } catch (switchErr) {
+                if (switchErr.code === 4902) {
+                    await ethereumProvider.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [{
+                            chainId: '0x61',
+                            chainName: 'BSC Testnet',
+                            nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                            rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+                            blockExplorerUrls: ['https://testnet.bscscan.com']
+                        }]
+                    });
+                }
+            }
+        }
+
+        // Met à jour le bouton connect
+        const short = address.slice(0, 6) + '…' + address.slice(-4);
+        connectBtn.innerHTML = `<i class="bi bi-check-circle me-2"></i>${short}`;
+        connectBtn.style.background = 'linear-gradient(45deg, #10b981, #3b82f6)';
+        window._mhtConnected = true;
+
+        // Lance app.js
+        if (typeof window.initMHT === 'function') {
+            window.initMHT(provider, signer, address);
+        }
+
+        // Écoute changements
+        ethereumProvider.on('accountsChanged', () => location.reload());
+        ethereumProvider.on('chainChanged',    () => location.reload());
+    }
+    </script>
+
+    <script src="app.js"></script>
 </body>
 </html>
