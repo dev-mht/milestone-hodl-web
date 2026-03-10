@@ -349,15 +349,15 @@
                 <div class="wallet-card">
                     <small class="text-secondary d-block mb-2">
                         Liquidity Tranches
-                        <span class="ms-1" style="cursor:help;" title="200M MHT libérés progressivement en 4 tranches">ⓘ</span>
+                        <span class="ms-1" style="cursor:help;" title="200M MHT released progressively in 4 tranches">ⓘ</span>
                     </small>
                     <div id="lp-status" class="small text-start">
-                        <span class="text-muted">⏳ T1 : 80M (Lancement)</span><br>
+                        <span class="text-muted">⏳ T1 : 80M (Launch)</span><br>
                         <span class="text-muted">🔒 T2 : 40M (Milestone 5)</span><br>
                         <span class="text-muted">🔒 T3 : 40M (Milestone 10)</span><br>
                         <span class="text-muted">🔒 T4 : 40M (Milestone 25)</span>
                     </div>
-                    <small class="text-secondary d-block mt-2">LP restant dans contrat</small>
+                    <small class="text-secondary d-block mt-2">LP remaining in contract</small>
                     <span class="fw-bold text-warning" id="liquidity-balance">— MHT</span>
                     <!-- Bouton owner uniquement -->
                     <button class="btn-claim mt-2" id="enableTradingBtn" disabled
@@ -381,8 +381,8 @@
                     <h4>Genesis & Launch</h4>
                     <ul>
                         <li>PancakeSwap Listing & Locked Liquidity</li>
-                        <li>Initial Smart Contract Security Audit (SolidProof ✅)</li>
-                        <li>MHT Dashboard V4 Release (Post-Audit)</li>
+                        <li>Smart Contract Security Audit (SolidProof — In Progress)</li>
+                        <li>MHT Dashboard V4.3 Release</li>
                     </ul>
                 </div>
             </div>
@@ -446,10 +446,10 @@
                         <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
                             <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
                         </a>
-                        <!-- ✅ V4 — lien audit SolidProof actif -->
-                        <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn btn-outline-success rounded-pill px-4 py-2 fw-bold">
-                            <i class="bi bi-shield-check me-2"></i>AUDIT REPORT
-                        </a>
+                        <!-- Audit in progress — not clickable -->
+                        <span class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(245,158,11,0.4);color:#f59e0b;background:rgba(245,158,11,0.08);cursor:default;">
+                            <i class="bi bi-shield me-2"></i>AUDIT IN PROGRESS
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4 mt-lg-0">
@@ -708,13 +708,13 @@
                 <div style="text-align:center;">
                     <img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px;" alt="QR">
                     <p style="color:#64748b;font-size:0.65rem;margin-top:8px;">
-                        Pour une connexion mobile complète,<br>
-                        ouvrez votre wallet et scannez ce QR.<br>
-                        <em style="color:#3b82f6">WalletConnect v2 — Bientôt disponible</em>
+                        Open your wallet app and scan this QR code.<br>
+                        
+                        <em style="color:#3b82f6">WalletConnect v2 — Coming soon</em>
                     </p>
                 </div>`;
         } catch (e) {
-            qrContainer.innerHTML = '<p style="color:#ef4444;font-size:0.75rem;">Erreur génération QR</p>';
+            qrContainer.innerHTML = '<p style="color:#ef4444;font-size:0.75rem;">QR generation error</p>';
         }
     });
 
