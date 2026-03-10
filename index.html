@@ -43,6 +43,35 @@
         .btn-claim:hover { transform: scale(1.02); filter: brightness(1.1); }
         .btn-claim:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
+        /* ── Music Player ── */
+        #musicPlayer {
+            position: fixed; bottom: 25px; right: 25px; z-index: 9999;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+        }
+        #musicToggle {
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            border: none; color: white; font-size: 1.3rem; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(59,130,246,0.5);
+            transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+        }
+        #musicToggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(59,130,246,0.7); }
+        #musicToggle.playing { animation: pulse-music 2s infinite; }
+        @keyframes pulse-music {
+            0%,100% { box-shadow: 0 4px 20px rgba(139,92,246,0.5); }
+            50%      { box-shadow: 0 4px 30px rgba(139,92,246,0.9); }
+        }
+        #musicWidget { display: none; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            border: 1px solid rgba(139,92,246,0.3); }
+        #musicWidget.open { display: block; }
+        #musicLabel {
+            background: linear-gradient(45deg,#1e293b,#0f172a);
+            padding: 6px 12px; font-size: 0.7rem; color: #94a3b8;
+            text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+        }
+
         /* ── V4 : Cooldown & Timelock badges ── */
         .info-badge { display: inline-block; font-size: 0.72rem; padding: 4px 10px; border-radius: 20px; margin-top: 6px; }
         .badge-cooldown { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
@@ -264,7 +293,7 @@
     <!-- ═══ PRESALE BANNER ═══ -->
     <div style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 10px; text-align: center; position: relative; z-index: 100;">
         <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 2px;">
-            <span style="font-size: 0.8rem;">🚀 PRESALE COMING SOON ON PINKSALE &nbsp;|&nbsp;
+            <span style="font-size: 0.8rem;">🛡️ AUDITED BY SOLIDPROOF ✅ 80/100 &nbsp;|&nbsp; 🚀 PRESALE COMING SOON ON PINKSALE &nbsp;|&nbsp;
             <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram to be first</a>
             &nbsp;|&nbsp; 🔥 LIMITED ALLOCATION</span>
         </div>
@@ -503,7 +532,7 @@
                     <h4>Genesis & Launch</h4>
                     <ul>
                         <li>PancakeSwap Listing & Locked Liquidity</li>
-                        <li>Smart Contract Security Audit (SolidProof — In Progress)</li>
+                        <li><strong class="text-success">✅ Smart Contract Security Audit — SolidProof 80/100</strong></li>
                         <li>MHT Dashboard V4.4 Release</li>
                     </ul>
                 </div>
@@ -568,10 +597,10 @@
                         <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
                             <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
                         </a>
-                        <!-- Audit in progress — not clickable -->
-                        <span class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(245,158,11,0.4);color:#f59e0b;background:rgba(245,158,11,0.08);cursor:default;">
-                            <i class="bi bi-shield me-2"></i>AUDIT IN PROGRESS
-                        </span>
+                        <!-- Audit completed ✅ -->
+                        <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
+                            <i class="bi bi-shield-check me-2"></i>AUDIT COMPLETED ✅ 80/100
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-6 mt-4 mt-lg-0">
@@ -695,9 +724,9 @@
                 <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;cursor:default;">
                     🔴 PinkSale — Coming Soon
                 </span>
-                <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(245,158,11,0.3);color:#f59e0b;font-size:0.75rem;cursor:default;">
-                    🛡️ Audit In Progress — SolidProof
-                </span>
+                <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
+                    🛡️ Audited by SolidProof ✅ 80/100
+                </a>
             </div>
             <p class="small text-secondary mb-0">© 2026 Milestone HODL Token. All rights reserved.</p>
         </div>
@@ -937,6 +966,38 @@
 
     <!-- ✅ app.js V4.1 chargé en dernier -->
     <script src="app_V4_4.js"></script>
+
+    <!-- ═══ MUSIC PLAYER FIXE ═══ -->
+    <div id="musicPlayer">
+        <div id="musicWidget">
+            <div id="musicLabel">🎵 CED'S VIBES — MHT SOUNDTRACK</div>
+            <iframe id="scWidget"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/g-e-j-u/panama-2025&color=%233b82f6&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
+                width="280" height="166" frameborder="0" scrolling="no" allow="autoplay">
+            </iframe>
+        </div>
+        <button id="musicToggle" onclick="toggleMusic()" title="🎵 MHT Soundtrack">
+            🎵
+        </button>
+    </div>
+
+    <script>
+    let musicOpen = false;
+    function toggleMusic() {
+        musicOpen = !musicOpen;
+        const widget = document.getElementById('musicWidget');
+        const btn    = document.getElementById('musicToggle');
+        if (musicOpen) {
+            widget.classList.add('open');
+            btn.textContent = '✕';
+            btn.classList.add('playing');
+        } else {
+            widget.classList.remove('open');
+            btn.textContent = '🎵';
+            btn.classList.remove('playing');
+        }
+    }
+    </script>
 
     <script>
     function calcReward() {
