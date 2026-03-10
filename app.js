@@ -240,7 +240,7 @@ async function updateUI() {
         if (enableBtn) {
             enableBtn.disabled = lpStatus.t1; // disabled if already released
             enableBtn.innerHTML = lpStatus.t1
-                ? `<i class="bi bi-check-circle me-2"></i>Trading Activé ✅`
+                ? `<i class="bi bi-check-circle me-2"></i>Trading Enabled ✅`
                 : `<i class="bi bi-lightning me-2"></i>Enable Trading (80M LP)`;
         }
 
