@@ -332,7 +332,15 @@
             <div class="token-col">
                 <div class="wallet-card text-start">
                     <h6 class="text-center small text-secondary mb-3 fw-bold">TOKEN ALLOCATION</h6>
-                    <div class="chart-container"><canvas id="tokenChart"></canvas></div>
+                    <div class="chart-container" style="position:relative;">
+                        <canvas id="tokenChart"></canvas>
+                        <!-- Pièce MHT au centre du donut -->
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;">
+                            <div style="width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                                <img src="piece.png" alt="MHT Coin" style="width:85px;height:85px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(59,130,246,0.8));border-radius:50%;">
+                            </div>
+                        </div>
+                    </div>
                     <div class="mt-3 small">
                         <ul class="list-unstyled mb-3">
                             <li><span style="color:#3b82f6">●</span> Smart-Vault: <strong>50%</strong></li>
