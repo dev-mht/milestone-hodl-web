@@ -260,6 +260,19 @@
         </div>
     </nav>
 
+
+    <!-- ═══ PRESALE BANNER ═══ -->
+    <div style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 10px; text-align: center; position: relative; z-index: 100;">
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 2px;">
+            <span style="font-size: 0.8rem;">🚀 PRESALE COMING SOON ON PINKSALE &nbsp;|&nbsp;
+            <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram to be first</a>
+            &nbsp;|&nbsp; 🔥 LIMITED ALLOCATION</span>
+        </div>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: bold; color: white; letter-spacing: 2px; margin-top: 4px;">
+            🚀🚀🚀 &nbsp; 0% BUY TAX DURING PRESALE &nbsp; 🚀🚀🚀
+        </div>
+    </div>
+
     <main class="container-fluid">
         <h1 class="main-title">REWARDING GROWTH, NOT LUCK.</h1>
 
@@ -310,6 +323,73 @@
             <div class="center-col">
                 <img src="baron.png" alt="The Baron" class="baron-img">
                 <a href="https://pancakeswap.finance" target="_blank" class="btn-buy">Buy MHT on PancakeSwap</a>
+
+                <!-- ═══ REWARD CALCULATOR ═══ -->
+                <div style="width:100%;max-width:380px;margin-top:20px;background:var(--card-bg);border-radius:20px;padding:22px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 0 20px rgba(139,92,246,0.1);">
+                    <h6 style="font-family:'Orbitron';color:#8b5cf6;font-size:0.75rem;letter-spacing:2px;text-align:center;margin-bottom:16px;">
+                        🎁 REWARD CALCULATOR
+                    </h6>
+
+                    <!-- Input MHT -->
+                    <div style="margin-bottom:12px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
+                            💎 Your MHT Holdings
+                        </label>
+                        <input type="number" id="calcMHT" placeholder="e.g. 100000"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(139,92,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()" min="0">
+                    </div>
+
+                    <!-- Input Prix théorique -->
+                    <div style="margin-bottom:12px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
+                            💵 Theoretical MHT Price at Next Reward ($)
+                        </label>
+                        <input type="number" id="calcPrice" placeholder="e.g. 0.001" step="0.0001"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(59,130,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()" min="0">
+                    </div>
+
+                    <!-- Input Circulant -->
+                    <div style="margin-bottom:16px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
+                            📊 Estimated Circulating Supply (MHT)
+                            <span style="cursor:help;" title="Total MHT in circulation excluding vault, marketing & team wallets">ⓘ</span>
+                        </label>
+                        <input type="number" id="calcCirc" value="300000000"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()" min="1">
+                    </div>
+
+                    <!-- Résultats -->
+                    <div id="calcResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.06);display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="color:#94a3b8;font-size:0.78rem;">Your share of supply</span>
+                            <span id="calcShare" style="color:#8b5cf6;font-weight:bold;font-size:0.9rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="color:#94a3b8;font-size:0.78rem;">🎁 MHT Reward / Milestone</span>
+                            <span id="calcMHTReward" style="color:#3b82f6;font-weight:bold;font-size:0.9rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);">
+                            <span style="color:#94a3b8;font-size:0.78rem;">💵 Value in USD</span>
+                            <span id="calcUSDReward" style="color:#22c55e;font-weight:bold;font-size:1rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="color:#94a3b8;font-size:0.78rem;">📈 Your MHT value (total)</span>
+                            <span id="calcTotalValue" style="color:#f59e0b;font-weight:bold;font-size:0.9rem;">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder vide -->
+                    <div id="calcPlaceholder" style="text-align:center;padding:10px 0;">
+                        <span style="color:#475569;font-size:0.78rem;font-style:italic;">Enter your holdings to calculate your reward 🚀</span>
+                    </div>
+
+                    <p style="color:#475569;font-size:0.68rem;text-align:center;margin-top:12px;margin-bottom:0;">
+                        ⚠️ Estimation only — not financial advice. DYOR.
+                    </p>
+                </div>
             </div>
 
             <div class="wallet-col">
@@ -368,6 +448,48 @@
             </div>
         </section>
 
+
+        <!-- ═══════════════════════════════════════════════
+             HOW IT WORKS
+        ═══════════════════════════════════════════════ -->
+        <section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.08);">
+            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">HOW IT WORKS</h2>
+            <div class="row g-4 justify-content-center" style="max-width: 1000px; margin: 0 auto;">
+                <div class="col-md-3 col-6 text-center">
+                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(59,130,246,0.2); height: 100%;">
+                        <div style="font-size: 2.5rem; margin-bottom: 15px;">💎</div>
+                        <div style="font-family: 'Orbitron'; color: #3b82f6; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 1</div>
+                        <h6 style="color: white; font-weight: bold;">Buy & Hold MHT</h6>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Purchase MHT on PancakeSwap and hold in your wallet.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(139,92,246,0.2); height: 100%;">
+                        <div style="font-size: 2.5rem; margin-bottom: 15px;">📈</div>
+                        <div style="font-family: 'Orbitron'; color: #8b5cf6; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 2</div>
+                        <h6 style="color: white; font-weight: bold;">Market Cap Grows</h6>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Every +$1,000,000 in Market Cap triggers the Smart-Vault.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(34,197,94,0.2); height: 100%;">
+                        <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
+                        <div style="font-family: 'Orbitron'; color: #22c55e; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 3</div>
+                        <h6 style="color: white; font-weight: bold;">Chainlink Executes</h6>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">5,000,000 MHT released automatically — zero human action needed.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(245,158,11,0.2); height: 100%;">
+                        <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
+                        <div style="font-family: 'Orbitron'; color: #f59e0b; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 4</div>
+                        <h6 style="color: white; font-weight: bold;">You Claim Rewards</h6>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% goes to holders pro-rata. Connect wallet and claim anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ═══════════════════════════════════════════════
              ROADMAP
         ═══════════════════════════════════════════════ -->
@@ -382,7 +504,7 @@
                     <ul>
                         <li>PancakeSwap Listing & Locked Liquidity</li>
                         <li>Smart Contract Security Audit (SolidProof — In Progress)</li>
-                        <li>MHT Dashboard V4.3 Release</li>
+                        <li>MHT Dashboard V4.4 Release</li>
                     </ul>
                 </div>
             </div>
@@ -562,9 +684,20 @@
         <div class="container text-center">
             <img src="logo.png" alt="MHT Logo" style="width: 50px;" class="mb-3">
             <h4 class="brand-text mb-4">MILESTONE HODL TOKEN</h4>
-            <div class="d-flex justify-content-center gap-4 mb-5">
+            <div class="d-flex justify-content-center gap-4 mb-4">
                 <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
                 <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
+            </div>
+            <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
+                <a href="https://pancakeswap.finance" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;">
+                    🥞 PancakeSwap
+                </a>
+                <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;cursor:default;">
+                    🔴 PinkSale — Coming Soon
+                </span>
+                <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(245,158,11,0.3);color:#f59e0b;font-size:0.75rem;cursor:default;">
+                    🛡️ Audit In Progress — SolidProof
+                </span>
             </div>
             <p class="small text-secondary mb-0">© 2026 Milestone HODL Token. All rights reserved.</p>
         </div>
@@ -803,6 +936,39 @@
     </script>
 
     <!-- ✅ app.js V4.1 chargé en dernier -->
-    <script src="app.js"></script>
+    <script src="app_V4_4.js"></script>
+
+    <script>
+    function calcReward() {
+        const mht   = parseFloat(document.getElementById('calcMHT').value)  || 0;
+        const price = parseFloat(document.getElementById('calcPrice').value) || 0;
+        const circ  = parseFloat(document.getElementById('calcCirc').value)  || 300_000_000;
+
+        const result      = document.getElementById('calcResult');
+        const placeholder = document.getElementById('calcPlaceholder');
+
+        if (mht <= 0 || price <= 0) {
+            result.style.display      = 'none';
+            placeholder.style.display = 'block';
+            return;
+        }
+
+        const VAULT_RELEASE = 5_000_000;
+        const HOLDER_SHARE  = 0.70;
+        const rewardPool    = VAULT_RELEASE * HOLDER_SHARE;   // 3,500,000 MHT
+        const sharePct      = mht / circ;
+        const mhtReward     = sharePct * rewardPool;
+        const usdReward     = mhtReward * price;
+        const totalValue    = mht * price;
+
+        document.getElementById('calcShare').textContent      = (sharePct * 100).toFixed(4) + '%';
+        document.getElementById('calcMHTReward').textContent  = mhtReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
+        document.getElementById('calcUSDReward').textContent  = '$' + usdReward.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('calcTotalValue').textContent = '$' + totalValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        result.style.display      = 'block';
+        placeholder.style.display = 'none';
+    }
+    </script>
 </body>
 </html>
