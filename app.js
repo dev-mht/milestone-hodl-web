@@ -62,7 +62,7 @@ const fmtUSD = (v) =>
     });
 
 const fmtCountdown = (secondsLeft) => {
-    if (secondsLeft <= 0) return "Prêt à exécuter ✅";
+    if (secondsLeft <= 0) return "Ready to execute ✅";
     const h = Math.floor(secondsLeft / 3600);
     const m = Math.floor((secondsLeft % 3600) / 60);
     const s = secondsLeft % 60;
@@ -143,7 +143,7 @@ async function updateUI() {
             const { t1, t2, t3, t4 } = lpStatus;
             lpStatusEl.innerHTML = `
                 <span class="${t1 ? 'text-success' : 'text-warning'}">
-                    ${t1 ? '✅' : '⏳'} T1 : 80M (Lancement)
+                    ${t1 ? '✅' : '⏳'} T1 : 80M (Launch)
                 </span><br>
                 <span class="${t2 ? 'text-success' : 'text-muted'}">
                     ${t2 ? '✅' : '🔒'} T2 : 40M (Milestone 5)
@@ -174,13 +174,13 @@ async function updateUI() {
             const COOLDOWN = 24 * 3600;
             const lastTs   = Number(lastMilestoneTs);
             if (lastTs === 0) {
-                cooldownEl.textContent = "Aucun milestone encore déclenché";
+                cooldownEl.textContent = "No milestone triggered yet";
                 cooldownEl.className = "info-badge badge-ready";
             } else {
                 const remaining = Math.max(0, lastTs + COOLDOWN - nowSec);
                 cooldownEl.textContent = remaining > 0
-                    ? `⏳ Prochain milestone dans : ${fmtCountdown(remaining)}`
-                    : "✅ Milestone disponible";
+                    ? `⏳ Next milestone in: ${fmtCountdown(remaining)}`
+                    : "✅ Milestone available";
                 cooldownEl.className = `info-badge ${remaining > 0 ? 'badge-cooldown' : 'badge-ready'}`;
             }
         }
@@ -195,10 +195,10 @@ async function updateUI() {
                 timelockEl.style.display = "inline-block";
                 const remaining = Math.max(0, pendTs - nowSec);
                 if (remaining > 0) {
-                    timelockEl.textContent = `⏳ Nouveau MCap $${parseFloat(ethers.formatUnits(pendingCapValue, 18)).toLocaleString()} dans : ${fmtCountdown(remaining)}`;
+                    timelockEl.textContent = `⏳ New MCap $${parseFloat(ethers.formatUnits(pendingCapValue, 18)).toLocaleString()} in: ${fmtCountdown(remaining)}`;
                     timelockEl.className = "info-badge badge-timelock mt-2";
                 } else {
-                    timelockEl.textContent = `✅ Nouveau MCap prêt ($${parseFloat(ethers.formatUnits(pendingCapValue, 18)).toLocaleString()})`;
+                    timelockEl.textContent = `✅ New MCap ready ($${parseFloat(ethers.formatUnits(pendingCapValue, 18)).toLocaleString()})`;
                     timelockEl.className = "info-badge badge-ready mt-2";
                 }
             }
@@ -238,14 +238,14 @@ async function updateUI() {
         // ── Bouton enableTrading (V4.1) ───────────────────────────────────────
         const enableBtn = document.getElementById("enableTradingBtn");
         if (enableBtn) {
-            enableBtn.disabled = lpStatus.t1; // désactivé si déjà libéré
+            enableBtn.disabled = lpStatus.t1; // disabled if already released
             enableBtn.innerHTML = lpStatus.t1
                 ? `<i class="bi bi-check-circle me-2"></i>Trading Activé ✅`
                 : `<i class="bi bi-lightning me-2"></i>Enable Trading (80M LP)`;
         }
 
     } catch (err) {
-        console.error("Erreur updateUI :", err);
+        console.error("updateUI error:", err);
     }
 }
 
@@ -254,17 +254,17 @@ async function claimRewards() {
     if (!_contract) return;
     try {
         const claimBtn = document.getElementById("claimBtn");
-        if (claimBtn) claimBtn.innerHTML = `<i class="bi bi-hourglass me-2"></i>En cours…`;
+        if (claimBtn) claimBtn.innerHTML = `<i class="bi bi-hourglass me-2"></i>Processing…`;
 
         const tx = await _contract.claimRewards();
         await tx.wait();
 
         await updateUI();
-        alert("✅ Rewards réclamés !\n\n" + CONFIG.explorerUrl + tx.hash);
+        alert("✅ Rewards claimed!\n\n" + CONFIG.explorerUrl + tx.hash);
 
     } catch (err) {
-        console.error("Erreur claim :", err);
-        alert("Erreur : " + (err.reason || err.message));
+        console.error("Claim error:", err);
+        alert("Error: " + (err.reason || err.message));
         await updateUI();
     }
 }
@@ -274,16 +274,16 @@ window.enableTrading = async function() {
     if (!_contract) return;
     try {
         const btn = document.getElementById("enableTradingBtn");
-        if (btn) btn.innerHTML = `<i class="bi bi-hourglass me-2"></i>En cours…`;
+        if (btn) btn.innerHTML = `<i class="bi bi-hourglass me-2"></i>Processing…`;
 
         const tx = await _contract.enableTrading();
         await tx.wait();
 
         await updateUI();
-        alert(`✅ Trading activé ! 80 000 000 MHT envoyés au liquidity wallet.\n\n${CONFIG.explorerUrl + tx.hash}`);
+        alert(`✅ Trading enabled! 80 000 000 MHT sent to liquidity wallet.\n\n${CONFIG.explorerUrl + tx.hash}`);
 
     } catch (err) {
-        alert("Erreur enableTrading : " + (err.reason || err.message));
+        alert("enableTrading error: " + (err.reason || err.message));
         await updateUI();
     }
 };
@@ -295,10 +295,10 @@ window.queueMarketCap = async function(usdAmount) {
         const value = ethers.parseUnits(String(usdAmount), 18);
         const tx = await _contract.queueManualMarketCap(value);
         await tx.wait();
-        alert(`✅ Market Cap $${usdAmount.toLocaleString()} en file d'attente.\nExécutable dans 24h.\n\n${CONFIG.explorerUrl + tx.hash}`);
+        alert(`✅ Market Cap $${usdAmount.toLocaleString()} queued.\nExecutable in 24h.\n\n${CONFIG.explorerUrl + tx.hash}`);
         await updateUI();
     } catch (err) {
-        alert("Erreur : " + (err.reason || err.message));
+        alert("Error: " + (err.reason || err.message));
     }
 };
 
@@ -308,10 +308,10 @@ window.executeMarketCap = async function() {
     try {
         const tx = await _contract.executeManualMarketCap();
         await tx.wait();
-        alert(`✅ Nouveau Market Cap appliqué !\n\n${CONFIG.explorerUrl + tx.hash}`);
+        alert(`✅ New Market Cap applied!\n\n${CONFIG.explorerUrl + tx.hash}`);
         await updateUI();
     } catch (err) {
-        alert("Erreur : " + (err.reason || err.message));
+        alert("Error: " + (err.reason || err.message));
     }
 };
 
@@ -321,10 +321,10 @@ window.sweepRewards = async function() {
     try {
         const tx = await _contract.sweepLockedRewards();
         await tx.wait();
-        alert(`✅ Rewards bloqués récupérés !\n\n${CONFIG.explorerUrl + tx.hash}`);
+        alert(`✅ Locked rewards recovered!\n\n${CONFIG.explorerUrl + tx.hash}`);
         await updateUI();
     } catch (err) {
-        alert("Erreur : " + (err.reason || err.message));
+        alert("Error: " + (err.reason || err.message));
     }
 };
 
@@ -343,7 +343,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (queueBtn) queueBtn.addEventListener("click", () => {
         const val = document.getElementById("marketCapInput")?.value;
         if (val && !isNaN(val)) window.queueMarketCap(Number(val));
-        else alert("Entrez un montant USD valide.");
+        else alert("Please enter a valid USD amount.");
     });
 
     const execBtn = document.getElementById("executeMarketCapBtn");
