@@ -1,17 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  MHT — Milestone HODL Token — app.js V4.1
+//  MHT — Milestone HODL Token — app.js V5
 //  Changements vs V4.0 :
-//    - Adresse contrat V4.1 : 0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa
+//    - Adresse contrat V5 (Mainnet) : 0x4EA0b53dC11c6C361904383b20E321d1478C37ac
 //    - ABI : enableTrading(), getLiquidityBalance(), getLPStatus()
 //    - UI : affichage statut tranches LP + liquidityBalance
 //    - enableTrading() exposé pour le panel owner
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CONFIG = {
-    contractAddress : "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa", // ✅ V4.1
-    chainId         : 97,
-    rpcUrl          : "https://data-seed-prebsc-1-s1.binance.org:8545/",
-    explorerUrl     : "https://testnet.bscscan.com/tx/",
+    contractAddress : "0x4EA0b53dC11c6C361904383b20E321d1478C37ac", // ✅ V5 Mainnet
+    chainId         : 56,
+    rpcUrl          : "https://bsc-dataseed.binance.org/",
+    explorerUrl     : "https://bscscan.com/tx/",
 };
 
 const ABI = [
@@ -160,7 +160,7 @@ async function updateUI() {
         // ── Statut connexion ──────────────────────────────────────────────────
         const statusEl = document.getElementById("accountStatus");
         if (statusEl) {
-            statusEl.textContent = "Connected (BSC Testnet)";
+            statusEl.textContent = "Connected (BSC Mainnet)";
             statusEl.className = "fw-bold text-success";
         }
 
