@@ -190,6 +190,14 @@
             .roadmap-content ul { font-size: 0.75rem; }
         }
     </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-55GLFJLMM8');
+    </script>
 </head>
 <body>
 
@@ -293,7 +301,7 @@
     <!-- ═══ PRESALE BANNER ═══ -->
     <div style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 10px; text-align: center; position: relative; z-index: 100;">
         <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 2px;">
-            <span style="font-size: 0.8rem;">🛡️ SOLIDPROOF AUDIT ✅ 80/100 — MAX WITHOUT KYC &nbsp;|&nbsp; 🚀 PRESALE COMING SOON ON PINKSALE &nbsp;|&nbsp;
+            <span style="font-size: 0.8rem;">🛡️ SOLIDPROOF AUDIT ✅ 80/100 — MAX WITHOUT KYC &nbsp;|&nbsp; 🚀 PRESALE LIVE SOON ON <a href="https://dev-mht.github.io/apexpad" target="_blank" style="color:white;text-decoration:underline;">APEXPAD</a> &nbsp;|&nbsp;
             <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram to be first</a>
             &nbsp;|&nbsp; 🔥 LIMITED ALLOCATION</span>
         </div>
@@ -457,7 +465,7 @@
                 <div class="wallet-card">
                     <small class="text-secondary d-block">
                         Eligible Supply
-                        <span class="ms-1" style="cursor:help;" title="Circulating supply eligible for rewards (excludes LP pair, marketing & pinksale wallets)">ⓘ</span>
+                        <span class="ms-1" style="cursor:help;" title="Circulating supply eligible for rewards (excludes LP pair, marketing & apexpad wallets)">ⓘ</span>
                     </small>
                     <span class="fw-bold text-info" id="eligible-supply">— MHT</span>
                 </div>
@@ -537,11 +545,11 @@
                 <div class="roadmap-dot"></div>
                 <div class="roadmap-content">
                     <span class="roadmap-phase">PHASE 1</span>
-                    <h4>Genesis & Launch</h4>
+                    <h4>✅Genesis & Launch</h4>
                     <ul>
-                        <li>PancakeSwap Listing & Locked Liquidity</li>
                         <li><strong class="text-success">✅ Smart Contract Security Audit — SolidProof 80/100</strong></li>
-                        <li>MHT Dashboard V4.4 Release</li>
+                        <li>✅MHT Dashboard V5 Release</li>
+                        <li>PancakeSwap Listing & Locked Liquidity</li>
                     </ul>
                 </div>
             </div>
@@ -682,7 +690,7 @@
                     </h2>
                     <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
                         <div class="accordion-body text-secondary">
-                            Rewards are allocated <strong class="text-white">pro-rata</strong> based on your MHT balance at the exact block when a Milestone triggers. Only <strong class="text-white">eligible holders</strong> (excluding LP pair, marketing & pinksale wallets) receive rewards. To claim, simply connect your wallet and click <strong class="text-white">"Claim Rewards"</strong>.
+                            Rewards are allocated <strong class="text-white">pro-rata</strong> based on your MHT balance at the exact block when a Milestone triggers. Only <strong class="text-white">eligible holders</strong> (excluding LP pair, marketing & apexpad wallets) receive rewards. To claim, simply connect your wallet and click <strong class="text-white">"Claim Rewards"</strong>.
                         </div>
                     </div>
                 </div>
@@ -730,7 +738,7 @@
                     🥞 PancakeSwap
                 </a>
                 <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;cursor:default;">
-                    🔴 PinkSale — Coming Soon
+                    🚀 <a href="https://dev-mht.github.io/apexpad" target="_blank" style="color:#22c55e;text-decoration:none;">ApexPad — Presale Live SOON ✅</a>
                 </span>
                 <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
                     🛡️ SolidProof ✅ 80/100 — Max without KYC
@@ -924,24 +932,24 @@
         const signer   = await provider.getSigner();
         const address  = await signer.getAddress();
 
-        // Switch vers BSC Testnet (chainId 97 = 0x61)
+        // Switch vers BSC Mainnet (chainId 56 = 0x38)
         const network = await provider.getNetwork();
-        if (Number(network.chainId) !== 97) {
+        if (Number(network.chainId) !== 56) {
             try {
                 await ethereumProvider.request({
                     method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: '0x61' }]
+                    params: [{ chainId: '0x38' }]
                 });
             } catch (switchErr) {
                 if (switchErr.code === 4902) {
                     await ethereumProvider.request({
                         method: 'wallet_addEthereumChain',
                         params: [{
-                            chainId: '0x61',
-                            chainName: 'BSC Testnet',
+                            chainId: '0x38',
+                            chainName: 'BNB Smart Chain',
                             nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-                            rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-                            blockExplorerUrls: ['https://testnet.bscscan.com']
+                            rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                            blockExplorerUrls: ['https://bscscan.com']
                         }]
                     });
                 }
@@ -972,8 +980,8 @@
     }
     </script>
 
-    <!-- ✅ app.js V4.1 chargé en dernier -->
-    <script src="app_V4_4.js"></script>
+    <!-- ✅ app.js V5 Mainnet chargé en dernier -->
+    <script src="app.js"></script>
 
     <!-- ═══ MUSIC PLAYER FIXE ═══ -->
     <div id="musicPlayer">
