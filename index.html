@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>MHT . MILESTONE HODL TOKEN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -228,7 +229,7 @@
 
                 <button class="wallet-option" id="btnWalletConnect">
                     <div class="wallet-option-icon" style="background: rgba(59,130,246,0.1);">
-                        <img src="https://avatars.githubusercontent.com/u/37784886" alt="WalletConnect">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="WalletConnect"><rect width="32" height="32" rx="8" fill="#3B99FC"/><path d="M9.6 12.8c3.5-3.5 9.3-3.5 12.8 0l.4.4c.2.2.2.5 0 .7l-1.4 1.4c-.1.1-.3.1-.4 0l-.6-.6c-2.5-2.5-6.5-2.5-9 0l-.6.6c-.1.1-.3.1-.4 0L8.9 13.9c-.2-.2-.2-.5 0-.7l.7-.4zm15.8 3l1.2 1.2c.2.2.2.5 0 .7l-5.5 5.5c-.2.2-.5.2-.7 0l-3.9-3.9c-.1-.1-.2-.1-.4 0l-3.9 3.9c-.2.2-.5.2-.7 0L5.4 17.7c-.2-.2-.2-.5 0-.7l1.2-1.2c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.1.5-.1.6.1z" fill="white"/></svg>
                     </div>
                     <div class="wallet-option-info">
                         <span class="wallet-option-name">WalletConnect</span>
@@ -241,7 +242,7 @@
 
                 <button class="wallet-option" id="btnCoinbase">
                     <div class="wallet-option-icon" style="background: rgba(22,163,74,0.1);">
-                        <img src="https://avatars.githubusercontent.com/u/18060234" alt="Coinbase">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Coinbase"><rect width="32" height="32" rx="8" fill="#1652F0"/><path d="M16 6C10.477 6 6 10.477 6 16s4.477 10 10 10 10-4.477 10-10S21.523 6 16 6zm0 15.5c-3.038 0-5.5-2.462-5.5-5.5S12.962 10.5 16 10.5s5.5 2.462 5.5 5.5-2.462 5.5-5.5 5.5zm-2-5.5c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2z" fill="white"/></svg>
                     </div>
                     <div class="wallet-option-info">
                         <span class="wallet-option-name">Coinbase Wallet</span>
@@ -252,7 +253,7 @@
 
                 <button class="wallet-option" id="btnTrustWallet">
                     <div class="wallet-option-icon" style="background: rgba(59,130,246,0.08);">
-                        <img src="https://trustwallet.com/assets/images/media/assets/TWT.png" alt="Trust Wallet" onerror="this.style.display='none'; this.parentElement.innerHTML='🛡️'">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Trust Wallet"><rect width="32" height="32" rx="8" fill="#3375BB"/><path d="M16 6l8 3.5v6c0 4.5-3.4 8.7-8 10-4.6-1.3-8-5.5-8-10v-6L16 6z" fill="white" fill-opacity="0.9"/><path d="M13.5 16l2 2 4-4" stroke="#3375BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <div class="wallet-option-info">
                         <span class="wallet-option-name">Trust Wallet</span>
@@ -1159,7 +1160,7 @@
             <div id="musicLabel">🎵 CED'S VIBES — MHT SOUNDTRACK</div>
             <iframe id="scWidget"
                 src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/g-e-j-u/panama-2025&color=%233b82f6&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
-                width="280" height="166" frameborder="0" scrolling="no" allow="autoplay">
+                width="280" height="166" frameborder="0" scrolling="no" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-popups">
             </iframe>
         </div>
         <button id="musicToggle" onclick="toggleMusic()" title="🎵 MHT Soundtrack">
