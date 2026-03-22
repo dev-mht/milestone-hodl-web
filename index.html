@@ -33,7 +33,7 @@
         .token-col, .wallet-col { width: 340px; }
         .center-col { display: flex; flex-direction: column; align-items: center; flex-grow: 1; }
         .wallet-card { background: var(--card-bg); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; text-align: center; }
-        .chart-container { width: 220px; height: 220px; margin: 0 auto; }
+        .chart-container { width: 220px; height: 220px; margin: 0 auto; overflow: hidden; position: relative; }
         .baron-img { width: 420px; height: 260px; object-fit: cover; border-radius: 200px / 125px; border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
         
         /* Boutons */
@@ -79,7 +79,7 @@
         .badge-timelock { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
 
         /* Roadmap */
-        .roadmap-section { max-width: 1100px; margin: 80px auto; padding: 0 40px; position: relative; }
+        .roadmap-section { max-width: 1100px; margin: 80px auto; padding: 0 40px; position: relative; overflow: hidden; }
         .roadmap-section::before { content: ''; position: absolute; left: 50%; width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, var(--primary-color), var(--secondary-color), transparent); transform: translateX(-50%); }
         .roadmap-item { margin-bottom: 60px; position: relative; width: 50%; padding: 20px 40px; }
         .roadmap-item:nth-child(odd) { left: 0; text-align: right; }
@@ -312,11 +312,11 @@
 
         <!-- Ligne 2 : date de lancement -->
         <div style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ffe066; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px;">
-            🚀 PRESALE OPENS — MONDAY MARCH 30th 2026 AT 14:00 UTC — ON <a href="https://dev-mht.github.io/apexpad" target="_blank" style="color:#ffe066; text-decoration:none;">ApexPad</a>
+            🚀 PRESALE OPENS — MONDAY MARCH 30th 2026 AT 14:00 UTC — ON <a href="https://apexpad.io" target="_blank" style="color:#ffe066; text-decoration:none;">ApexPad</a>
         </div>
 
         <!-- Ligne 3 : Countdown cliquable -->
-        <a href="https://dev-mht.github.io/apexpad" target="_blank" style="text-decoration: none; display: inline-block;" title="Join the $MHT Presale on ApexPad">
+        <a href="https://apexpad.io" target="_blank" style="text-decoration: none; display: inline-block;" title="Join the $MHT Presale on ApexPad">
             <div id="countdown-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
                     <span id="cd-days" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
@@ -371,33 +371,39 @@
 
     <main class="container-fluid">
         <h1 class="main-title">REWARDING GROWTH, NOT LUCK.</h1>
-<br><a href="https://dev-mht.github.io/apexpad/ambassador.html" target="_blank" style="color:#f97316;text-decoration:none;font-size:1.75rem;">🤝 Ambassador Program</a>
+
         <!-- ── Milestone Progress ── -->
-        <section class="milestone-container">
-            <img src="logo.png" class="milestone-logo" alt="Logo">
-            <div class="progress-box">
+        <section class="milestone-container" id="milestoneSection">
+            <img src="images/WELCOME.png" class="milestone-logo" alt="Welcome" style="width:220px;height:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(59,130,246,0.4));">
+            <div class="progress-box" id="progressBox">
                 <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $1M Milestone Progression</p>
-                <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1);">
+                <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.05);">
                     <div id="milestoneBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                         style="width: 0%; font-weight: bold; transition: width 1s ease-in-out;">
+                         style="width: 0%; font-weight: bold; transition: width 1s ease-in-out; min-width:0;">
                          $0 / $1,000,000
                     </div>
                 </div>
                 <p class="text-center x-small mt-2 text-muted" style="font-size: 0.75rem;">
                     Status: <span id="milestoneStatus" class="text-success fw-bold">Calculating...</span>
                 </p>
-                <!-- ✅ V4 — Cooldown 24h (H-03) -->
                 <p class="text-center mt-1 mb-0">
                     <span id="milestoneCooldown" class="info-badge badge-cooldown">⏳ Loading cooldown…</span>
                 </p>
+                <!-- Referral link inside progress box -->
+                <div style="text-align:center; margin-top:12px;">
+                    <a href="https://apexpad.io/referral.html" target="_blank"
+                       style="background:linear-gradient(45deg,#f59e0b,#ef4444);color:white;padding:10px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
+                        💸 EARN 3% TO 7% — GET YOUR REFERRAL LINK
+                    </a>
+                </div>
             </div>
-            <img src="logo.png" class="milestone-logo" alt="Logo">
+            <img src="images/HI.png" class="milestone-logo" alt="Hi!" style="width:220px;height:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(139,92,246,0.4));">
         </section>
 
         <!-- ── Main Dashboard ── -->
         <section class="main-dashboard">
-            <div class="token-col">
-                <div class="wallet-card text-start">
+            <div class="token-col" style="display:flex; flex-direction:column;">
+                <div class="wallet-card text-start" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
                     <h6 class="text-center small text-secondary mb-3 fw-bold">TOKEN ALLOCATION</h6>
                     <div class="chart-container" style="position:relative;">
                         <canvas id="tokenChart"></canvas>
@@ -408,7 +414,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 small">
+                    <div class="mt-3 small" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
                         <ul class="list-unstyled mb-3">
                             <li><span style="color:#3b82f6">●</span> Smart-Vault: <strong>50%</strong></li>
                             <li><span style="color:#64748b">●</span> Liquidity: <strong>20%</strong></li>
@@ -419,6 +425,11 @@
                         <div class="pt-2 border-top border-secondary">
                             <p class="mb-1" style="color:#3b82f6"><i class="bi bi-shield-check"></i> Buy Tax: 2% (1% Burn/1% Mkt)</p>
                             <p class="mb-0" style="color:#8b5cf6"><i class="bi bi-graph-up-arrow"></i> Sell Tax: 5% (1% Burn/4% Mkt)</p>
+                        </div>
+                        <!-- ATTENTION sticker sous tokenomics -->
+                        <div style="text-align:center; margin-top:auto; padding-top:15px;">
+                            <img src="images/ATTENTION.png" alt="Attention Please!"
+                                 style="width:180px; filter:drop-shadow(0 0 10px rgba(245,158,11,0.5));">
                         </div>
                     </div>
                 </div>
@@ -592,113 +603,207 @@
                     </div>
                 </div>
             </div>
+            <!-- PRESALE sticker -->
+            <div style="text-align:center; margin-top:20px;">
+                <img src="images/PRESALE.png" alt="Join Presale"
+                     style="width:250px; filter:drop-shadow(0 0 15px rgba(34,197,94,0.5));">
+                <div style="margin-top:30px;">
+                    <a href="https://apexpad.io" target="_blank"
+                       style="background:linear-gradient(45deg,#22c55e,#3b82f6);color:white;padding:12px 35px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:1rem;">
+                        🔥 JOIN PRESALE — March 30
+                    </a>
+                </div>
+            </div>
         </section>
-
-        <!-- ═══════════════════════════════════════════════
-             ROADMAP
-        ═══════════════════════════════════════════════ -->
+     <!-- roadmap -->
         <section class="roadmap-section">
             <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
 
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 1</span>
-                    <h4>✅Genesis & Launch</h4>
-                    <ul>
-                        <li class="done">✅ Smart Contract Security Audit — SolidProof 80/100</li>
-                        <li class="done">✅ MHT Dashboard V5 Release</li>
-                        <li>PRESALE ON <span style="font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;color:#f97316;letter-spacing:0px;">ApexPad</span></li>
-                        <li>PancakeSwap Listing &amp; Locked Liquidity</li>
-                    </ul>
+            <!-- ═══ PHASE 1 (droite) + WORK (gauche) ═══ -->
+            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
+                <!-- WORK sticker gauche — même hauteur que le bloc -->
+                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-end; padding-right:20px;">
+                    <img src="images/WORK.png" alt="The Team is Working"
+                         style="width:190px; filter:drop-shadow(0 0 12px rgba(59,130,246,0.4));">
                 </div>
-            </div>
-
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 2</span>
-                    <h4>$1M Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
-                        <li>Every +$1M Market Cap triggers a new automated drop</li>
-                        <li>Chainlink Automation Integration (Mainnet)</li>
-                        <li>Coingecko & CoinMarketCap Listing Application</li>
-                    </ul>
+                <!-- Trait vertical + dot -->
+                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #3b82f6);"></div>
+                    <div style="width:20px; height:20px; background:#3b82f6; border-radius:50%; box-shadow:0 0 15px #3b82f6; z-index:10; flex-shrink:0;"></div>
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #3b82f6, transparent);"></div>
                 </div>
-            </div>
-
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 3</span>
-                    <h4>$10M Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
-                        <li>Global Marketing Blitz & Influencer Partnerships</li>
-                        <li>Tier-2 Centralized Exchange (CEX) Listings</li>
-                        <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="roadmap-item">
-                <div class="roadmap-dot"></div>
-                <div class="roadmap-content">
-                    <span class="roadmap-phase">PHASE 4</span>
-                    <h4>$100M+ Market Cap</h4>
-                    <ul>
-                        <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
-                        <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
-                        <li>Full Baron Ecosystem Expansion & Governance DAO</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════
-             DOCUMENT CENTER
-        ═══════════════════════════════════════════════ -->
-        <section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
-                    <p class="text-secondary">
-                        Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
-                    </p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                            <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
-                        </a>
-                        <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                            <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
-                        </a>
-                        <!-- Audit completed ✅ -->
-                        <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
-                            <i class="bi bi-shield-check me-2"></i>AUDIT ✅ 80/100 (MAX without KYC)
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 mt-4 mt-lg-0">
-                    <div class="doc-card">
-                        <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
-                        <ul class="list-unstyled small text-secondary">
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
-                            <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
-                            <!-- ✅ V4 — nouveaux points sécurité -->
-                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>24h Cooldown</strong> between milestone executions.</li>
-                            <li><i class="bi bi-check2-circle text-success me-2"></i> <strong>Two-Step Ownership</strong> & Timelock on market cap.</li>
+                <!-- Bloc Phase 1 droite -->
+                <div style="width:400px; padding-left:30px;">
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">PHASE 1</span>
+                        <h4>✅ Genesis & Launch</h4>
+                        <ul>
+                            <li class="done">✅ Smart Contract Security Audit — SolidProof 80/100</li>
+                            <li class="done">✅ MHT Dashboard V5 Release</li>
+                            <li>PRESALE ON <span style="font-family:'Orbitron',sans-serif;font-weight:700;color:#f97316;">ApexPad</span></li>
+                            <li>PancakeSwap Listing &amp; Locked Liquidity</li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- ═══════════════════════════════════════════════
-             FAQ
-        ═══════════════════════════════════════════════ -->
+            <!-- ═══ GEMINI BUYSELL centré sur le trait ═══ -->
+            <div style="text-align:center; margin: -30px auto 10px auto; position:relative; z-index:5;">
+                <img src="images/gemini_buysell.png" alt="Buy & Hold MHT"
+                     style="width:200px; border-radius:16px; box-shadow:0 0 25px rgba(34,197,94,0.3);">
+            </div>
+
+            <!-- ═══ PHASE 2 (gauche) + DH (droite) ═══ -->
+            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
+                <!-- Bloc Phase 2 gauche -->
+                <div style="width:400px; padding-right:30px; text-align:right;">
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">PHASE 2</span>
+                        <h4>$1M Market Cap</h4>
+                        <ul style="text-align:left;">
+                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
+                            <li>Every +$1M Market Cap triggers a new automated drop</li>
+                            <li>Chainlink Automation Integration (Mainnet)</li>
+                            <li>Coingecko &amp; CoinMarketCap Listing Application</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Trait vertical + dot -->
+                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #8b5cf6);"></div>
+                    <div style="width:20px; height:20px; background:#8b5cf6; border-radius:50%; box-shadow:0 0 15px #8b5cf6; z-index:10; flex-shrink:0;"></div>
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #8b5cf6, transparent);"></div>
+                </div>
+                <!-- DH sticker droite — même hauteur -->
+                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-start; padding-left:20px;">
+                    <img src="images/DH.png" alt="Diamond Hands"
+                         style="width:190px; filter:drop-shadow(0 0 12px rgba(139,92,246,0.5));">
+                </div>
+            </div>
+
+            <!-- ═══ PHASE 3 (droite) + UP (gauche) ═══ -->
+            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
+                <!-- UP sticker gauche -->
+                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-end; padding-right:20px;">
+                    <img src="images/UP.png" alt="UP!"
+                         style="width:190px; filter:drop-shadow(0 0 12px rgba(34,197,94,0.5));">
+                </div>
+                <!-- Trait vertical + dot -->
+                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #22c55e);"></div>
+                    <div style="width:20px; height:20px; background:#22c55e; border-radius:50%; box-shadow:0 0 15px #22c55e; z-index:10; flex-shrink:0;"></div>
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #22c55e, transparent);"></div>
+                </div>
+                <!-- Bloc Phase 3 droite -->
+                <div style="width:400px; padding-left:30px;">
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">PHASE 3</span>
+                        <h4>$10M Market Cap</h4>
+                        <ul>
+                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
+                            <li>Global Marketing Blitz &amp; Influencer Partnerships</li>
+                            <li>Tier-2 Centralized Exchange (CEX) Listings</li>
+                            <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ PHASE 4 (gauche) + X1M (droite) ═══ -->
+            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
+                <!-- Bloc Phase 4 gauche -->
+                <div style="width:400px; padding-right:30px; text-align:right;">
+                    <div class="roadmap-content">
+                        <span class="roadmap-phase">PHASE 4</span>
+                        <h4>$100M+ Market Cap</h4>
+                        <ul style="text-align:left;">
+                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payout</strong></li>
+                            <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
+                            <li>Full Baron Ecosystem Expansion &amp; Governance DAO</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Trait vertical + dot -->
+                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #f59e0b);"></div>
+                    <div style="width:20px; height:20px; background:#f59e0b; border-radius:50%; box-shadow:0 0 15px #f59e0b; z-index:10; flex-shrink:0;"></div>
+                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #f59e0b, transparent);"></div>
+                </div>
+                <!-- X1M sticker droite -->
+                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-start; padding-left:20px;">
+                    <img src="images/X1M.png" alt="X1000"
+                         style="width:190px; filter:drop-shadow(0 0 12px rgba(245,158,11,0.5));">
+                </div>
+            </div>
+
+            <!-- ═══ VISUAL FIN ROADMAP ═══ -->
+            <div style="text-align:center; margin: 10px auto 0 auto; position:relative; z-index:5;">
+                <img src="images/gemini_4panels.png" alt="The Journey — MHT Milestones"
+                     style="width:100%; max-width:500px; border-radius:20px; box-shadow: 0 0 30px rgba(139,92,246,0.3);">
+            </div>
+
+        </section>
+<!-- ═══════════════════════════════════════════════
+     DOCUMENT CENTER
+═══════════════════════════════════════════════ -->
+<section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="row align-items-start">
+        <div class="col-lg-6" style="display:flex; flex-direction:column;">
+            <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
+            <p class="text-secondary">
+                Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <!-- LOOK_WP + MOON stickers -->
+                <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px; width:100%;">
+                    <img src="images/LOOK_WP.png" alt="Learn More"
+                         style="width:180px; filter:drop-shadow(0 0 10px rgba(139,92,246,0.4));">
+                    <img src="images/MOON.png" alt="To The Moon"
+                         style="width:180px; filter:drop-shadow(0 0 10px rgba(245,158,11,0.4));">
+                </div>
+                <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                    <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
+                </a>
+                <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
+                    <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
+                </a>
+                <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
+                    <i class="bi bi-shield-check me-2"></i>AUDIT ✅ 80/100 (MAX without KYC)
+                </a>
+                <!-- S_P sous la bannière audit -->
+                <div style="width:100%; margin-top:15px;">
+                    <video src="images/S_P.mov" autoplay loop muted playsinline
+                           style="width:100%; max-width:420px; border-radius:16px; box-shadow:0 0 20px rgba(34,197,94,0.4);"></video>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mt-4 mt-lg-0" style="display:flex; flex-direction:column;">
+            <!-- TRUST centré en haut -->
+            <div style="text-align:center; margin-bottom:20px;">
+                <img src="images/TRUST.png" alt="Trust The Process"
+                     style="width:150px; filter:drop-shadow(0 0 12px rgba(245,158,11,0.4));">
+            </div>
+            <div class="doc-card" style="flex:1;">
+                <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
+                <ul class="list-unstyled small text-secondary">
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>24h Cooldown</strong> between milestone executions.</li>
+                    <li><i class="bi bi-check2-circle text-success me-2"></i> <strong>Two-Step Ownership</strong> & Timelock on market cap.</li>
+                </ul>
+            </div>
+            <!-- TEAM_MHT alignée à droite -->
+            <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+                <video src="images/TEAM_MHT.mov" autoplay loop muted playsinline
+                       style="width:100%; max-width:300px; border-radius:16px; box-shadow:0 0 20px rgba(59,130,246,0.4);"></video>
+            </div>
+        </div>
+    </div>
+</section>
+ <!-- ═══════════════════════════════════════════════ FAQ ═══════════════════════════════════════════════ -->
         <section class="container my-5 py-5">
             <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 3px;">FREQUENTLY ASKED QUESTIONS</h2>
             <div class="accordion accordion-flush" id="faqMHT" style="max-width: 800px; margin: 0 auto;">
@@ -787,8 +892,13 @@
 
     <footer class="py-5" style="background: #0b1120; border-top: 2px solid rgba(59, 130, 246, 0.2);">
         <div class="container text-center">
-            <img src="logo.png" alt="MHT Logo" style="width: 50px;" class="mb-3">
             <h4 class="brand-text mb-4">MILESTONE HODL TOKEN</h4>
+            <!-- Footer stickers — écartés et agrandis -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; padding:0 40px; flex-wrap:wrap; gap:15px;">
+                <img src="images/GOOD.png" alt="Good" style="width:160px; filter:drop-shadow(0 0 12px rgba(34,197,94,0.5));">
+                <img src="images/MHT.png" alt="$MHT" style="width:140px; filter:drop-shadow(0 0 12px rgba(59,130,246,0.5));">
+                <img src="images/FOLLOW.png" alt="Follow Us" style="width:160px; filter:drop-shadow(0 0 12px rgba(139,92,246,0.5));">
+            </div>
             <div class="d-flex justify-content-center gap-4 mb-4">
                 <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
                 <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
@@ -798,7 +908,7 @@
                     🥞 PancakeSwap
                 </a>
                 <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;cursor:default;">
-                    🚀 <a href="https://dev-mht.github.io/apexpad" target="_blank" style="color:#22c55e;text-decoration:none;">ApexPad — Presale Live SOON ✅</a>
+                    🚀 <a href="https://apexpad.io" target="_blank" style="color:#22c55e;text-decoration:none;">ApexPad — Presale March 30 ✅</a>
                 </span>
                 <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
                     🛡️ SolidProof ✅ 80/100 — Max without KYC
