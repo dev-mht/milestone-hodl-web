@@ -1161,7 +1161,7 @@
         <div id="musicWidget">
             <div id="musicLabel">🎵 CED'S VIBES — MHT SOUNDTRACK</div>
             <iframe id="scWidget"
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/revegeneralcollectif&color=%233b82f6&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"
+                id="scWidget" src=""
                 width="280" height="166" frameborder="0" scrolling="no" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-popups">
             </iframe>
         </div>
@@ -1220,5 +1220,12 @@
         placeholder.style.display = 'none';
     }
     </script>
+    <script src="music-config.js"></script>
+<script>
+document.getElementById('scWidget').src = 
+  'https://w.soundcloud.com/player/?url=' + 
+  encodeURIComponent(SOUNDCLOUD_URL) + 
+  '&color=%233b82f6&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false';
+</script>
 </body>
 </html>
