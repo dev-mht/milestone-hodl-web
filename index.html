@@ -302,7 +302,7 @@
 
 
     <!-- ═══ PRESALE BANNER + COUNTDOWN ═══ -->
-    <div style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 12px 20px; text-align: center; position: relative; z-index: 100;">
+    <div id="presale-banner" style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 12px 20px; text-align: center; position: relative; z-index: 100;">
 
         <!-- Ligne 1 : infos audit + Telegram -->
         <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.75rem; margin-bottom: 6px;">
@@ -313,7 +313,7 @@
 
         <!-- Ligne 2 : date de lancement -->
         <div style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ffe066; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px;">
-            🚀 PRESALE OPENS — MONDAY MARCH 30th 2026 AT 14:00 UTC — ON <a href="https://apexpad.io" target="_blank" style="color:#ffe066; text-decoration:none;">ApexPad</a>
+            <span id="launch-text">🚀 PRESALE OPENS — WEDNESDAY APRIL 1st 2026 AT 12:00 UTC — ON <a href="https://apexpad.io" target="_blank" style="color:#ffe066; text-decoration:none;">ApexPad</a></span>
         </div>
 
         <!-- Ligne 3 : Countdown cliquable -->
@@ -343,20 +343,52 @@
     </div>
 
     <!-- ═══ COUNTDOWN SCRIPT ═══ -->
+    <style>
+        @keyframes blink-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.05); }
+        }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.5); }
+            50% { box-shadow: 0 0 40px rgba(34,197,94,0.9); }
+        }
+        .live-badge { animation: blink-live 0.8s ease-in-out infinite; display: inline-block; }
+        .live-banner { animation: pulse-green 1.5s ease-in-out infinite; }
+    </style>
     <script>
-        const presaleStart = new Date('2026-03-30T14:00:00Z').getTime();
-        const presaleEnd   = new Date('2026-04-13T14:00:00Z').getTime();
+        const presaleStart = new Date('2026-04-01T12:00:00Z').getTime();
+        const presaleEnd   = new Date('2026-04-15T12:00:00Z').getTime();
         function padCD(n) { return String(n).padStart(2, '0'); }
         function updateCD() {
-            const now    = Date.now();
+            const now     = Date.now();
             const wrapper = document.getElementById('countdown-wrapper');
+            const banner  = document.getElementById('presale-banner');
+            const launchText = document.getElementById('launch-text');
             if (!wrapper) return;
+
             if (now >= presaleEnd) {
                 wrapper.innerHTML = '<span style="font-family:Orbitron,sans-serif;font-size:1.4rem;font-weight:900;color:#ffe066;letter-spacing:2px;">🎉 PRESALE ENDED</span>';
                 return;
             }
-            const target = now < presaleStart ? presaleStart : presaleEnd;
-            const diff   = target - now;
+
+            if (now >= presaleStart) {
+                if (banner) {
+                    banner.style.background = 'linear-gradient(90deg, #16a34a, #15803d, #166534)';
+                    banner.classList.add('live-banner');
+                }
+                if (launchText) {
+                    launchText.innerHTML = '🟢 PRESALE IS LIVE — BUY $MHT NOW ON <a href="https://apexpad.io/presale.html" target="_blank" style="color:#ffe066;text-decoration:none;">ApexPad</a>';
+                }
+                const diff    = presaleEnd - now;
+                const days    = Math.floor(diff / 86400000);
+                const hours   = Math.floor((diff % 86400000) / 3600000);
+                const minutes = Math.floor((diff % 3600000) / 60000);
+                const seconds = Math.floor((diff % 60000) / 1000);
+                wrapper.innerHTML = '<span class="live-badge" style="font-family:Orbitron,sans-serif;font-size:1.6rem;font-weight:900;color:#4ade80;letter-spacing:3px;text-shadow:0 0 20px rgba(74,222,128,0.8);">🔴 PRESALE IS LIVE</span><span style="font-family:Orbitron,sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.7);margin-left:16px;">ends in ' + padCD(days) + 'd ' + padCD(hours) + 'h ' + padCD(minutes) + 'm ' + padCD(seconds) + 's</span>';
+                return;
+            }
+
+            const diff    = presaleStart - now;
             const days    = Math.floor(diff / 86400000);
             const hours   = Math.floor((diff % 86400000) / 3600000);
             const minutes = Math.floor((diff % 3600000) / 60000);
