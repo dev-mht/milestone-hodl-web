@@ -21,8 +21,7 @@
         .nav-right { flex: 1; text-align: right; min-width: 150px; }
         .nav-logo { width: 42px; height: 42px; object-fit: contain; }
         .brand-text { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; background: linear-gradient(to right, #ffffff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-slogan { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; }
-        .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        .nav-slogan { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700; color: #f97316; letter-spacing: 2px; text-transform: uppercase; }         .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .btn-connect:hover { opacity: 0.9; transform: scale(1.03); }
 
         /* Dashboard */
@@ -290,8 +289,8 @@
                 <span class="brand-text">MHT . MILESTONE HODL</span>
             </div>
             <div class="nav-center">
-                <div class="nav-slogan">Trust the process • Earn the growth</div>
-            </div>
+<div class="nav-slogan">🔥 TRUST THE PROCESS 🤝 EARN THE GROWTH 🔥</div>   
+         </div>
             <div class="nav-right">
                 <button class="btn-connect" id="connectWalletBtn">
                     <i class="bi bi-wallet2 me-2"></i>Connect
@@ -308,16 +307,15 @@
         <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.75rem; margin-bottom: 6px;">
             🛡️ SOLIDPROOF AUDIT ✅ 80/100 &nbsp;|&nbsp;
             <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram</a>
-            &nbsp;|&nbsp; 🔥 LIMITED ALLOCATION &nbsp;|&nbsp; ⚡ 0% BUY TAX DURING PRESALE
+           &nbsp;|&nbsp; <a href="https://bscscan.com/token/0x4EA0b53dC11c6C361904383b20E321d1478C37ac" target="_blank" style="color:#ffe066; text-decoration:none;">📋 0x4EA0b53dC11c6C361904383b20E321d1478C37ac</a> &nbsp;|&nbsp; 🔥 PANCAKESWAP — COMING SOON
         </div>
 
         <!-- Ligne 2 : date de lancement -->
         <div style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ffe066; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px;">
-            <span id="launch-text">🚀 PRESALE OPENS — WEDNESDAY APRIL 1st 2026 AT 12:00 UTC — ON <a href="https://apexpad.io" target="_blank" style="color:#ffe066; text-decoration:none;">ApexPad</a></span>
-        </div>
-
+<span id="launch-text"></span>
+        </div> 
+        
         <!-- Ligne 3 : Countdown cliquable -->
-        <a href="https://apexpad.io" target="_blank" style="text-decoration: none; display: inline-block;" title="Join the $MHT Presale on ApexPad">
             <div id="countdown-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
                     <span id="cd-days" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
@@ -339,7 +337,7 @@
                     <span style="font-size:0.55rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); text-transform:uppercase; margin-top:2px;">Seconds</span>
                 </div>
             </div>
-        </a>
+        
     </div>
 
     <!-- ═══ COUNTDOWN SCRIPT ═══ -->
@@ -367,7 +365,7 @@
             if (!wrapper) return;
 
             if (now >= presaleEnd) {
-                wrapper.innerHTML = '<span style="font-family:Orbitron,sans-serif;font-size:1.4rem;font-weight:900;color:#ffe066;letter-spacing:2px;">🎉 PRESALE ENDED</span>';
+                wrapper.innerHTML = '<span style="font-family:Orbitron,sans-serif;font-size:1.4rem;font-weight:900;color:#ffe066;letter-spacing:2px;">🔥 DEX LAUNCH COMING SOON</span>';
                 return;
             }
 
