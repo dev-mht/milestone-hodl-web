@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>MHT . MILESTONE HODL TOKEN</title>
+    <title>MHT V2 . MILESTONE HODL TOKEN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -448,14 +448,16 @@
                     <div class="mt-3 small" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
                         <ul class="list-unstyled mb-3">
                             <li><span style="color:#3b82f6">●</span> Smart-Vault: <strong>50%</strong></li>
-                            <li><span style="color:#64748b">●</span> Liquidity: <strong>20%</strong></li>
-                            <li><span style="color:#10b981">●</span> Presale: <strong>10%</strong></li>
-                            <li><span style="color:#f59e0b">●</span> Marketing: <strong>15%</strong></li>
-                            <li><span style="color:#ef4444">●</span> Team: <strong>5%</strong></li>
+                            <li><span style="color:#64748b">●</span> LP Progressive: <strong>20%</strong></li>
+                            <li><span style="color:#10b981">●</span> V1 Holder Bonus: <strong>5%</strong></li>
+                            <li><span style="color:#f59e0b">●</span> Marketing: <strong>10%</strong></li>
+                            <li><span style="color:#a78bfa">●</span> Ex-Presale LP: <strong>10%</strong></li>
+                            <li><span style="color:#ef4444">●</span> Founder: <strong>5%</strong></li>
                         </ul>
                         <div class="pt-2 border-top border-secondary">
-                            <p class="mb-1" style="color:#3b82f6"><i class="bi bi-shield-check"></i> Buy Tax: 2% (1% Burn/1% Mkt)</p>
-                            <p class="mb-0" style="color:#8b5cf6"><i class="bi bi-graph-up-arrow"></i> Sell Tax: 5% (1% Burn/4% Mkt)</p>
+                            <p class="mb-1" style="color:#3b82f6"><i class="bi bi-shield-check"></i> Buy Tax: 2% (1% Burn / 1% Mkt BNB)</p>
+                            <p class="mb-1" style="color:#8b5cf6"><i class="bi bi-graph-up-arrow"></i> Sell Tax: 5% (1% Burn / 2% Mkt BNB / 2% Auto-LP)</p>
+                            <p class="mb-0" style="color:#22c55e; font-size:0.75rem;"><i class="bi bi-lock-fill"></i> renounceOwnership() at launch — trustless forever</p>
                         </div>
                         <!-- ATTENTION sticker sous tokenomics -->
                         <div style="text-align:center; margin-top:auto; padding-top:15px;">
@@ -579,9 +581,9 @@
                     </small>
                     <div id="lp-status" class="small text-start">
                         <span class="text-muted">⏳ T1 : 80M (Launch)</span><br>
-                        <span class="text-muted">🔒 T2 : 40M (Milestone 5)</span><br>
-                        <span class="text-muted">🔒 T3 : 40M (Milestone 10)</span><br>
-                        <span class="text-muted">🔒 T4 : 40M (Milestone 25)</span>
+                        <span class="text-muted">🔒 T2 : 40M ($10M MCap)</span><br>
+                        <span class="text-muted">🔒 T3 : 40M ($25M MCap)</span><br>
+                        <span class="text-muted">🔒 T4 : 40M ($50M MCap)</span>
                     </div>
                     <small class="text-secondary d-block mt-2">LP remaining in contract</small>
                     <span class="fw-bold text-warning" id="liquidity-balance">— MHT</span>
@@ -594,6 +596,53 @@
             </div>
         </section>
 
+
+        <!-- ═══ V2 MIGRATION NOTICE ═══ -->
+        <section class="container my-5 py-4" style="border: 1px solid rgba(249,115,22,0.4); border-radius: 20px; background: rgba(249,115,22,0.05);">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <h3 style="font-family:'Orbitron'; color:#f97316; letter-spacing:2px; margin-bottom:16px;">🚨 V2 IS COMING — HERE'S WHAT CHANGED</h3>
+                    <p style="color:#94a3b8; font-size:0.9rem; line-height:1.7;">We discovered a bug in V1: market cap was calculated on circulating supply instead of <strong style="color:white;">TOTAL_SUPPLY</strong>. This meant milestones would never trigger at the right time. We're not hiding it — we're fixing it completely with V2.</p>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:16px;">
+                                <div style="color:#4ade80; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">✅ V2 FIXES</div>
+                                <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.8;">
+                                    <li>✅ MCap on TOTAL_SUPPLY via Chainlink</li>
+                                    <li>✅ 5% vault release (floor 1M / cap 20M)</li>
+                                    <li>✅ USD-stable price via Chainlink BNB/USD</li>
+                                    <li>✅ Auto-LP 2% on every sell</li>
+                                    <li>✅ Marketing receives BNB auto-swap</li>
+                                    <li>✅ renounceOwnership() — trustless forever</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:16px;">
+                                <div style="color:#a78bfa; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">🎁 V1 HOLDER REWARDS</div>
+                                <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.8;">
+                                    <li>🔄 1:1 Migration — every V1 token = 1 V2 token</li>
+                                    <li>🎁 50,000,000 MHT bonus pool for V1 holders</li>
+                                    <li>📸 Snapshot date announced on launch day</li>
+                                    <li>🔒 No presale — direct DEX launch</li>
+                                    <li>💎 Early holders = best bonus position</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div style="background:rgba(249,115,22,0.1); border:2px solid rgba(249,115,22,0.4); border-radius:20px; padding:24px;">
+                        <div style="font-family:'Orbitron'; font-size:0.7rem; color:#f97316; letter-spacing:2px; margin-bottom:12px;">🔐 TRUSTLESS COMMITMENT</div>
+                        <p style="color:white; font-size:0.85rem; line-height:1.6; margin-bottom:16px;">Once V2 is deployed, ownership will be permanently renounced.<br><br><strong style="color:#f97316;">No admin. No backdoor.<br>Not even the dev can touch it.</strong></p>
+                        <a href="https://pancakeswap.finance/swap?outputCurrency=0x4EA0b53dC11c6C361904383b20E321d1478C37ac" target="_blank"
+                           style="background:linear-gradient(45deg,#f97316,#ef4444);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
+                            🔥 Buy V1 Now — Get V2 Bonus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- ═══════════════════════════════════════════════
              HOW IT WORKS
@@ -622,15 +671,15 @@
                         <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
                         <div style="font-family: 'Orbitron'; color: #22c55e; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 3</div>
                         <h6 style="color: white; font-weight: bold;">Chainlink Executes</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">5,000,000 MHT released automatically — zero human action needed.</p>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">5% of vault released automatically (floor 1M, cap 20M MHT) — zero human action. Ever.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-6 text-center">
                     <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(245,158,11,0.2); height: 100%;">
                         <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
                         <div style="font-family: 'Orbitron'; color: #f59e0b; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 4</div>
-                        <h6 style="color: white; font-weight: bold;">You Claim Rewards</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% goes to holders pro-rata. Connect wallet and claim anytime.</p>
+                        <h6 style="color: white; font-weight: bold;">Auto-Split & Rewards</h6>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% to holders pro-rata. 15% auto-LP. 15% marketing (BNB). All automatic, forever.</p>
                     </div>
                 </div>
             </div>
@@ -670,9 +719,11 @@
                         <span class="roadmap-phase">PHASE 1</span>
                         <h4>✅ Genesis & Launch</h4>
                         <ul>
-                            <li class="done">✅ Smart Contract Security Audit — SolidProof 80/100 Maximum score without KYC</li>
+                            <li class="done">✅ Smart Contract Security Audit — SolidProof 80/100</li>
                             <li class="done">✅ MHT Dashboard V5 Release</li>
                             <li class="done">✅ PancakeSwap Listed — LIVE 🔥</li>
+                            <li class="done">✅ DEX Launch — 17 April 2026</li>
+                            <li style="color:#f97316;">🔧 Bug identified in V1 — V2 in development</li>
                         </ul>
                     </div>
                 </div>
@@ -690,12 +741,13 @@
                 <div style="width:400px; padding-right:30px; text-align:right;">
                     <div class="roadmap-content">
                         <span class="roadmap-phase">PHASE 2</span>
-                        <h4>$1M Market Cap</h4>
+                        <h4>🔧 V2 Migration & $1M MCap</h4>
                         <ul style="text-align:left;">
-                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> 5,000,000 MHT Released from Vault</strong></li>
-                            <li>Every +$1M Market Cap triggers a new automated drop</li>
-                            <li>Chainlink Automation Integration (Mainnet)</li>
-                            <li>Coingecko &amp; CoinMarketCap Listing Application</li>
+                            <li style="color:#f97316;"><strong>🔧 MHT V2 Deploy — renounceOwnership() — trustless forever</strong></li>
+                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> V1 Holders: 1:1 Migration + 50M Bonus Pool</strong></li>
+                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> First Milestone — 5% vault released (cap 20M MHT)</strong></li>
+                            <li>Chainlink Automation — MCap based on TOTAL_SUPPLY</li>
+                            <li>CoinGecko & CoinMarketCap Listing Application</li>
                         </ul>
                     </div>
                 </div>
@@ -818,12 +870,13 @@
             <div class="doc-card" style="flex:1;">
                 <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
                 <ul class="list-unstyled small text-secondary">
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> verified price milestones.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% of Release</strong> goes directly to Holders.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Anti-Whale</strong> & Deflationary mechanisms.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>24h Cooldown</strong> between milestone executions.</li>
-                    <li><i class="bi bi-check2-circle text-success me-2"></i> <strong>Two-Step Ownership</strong> & Timelock on market cap.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault — asymptotic release.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> MCap on TOTAL_SUPPLY — no more bug.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>5% vault / milestone</strong> — floor 1M, cap 20M MHT.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>70% Holders / 15% Auto-LP / 15% Marketing BNB.</strong></li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>Auto-LP 2%</strong> on every sell — price floor reinforced automatically.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-warning me-2"></i> <strong>USD-stable presale price</strong> via Chainlink BNB/USD oracle.</li>
+                    <li><i class="bi bi-check2-circle text-danger me-2"></i> <strong>renounceOwnership()</strong> at launch — no admin, no backdoor. Forever.</li>
                 </ul>
             </div>
             <!-- TEAM_MHT alignée à droite -->
@@ -847,7 +900,7 @@
                     </h2>
                     <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
                         <div class="accordion-body text-secondary">
-                            Every time the Market Cap grows by <strong class="text-white">$1,000,000</strong>, Chainlink Automation automatically triggers a release of <strong class="text-white">5,000,000 MHT</strong> from the Smart-Vault. A <strong class="text-white">24-hour cooldown</strong> between milestones prevents rapid vault draining. There is no cap: each new $1M of growth unlocks a new reward cycle.
+                            Every time the Market Cap grows by <strong class="text-white">$1,000,000</strong>, Chainlink Automation automatically triggers a release of <strong class="text-white">5% of the remaining vault</strong> from the Smart-Vault (minimum 1M MHT, maximum 20M MHT). Market Cap is calculated on <strong class="text-white">TOTAL_SUPPLY</strong> via Chainlink price feed. A <strong class="text-white">24-hour cooldown</strong> between milestones prevents rapid vault draining. The vault never reaches zero — it's mathematically asymptotic.
                         </div>
                     </div>
                 </div>
@@ -899,7 +952,7 @@
                     </h2>
                     <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
                         <div class="accordion-body text-secondary">
-                            Each release is split automatically by the contract: <strong class="text-white">70% (3,500,000 MHT)</strong> goes directly to eligible holders pro-rata, and <strong class="text-white">30% (1,500,000 MHT)</strong> is sent to marketing to fuel further growth.
+                            Each release is split automatically by the contract: <strong class="text-white">70% goes directly to eligible holders pro-rata</strong>, <strong class="text-white">15% is injected into the liquidity pool automatically</strong> (strengthening the price floor), and <strong class="text-white">15% is swapped to BNB and sent to the marketing wallet</strong> — fully automatic, zero human intervention.
                         </div>
                     </div>
                 </div>
@@ -933,6 +986,7 @@
            <div class="d-flex justify-content-center gap-4 mb-4">
     <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
     <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
+    <a href="https://x.com/apexpad_io" target="_blank" class="text-white fs-3" style="color:#f97316 !important;"><i class="bi bi-twitter-x"></i></a>
     <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="text-white fs-3"><i class="bi bi-youtube"></i></a>
     <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="text-white fs-3"><i class="bi bi-tiktok"></i></a>
 </div>
@@ -969,10 +1023,10 @@
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Milestones', 'Liquidity', 'Presale', 'Marketing', 'Team'],
+            labels: ['Smart-Vault', 'LP Progressive', 'V1 Holder Bonus', 'Marketing', 'Ex-Presale LP', 'Founder'],
             datasets: [{
-                data: [50, 20, 10, 15, 5],
-                backgroundColor: ['#3b82f6', '#64748b', '#10b981', '#f59e0b', '#ef4444'],
+                data: [50, 20, 5, 10, 10, 5],
+                backgroundColor: ['#3b82f6', '#64748b', '#10b981', '#f59e0b', '#a78bfa', '#ef4444'],
                 borderWidth: 0
             }]
         },
@@ -1231,9 +1285,10 @@
             return;
         }
 
-        const VAULT_RELEASE = 5_000_000;
+        const VAULT_REMAINING = 500_000_000;
+        const VAULT_RELEASE = Math.min(Math.max(VAULT_REMAINING * 0.05, 1_000_000), 20_000_000);
         const HOLDER_SHARE  = 0.70;
-        const rewardPool    = VAULT_RELEASE * HOLDER_SHARE;   // 3,500,000 MHT
+        const rewardPool    = VAULT_RELEASE * HOLDER_SHARE;
         const sharePct      = mht / circ;
         const mhtReward     = sharePct * rewardPool;
         const usdReward     = mhtReward * price;
