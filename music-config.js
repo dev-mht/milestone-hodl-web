@@ -1,5 +1,5 @@
 
 
 
-const SOUNDCLOUD_URL = 'https://soundcloud.com/teppish-people/cadavre-exquis-myga-mino';
+const SOUNDCLOUD_URL = 'https://soundcloud.com/ced-supervagabond/sets/favoris-lives';
 
