@@ -305,9 +305,9 @@
 
         <!-- Ligne 1 : infos audit + Telegram -->
         <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.75rem; margin-bottom: 6px;">
-            🛡️ SOLIDPROOF AUDIT V1 ✅ 80/100 &nbsp;|&nbsp; 🔥 V2.1 RE-AUDIT IN PROGRESS &nbsp;|&nbsp; ✅ FOUNDER KYC VERIFIED &nbsp;|&nbsp;
+            🛡️ SOLIDPROOF AUDIT V2.3 ✅ 85.36/100 &nbsp;|&nbsp; ✅ FOUNDER KYC VERIFIED &nbsp;|&nbsp;
             <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram</a>
-            &nbsp;|&nbsp; <span style="color:#f97316; font-weight:bold;">⏳ V2.1 MAINNET ADDRESS — POST DEPLOY</span>
+            &nbsp;|&nbsp; <span style="color:#4ade80; font-weight:bold;">✅ CONTRACT: 0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</span>
         </div>
 
         <!-- Ligne 2 : date de lancement -->
@@ -440,43 +440,20 @@
         const presaleEnd   = new Date('2026-04-15T12:00:00Z').getTime();
         function padCD(n) { return String(n).padStart(2, '0'); }
         function updateCD() {
-            const now     = Date.now();
             const wrapper = document.getElementById('countdown-wrapper');
             const banner  = document.getElementById('presale-banner');
             const launchText = document.getElementById('launch-text');
             if (!wrapper) return;
 
-            if (now >= presaleEnd) {
-                wrapper.innerHTML = '<span style="font-family:Orbitron,sans-serif;font-size:1.4rem;font-weight:900;color:#f97316;letter-spacing:2px;">🔥 $MHT V2.1 — COMING SOON</span><br><span style="font-family:Orbitron,sans-serif;font-size:0.85rem;color:#94a3b8;letter-spacing:1px;">Audit report pending • Deploy imminent</span>';
-                return;
+            // MHT V2.3 est LIVE — afficher le statut live
+            if (banner) {
+                banner.style.background = 'linear-gradient(90deg, #16a34a, #15803d, #166534)';
+                banner.classList.add('live-banner');
             }
-
-            if (now >= presaleStart) {
-                if (banner) {
-                    banner.style.background = 'linear-gradient(90deg, #16a34a, #15803d, #166534)';
-                    banner.classList.add('live-banner');
-                }
-                if (launchText) {
-                    launchText.innerHTML = '🟢 PRESALE IS LIVE — BUY $MHT NOW ON <a href="https://apexpad.io/presale.html" target="_blank" style="color:#ffe066;text-decoration:none;">ApexPad</a>';
-                }
-                const diff    = presaleEnd - now;
-                const days    = Math.floor(diff / 86400000);
-                const hours   = Math.floor((diff % 86400000) / 3600000);
-                const minutes = Math.floor((diff % 3600000) / 60000);
-                const seconds = Math.floor((diff % 60000) / 1000);
-                wrapper.innerHTML = '<span class="live-badge" style="font-family:Orbitron,sans-serif;font-size:1.6rem;font-weight:900;color:#4ade80;letter-spacing:3px;text-shadow:0 0 20px rgba(74,222,128,0.8);">🔴 PRESALE IS LIVE</span><span style="font-family:Orbitron,sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.7);margin-left:16px;">ends in ' + padCD(days) + 'd ' + padCD(hours) + 'h ' + padCD(minutes) + 'm ' + padCD(seconds) + 's</span>';
-                return;
+            if (launchText) {
+                launchText.innerHTML = '🟢 $MHT V2.3 IS LIVE ON PANCAKESWAP — <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#ffe066;text-decoration:none;">VIEW CHART 📊</a>';
             }
-
-            const diff    = presaleStart - now;
-            const days    = Math.floor(diff / 86400000);
-            const hours   = Math.floor((diff % 86400000) / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-            document.getElementById('cd-days').textContent    = padCD(days);
-            document.getElementById('cd-hours').textContent   = padCD(hours);
-            document.getElementById('cd-minutes').textContent = padCD(minutes);
-            document.getElementById('cd-seconds').textContent = padCD(seconds);
+            wrapper.innerHTML = '<span class="live-badge" style="font-family:Orbitron,sans-serif;font-size:1.6rem;font-weight:900;color:#4ade80;letter-spacing:3px;text-shadow:0 0 20px rgba(74,222,128,0.8);">🔴 LIVE ON BSC — PANCAKESWAP V2</span>';
         }
         updateCD();
         setInterval(updateCD, 1000);
@@ -504,7 +481,7 @@
                 </p>
                 <!-- Referral link inside progress box -->
                 <div style="text-align:center; margin-top:12px;">
-                    <a href="https://dexscreener.com/bsc/0x50A8cDCC0AB45032E8089837B27c92646a885bD3" target="_blank"
+                    <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
                        style="background:linear-gradient(45deg,#3b82f6,#8b5cf6);color:white;padding:10px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
                         📊 LIVE CHART — DEXSCREENER
                     </a>
@@ -553,7 +530,10 @@
             <div class="center-col">
                 <img src="baron.png" alt="The Baron" class="baron-img">
                 <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:15px;">
-                    <span class="btn-buy" style="opacity:0.6; cursor:default; background:#1e293b; border:1px solid rgba(255,255,255,0.1); color:#94a3b8;">🔥 V2.1 — Coming Soon</span>
+                    <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
+                       class="btn-buy">
+                        🥞 Buy $MHT on PancakeSwap
+                    </a>
                <!-- 
                     <a href="https://apexpad.io/mht/contact.html" target="_blank"
                        style="background:linear-gradient(45deg,#f97316,#ef4444);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.9rem;display:inline-block;transition:0.3s;"
@@ -656,8 +636,6 @@
                 <div class="wallet-card">
                     <small class="text-secondary d-block">Current Market Cap</small>
                     <span class="fw-bold text-success" id="market-cap">$0</span>
-                    <!-- ✅ V4 — Timelock Market Cap (H-03) -->
-                    <div id="marketCapTimelock" class="info-badge badge-timelock mt-2" style="display:none;"></div>
                 </div>
 
                 <!-- ✅ V4 — Eligible Supply (H-02) -->
@@ -669,11 +647,11 @@
                     <span class="fw-bold text-info" id="eligible-supply">— MHT</span>
                 </div>
 
-                <!-- ✅ V4.1 — LP Progressive Status -->
+                <!-- ✅ V2.3 — LP Progressive Status (5 tranches MCap) -->
                 <div class="wallet-card">
                     <small class="text-secondary d-block mb-2">
-                        Liquidity Tranches
-                        <span class="ms-1" style="cursor:help;" title="200M MHT released progressively in 4 tranches">ⓘ</span>
+                        LP Tranches (MCap)
+                        <span class="ms-1" style="cursor:help;" title="200M MHT released in 5 tranches at $1.5M/$10M/$25M/$50M/$75M MCap">ⓘ</span>
                     </small>
                     <div id="lp-status" class="small text-start">
                         <span class="text-muted">🔒 T1 : 40M ($1.5M MCap)</span><br>
@@ -682,60 +660,76 @@
                         <span class="text-muted">🔒 T4 : 40M ($50M MCap)</span><br>
                         <span class="text-muted">🔒 T5 : 40M ($75M MCap)</span>
                     </div>
-                    <small class="text-secondary d-block mt-2">LP remaining in contract</small>
-                    <span class="fw-bold text-warning" id="liquidity-balance">— MHT</span>
-                    <!-- Bouton owner uniquement -->
-                    <button class="btn-claim mt-2" id="enableTradingBtn" disabled
-                        style="background: linear-gradient(45deg, #10b981, #3b82f6); display:none;">
-                        <i class="bi bi-lightning me-2"></i>Enable Trading (80M LP)
-                    </button>
+                </div>
+
+                <!-- ✅ V2.3 — Flush LP (6 paliers prix) -->
+                <div class="wallet-card">
+                    <small class="text-secondary d-block mb-2">
+                        Flush LP (Price Tiers)
+                        <span class="ms-1" style="cursor:help;" title="61.7M MHT released in 6 price tiers ($0.0003 → $0.0008)">ⓘ</span>
+                    </small>
+                    <div id="flush-status" class="small text-start">
+                        <span class="text-muted">🔒 F1 @ $0.0003</span><br>
+                        <span class="text-muted">🔒 F2 @ $0.0004</span><br>
+                        <span class="text-muted">🔒 F3 @ $0.0005</span><br>
+                        <span class="text-muted">🔒 F4 @ $0.0006</span><br>
+                        <span class="text-muted">🔒 F5 @ $0.0007</span><br>
+                        <span class="text-muted">🔒 F6 @ $0.0008</span>
+                    </div>
+                </div>
+
+                <!-- ✅ V2.3 — Vault Balance -->
+                <div class="wallet-card">
+                    <small class="text-secondary d-block">Smart Vault Balance</small>
+                    <span class="fw-bold text-primary" id="vault-balance">— MHT</span>
                 </div>
             </div>
         </section>
 
 
-        <!-- ═══ V2.1 DEX LAUNCH NOTICE ═══ -->
-        <section class="container my-5 py-4" style="border: 1px solid rgba(249,115,22,0.4); border-radius: 20px; background: rgba(249,115,22,0.05);">
+        <!-- ═══ V2.3 LIVE ═══ -->
+        <section class="container my-5 py-4" style="border: 1px solid rgba(34,197,94,0.4); border-radius: 20px; background: rgba(34,197,94,0.05);">
             <div class="row align-items-center g-4">
                 <div class="col-lg-8">
-                    <h3 style="font-family:'Orbitron'; color:#f97316; letter-spacing:2px; margin-bottom:16px;">🔥 MHT V2.1 — DEX LAUNCH INCOMING</h3>
-                    <p style="color:#94a3b8; font-size:0.9rem; line-height:1.7;">V1 is live. V2.1 is the final architecture — fully audited (Foundry 17/17 · Echidna 15/15 · Aderyn · Slither · SolidityScan) and currently under <strong style="color:white;">SolidProof re-audit</strong>. Deploy follows audit clearance. All V1 holders are rewarded automatically at deploy.</p>
+                    <h3 style="font-family:'Orbitron'; color:#4ade80; letter-spacing:2px; margin-bottom:16px;">✅ MHT V2.3 — LIVE ON BSC MAINNET</h3>
+                    <p style="color:#94a3b8; font-size:0.9rem; line-height:1.7;">V2.3 is deployed, audited by SolidProof (85.36/100), LP locked 6 months on PinkLock, Chainlink Automation active. All V1 holders received their snapshot airdrop automatically at deploy.</p>
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:16px;">
-                                <div style="color:#4ade80; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">✅ V2.1 ARCHITECTURE</div>
+                                <div style="color:#4ade80; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">✅ V2.3 LIVE</div>
                                 <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.9;">
+                                    <li>✅ SolidProof Audit 85.36/100</li>
                                     <li>✅ 5% vault asymptotique (floor 1M / cap 20M MHT)</li>
-                                    <li>✅ MCap sur TOTAL_SUPPLY via Chainlink BNB/USD</li>
-                                    <li>✅ 70% holders / 15% auto-LP burned / 15% mkt BNB</li>
+                                    <li>✅ 70% holders / 30% marketing BNB</li>
                                     <li>✅ 5 tranches LP progressives ($1.5M → $75M MCap)</li>
                                     <li>✅ Flush LP 6 paliers prix ($0.0003 → $0.0008)</li>
-                                    <li>✅ Snapshot V1 hardcodé au deploy — zéro claim</li>
-                                    <li>✅ renounceOwnership() — trustless forever</li>
+                                    <li>✅ Snapshot V1 hardcodé — airdrop instantané au deploy</li>
+                                    <li>✅ LP PinkLock 6 mois</li>
+                                    <li>✅ Chainlink Automation active</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:16px;">
-                                <div style="color:#a78bfa; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">🎁 V1 HOLDERS — REWARDED AT DEPLOY</div>
+                                <div style="color:#a78bfa; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">📍 CONTRACT INFO</div>
                                 <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.9;">
-                                    <li>🎁 Snapshot hardcodé — distribution instantanée au deploy</li>
-                                    <li>💎 Proportionnel à votre solde V1 au 23/04/2026</li>
-                                    <li>🔥 Part fondateur → flush LP automatique (brûlé)</li>
-                                    <li>🔒 No presale — direct DEX launch via PancakeSwap</li>
-                                    <li>📍 30M MHT + 10 BNB → liquidité initiale PinkLock 6m</li>
+                                    <li>📍 <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#60a5fa;">0x22E0...33fa</a></li>
+                                    <li>💧 30M MHT + 10 BNB — PinkLock 6 mois</li>
+                                    <li>📊 Prix launch : $0.000205</li>
+                                    <li>🔒 LP locked until 2026-11-04</li>
+                                    <li>⚡ Chainlink Automation active</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 text-center">
-                    <div style="background:rgba(249,115,22,0.1); border:2px solid rgba(249,115,22,0.4); border-radius:20px; padding:24px;">
-                        <div style="font-family:'Orbitron'; font-size:0.7rem; color:#f97316; letter-spacing:2px; margin-bottom:12px;">🔐 TRUSTLESS COMMITMENT</div>
-                        <p style="color:white; font-size:0.85rem; line-height:1.6; margin-bottom:16px;">Once V2.1 is deployed, ownership is permanently renounced.<br><br><strong style="color:#f97316;">No admin. No backdoor.<br>Not even the dev can touch it.</strong></p>
-                        <a href="https://apexpad.io/mht/mht_architecture.html" target="_blank"
-                           style="background:linear-gradient(45deg,#f97316,#ef4444);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
-                            🏗️ See Full V2.1 Architecture
+                    <div style="background:rgba(34,197,94,0.1); border:2px solid rgba(34,197,94,0.4); border-radius:20px; padding:24px;">
+                        <div style="font-family:'Orbitron'; font-size:0.7rem; color:#4ade80; letter-spacing:2px; margin-bottom:12px;">🔐 TRUSTLESS</div>
+                        <p style="color:white; font-size:0.85rem; line-height:1.6; margin-bottom:16px;">renounceOwnership() incoming.<br><br><strong style="color:#4ade80;">No admin. No backdoor.<br>Not even the dev can touch it.</strong></p>
+                        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
+                           style="background:linear-gradient(45deg,#22c55e,#16a34a);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
+                            🥞 Buy on PancakeSwap
                         </a>
                     </div>
                 </div>
@@ -753,7 +747,7 @@
                         <div style="font-size: 2.5rem; margin-bottom: 15px;">💎</div>
                         <div style="font-family: 'Orbitron'; color: #3b82f6; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 1</div>
                         <h6 style="color: white; font-weight: bold;">Buy & Hold MHT</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Purchase MHT on PancakeSwap and hold in your wallet. <span style="color:#f97316;">V2.1 coming soon 🔥</span></p>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Purchase MHT on PancakeSwap V2 and hold in your wallet. Connect your wallet above to track your rewards.</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-6 text-center">
@@ -777,16 +771,17 @@
                         <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
                         <div style="font-family: 'Orbitron'; color: #f59e0b; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 4</div>
                         <h6 style="color: white; font-weight: bold;">Auto-Split & Rewards</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% to holders pro-rata. 15% auto-LP (LP burned). 15% marketing swapped to BNB. All automatic, forever.</p>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% to holders pro-rata. 30% marketing swapped to BNB. All automatic, forever.</p>
                     </div>
                 </div>
             </div>
                 <div style="text-align:center; margin-top:20px;">
                     <div style="margin-top:30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
-                        <span style="background:linear-gradient(45deg,#1e293b,#0f172a);color:#94a3b8;padding:12px 35px;border-radius:50px;font-weight:bold;font-size:1rem;border:1px solid rgba(255,255,255,0.1);">
-                            🔥 V2.1 — Coming Soon
-                        </span>
-                        <a href="https://dexscreener.com/bsc/0x50A8cDCC0AB45032E8089837B27c92646a885bD3" target="_blank"
+                        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
+                           style="background:linear-gradient(45deg,#22c55e,#16a34a);color:white;padding:12px 35px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:1rem;">
+                            🥞 BUY $MHT ON PANCAKESWAP
+                        </a>
+                        <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
                            style="background:linear-gradient(45deg,#3b82f6,#8b5cf6);color:white;padding:12px 35px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:1rem;">
                             📊 DEXSCREENER CHART
                         </a>
@@ -837,13 +832,14 @@
                 <!-- Bloc Phase 2 gauche -->
                 <div style="width:400px; padding-right:30px; text-align:right;">
                     <div class="roadmap-content">
-                        <span class="roadmap-phase">PHASE 2</span>
-                        <h4>🔥 V2.1 DEX Launch & $1M MCap</h4>
+                        <span class="roadmap-phase">PHASE 2 ✅</span>
+                        <h4>✅ V2.3 DEX Launch — LIVE</h4>
                         <ul style="text-align:left;">
-                            <li style="color:#f97316;"><strong>🔥 MHT V2.1 Deploy — SolidProof re-audit — renounceOwnership() trustless forever</strong></li>
-                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> V1 Holders: snapshot hardcodé — airdrop instantané au deploy</strong></li>
-                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> First Milestone — 5% vault released (floor 1M / cap 20M MHT)</strong></li>
-                            <li>30M MHT + 10 BNB → LP initial PinkLock 6 mois</li>
+                            <li class="done">✅ MHT V2.3 Deploy — SolidProof 85.36/100 — BSC Mainnet</li>
+                            <li class="done">✅ V1 Holders: snapshot hardcodé — airdrop instantané au deploy</li>
+                            <li class="done">✅ 30M MHT + 10 BNB → LP initial PinkLock 6 mois</li>
+                            <li class="done">✅ Chainlink Automation active</li>
+                            <li style="color:#f97316;">🔥 renounceOwnership() — trustless forever (imminent)</li>
                             <li>T1 LP 40M auto @ $1.5M MCap — CoinGecko & CMC listing</li>
                         </ul>
                     </div>
@@ -949,8 +945,8 @@
                 <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
                     <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
                 </a>
-                <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
-                    <i class="bi bi-shield-check me-2"></i>AUDIT ✅ 80/100 (MAX without KYC)
+                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
+                    <i class="bi bi-shield-check me-2"></i>AUDIT V2.3 ✅ 85.36/100
                 </a>
                 <!-- S_P sous la bannière audit -->
                 <div style="width:100%; margin-top:15px;">
@@ -971,7 +967,7 @@
                 <ul class="list-unstyled small text-secondary">
                     <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault — asymptotic 5% release (floor 1M, cap 20M MHT).</li>
                     <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> MCap on <code>(TOTAL_SUPPLY - burned)</code> × price — tamper-proof.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% Holders / 15% Auto-LP / 15% Marketing BNB</strong> — per milestone.</li>
+                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% Holders / 30% Marketing BNB</strong> — per milestone.</li>
                     <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>5 LP tranches × 40M</strong> auto-released at $1.5M / $10M / $25M / $50M / $75M MCap.</li>
                     <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>LP tokens burned</strong> on every injection — permanent price floor.</li>
                     <li class="mb-2"><i class="bi bi-check2-circle text-warning me-2"></i> <strong>Snapshot V1 hardcodé</strong> au deploy — airdrop instantané, zéro claim nécessaire.</li>
@@ -1051,7 +1047,7 @@
                     </h2>
                     <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
                         <div class="accordion-body text-secondary">
-                            Each release is split automatically by the contract: <strong class="text-white">70% goes directly to eligible holders pro-rata</strong>, <strong class="text-white">15% is injected into the liquidity pool automatically</strong> (LP tokens burned — permanent price floor), and <strong class="text-white">15% is swapped to BNB and sent to the marketing wallet</strong> — fully automatic, zero human intervention.
+                            Each release is split automatically by the contract: <strong class="text-white">70% goes directly to eligible holders pro-rata</strong> and <strong class="text-white">30% is swapped to BNB and sent to the marketing wallet</strong> — fully automatic, zero human intervention.
                         </div>
                     </div>
                 </div>
@@ -1090,12 +1086,12 @@
     <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="text-white fs-3"><i class="bi bi-tiktok"></i></a>
 </div>
             <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
-                <span class="btn btn-sm rounded-pill" style="border:1px solid rgba(100,116,139,0.4);color:#64748b;font-size:0.75rem;cursor:default;">
-                    🔥 PancakeSwap V2.1 — Coming Soon
-                </span>
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
+                    🥞 Buy $MHT on PancakeSwap V2
+                </a>
               
-                <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
-                    🛡️ SolidProof V1 ✅ 80/100 — V2.1 Re-audit In Progress 🔥
+                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
+                    🛡️ SolidProof V2.3 ✅ 85.36/100
                 </a>
             </div>
             <p class="small text-secondary mb-0">© 2026 Milestone HODL Token. All rights reserved.</p>
@@ -1321,12 +1317,7 @@
             window.initMHT(provider, signer, address);
         }
 
-        // Afficher le bouton enableTrading si owner
-        const OWNER = "0x78581eCF79c1cEec3e1BB9A7b8c514E63F818176".toLowerCase();
-        const enableBtn = document.getElementById("enableTradingBtn");
-        if (enableBtn && address.toLowerCase() === OWNER) {
-            enableBtn.style.display = "block";
-        }
+        // Pas de bouton enableTrading en V2.3
 
         // Écoute changements
         ethereumProvider.on('accountsChanged', () => location.reload());
