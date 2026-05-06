@@ -1376,14 +1376,14 @@
         }
 
         const VAULT_REMAINING = 500_000_000;
-        const VAULT_RELEASE = Math.min(Math.max(VAULT_REMAINING * 0.05, 1_000_000), 20_000_000);
-        const HOLDER_SHARE  = 0.70;
-        const rewardPool    = VAULT_RELEASE * HOLDER_SHARE;
-        const sharePct      = mht / circ;
-        const mhtReward     = sharePct * rewardPool;
-        const usdReward     = mhtReward * price;
-        const totalValue    = mht * price;
-
+        const VAULT_RELEASE   = Math.min(Math.max(VAULT_REMAINING * 0.05, 1_000_000), 20_000_000);
+        const HOLDER_SHARE    = 0.70;
+        const rewardPool      = VAULT_RELEASE * HOLDER_SHARE;
+        const sharePct        = mht / circ;
+        const mhtReward       = sharePct * rewardPool;
+        const usdReward       = mhtReward * price;
+        const totalValue      = (mht + mhtReward) * price;
+        
         document.getElementById('calcShare').textContent      = (sharePct * 100).toFixed(4) + '%';
         document.getElementById('calcMHTReward').textContent  = mhtReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
         document.getElementById('calcUSDReward').textContent  = '$' + usdReward.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
