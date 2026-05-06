@@ -182,7 +182,7 @@ async function updateUI() {
             const triggers = ["$1.5M", "$10M", "$25M", "$50M", "$75M"];
             const flags    = [t1, t2, t3, t4, t5];
             lpStatusEl.innerHTML = flags.map((f, i) =>
-                `<span class="${f ? "text-success" : "text-muted"}">
+                `<span style="color:${f ? "#22c55e" : "#f97316"}">
                     ${f ? "✅" : "🔒"} LP T${i + 1} : 40M @ ${triggers[i]}
                 </span>`
             ).join("<br>");
@@ -195,7 +195,7 @@ async function updateUI() {
             const prices = ["$0.0003", "$0.0004", "$0.0005", "$0.0006", "$0.0007", "$0.0008"];
             const flags  = [f1, f2, f3, f4, f5, f6];
             flushStatusEl.innerHTML = flags.map((f, i) =>
-                `<span class="${f ? "text-success" : "text-muted"}">
+                `<span style="color:${f ? "#22c55e" : "#f97316"}">
                     ${f ? "✅" : "🔒"} Flush F${i + 1} @ ${prices[i]}
                 </span>`
             ).join("<br>");
