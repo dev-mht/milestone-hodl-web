@@ -496,7 +496,7 @@
                         </label>
                         <input type="number" id="buyCurrentPrice" step="0.000001" min="0"
                             style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.35);border-radius:10px;padding:10px 14px;color:#22c55e;font-size:0.9rem;outline:none;"
-                            oninput="calcBuy()" placeholder="auto-filled…">
+                            oninput="this.dataset.userModified='1'; calcBuy()" placeholder="auto-filled…">
                     </div>
 
                     <!-- Target price -->
@@ -1292,11 +1292,15 @@
             if (json.result && json.result !== '0x') {
                 const supply = Number(BigInt(json.result)) / 1e18;
                 const el = document.getElementById('calcCirc');
-                if (el && supply > 0) { el.value = Math.round(supply); el.style.color = '#22c55e'; }
+                if (el && supply > 0) {
+                    el.value = Math.round(supply);
+                    el.style.color = '#22c55e'; // vert = données on-chain live
+                    calcReward(); // recalcule avec la vraie supply
+                }
                 return supply;
             }
         } catch(e) { console.warn('On-chain fetch failed:', e); }
-        return 58_290_727;
+        return 58290727;
     }
 
     function getEligibleSupply() {
@@ -1315,14 +1319,33 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // Pré-remplir calcCirc avec fallback immédiatement
+        const circEl = document.getElementById('calcCirc');
+        if (circEl && !circEl.value) {
+            circEl.value = 58290727;
+            circEl.style.color = '#94a3b8';
+        }
+        // Fetch on-chain (écrase le fallback si succès)
         fetchEligibleSupplyOnChain();
-        // Pré-remplir le champ prix actuel du BUY simulator
-        setTimeout(() => {
+        // Pré-remplir buyCurrentPrice — retry jusqu'à ce que le prix live soit dispo
+        let priceRetry = 0;
+        const fillPrice = setInterval(() => {
             const p = getCurrentPrice();
             const pf = document.getElementById('buyCurrentPrice');
-            if (pf && p > 0) pf.value = p;
+            if (pf && !pf.dataset.userModified) {
+                if (p > 0) pf.value = p;
+            }
+            if (++priceRetry > 20) clearInterval(fillPrice);
         }, 500);
         setInterval(fetchEligibleSupplyOnChain, 60000);
+        // Refresh prix toutes les 30s si non modifié par user
+        setInterval(() => {
+            const pf = document.getElementById('buyCurrentPrice');
+            if (pf && !pf.dataset.userModified) {
+                const p = getCurrentPrice();
+                if (p > 0) pf.value = p;
+            }
+        }, 30000);
     });
     </script>
 
@@ -1407,8 +1430,11 @@
         const result      = document.getElementById('calcResult');
         const placeholder = document.getElementById('calcPlaceholder');
 
-        // Valeur actuelle (toujours mis à jour)
-        const livePrice = getCurrentPrice();
+        // Valeur actuelle — utilise le prix live (buyCurrentPrice ou feed)
+        const priceField = document.getElementById('buyCurrentPrice');
+        const livePrice = (priceField && parseFloat(priceField.value) > 0)
+            ? parseFloat(priceField.value)
+            : getCurrentPrice();
         const currentValueEl = document.getElementById('calcCurrentValue');
         if (mht > 0 && livePrice > 0) {
             currentValueEl.textContent = '$' + (mht * livePrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
