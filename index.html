@@ -548,69 +548,101 @@
               -->            
                 </div>
 
-                <!-- ═══ REWARD CALCULATOR ═══ -->
+                <!-- ═══ CALCULATEUR COMPLET ═══ -->
                 <div style="width:100%;max-width:380px;margin-top:20px;background:var(--card-bg);border-radius:20px;padding:22px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 0 20px rgba(139,92,246,0.1);">
-                    <h6 style="font-family:'Orbitron';color:#8b5cf6;font-size:0.75rem;letter-spacing:2px;text-align:center;margin-bottom:16px;">
-                        🎁 REWARD CALCULATOR
-                    </h6>
 
-                    <!-- Input MHT -->
-                    <div style="margin-bottom:12px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
-                            💎 Your MHT Holdings
-                        </label>
-                        <input type="number" id="calcMHT" placeholder="e.g. 100000"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(139,92,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcReward()" min="0">
+                    <!-- SECTION BUY -->
+                    <h6 style="font-family:'Orbitron';color:#f97316;font-size:0.7rem;letter-spacing:2px;text-align:center;margin-bottom:14px;">🛒 BUY SIMULATOR</h6>
+
+                    <div style="margin-bottom:10px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">💵 Amount to invest ($)</label>
+                        <input type="number" id="buyUSD" placeholder="e.g. 200" min="0"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(249,115,22,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcBuy()">
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">🎯 Target price ($)</label>
+                        <input type="number" id="buyTargetPrice" placeholder="e.g. 0.001" step="0.00001" min="0"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcBuy()">
                     </div>
 
-                    <!-- Input Prix théorique -->
-                    <div style="margin-bottom:12px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
-                            💵 Theoretical MHT Price at Next Reward ($)
-                        </label>
-                        <input type="number" id="calcPrice" placeholder="e.g. 0.001" step="0.0001"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(59,130,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcReward()" min="0">
-                    </div>
-
-                    <!-- Input Circulant -->
-                    <div style="margin-bottom:16px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
-                            📊 Estimated Circulating Supply (MHT)
-                            <span style="cursor:help;" title="Total MHT in circulation excluding vault, marketing & team wallets">ⓘ</span>
-                        </label>
-                        <input type="number" id="calcCirc" value="300000000"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcReward()" min="1">
-                    </div>
-
-                    <!-- Résultats -->
-                    <div id="calcResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.06);display:none;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                            <span style="color:#94a3b8;font-size:0.78rem;">Your share of supply</span>
-                            <span id="calcShare" style="color:#8b5cf6;font-weight:bold;font-size:0.9rem;">—</span>
+                    <div id="buyResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(249,115,22,0.15);display:none;margin-bottom:6px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">🪙 MHT received (after 2% tax)</span>
+                            <span id="buyMHT" style="color:#f97316;font-weight:bold;font-size:0.88rem;">—</span>
                         </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                            <span style="color:#94a3b8;font-size:0.78rem;">🎁 MHT Reward / Milestone</span>
-                            <span id="calcMHTReward" style="color:#3b82f6;font-weight:bold;font-size:0.9rem;">—</span>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">📊 Your share of supply</span>
+                            <span id="buyShare" style="color:#8b5cf6;font-weight:bold;font-size:0.88rem;">—</span>
                         </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);">
-                            <span style="color:#94a3b8;font-size:0.78rem;">💵 Value in USD</span>
-                            <span id="calcUSDReward" style="color:#22c55e;font-weight:bold;font-size:1rem;">—</span>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:#94a3b8;font-size:0.75rem;">🎁 Reward at next milestone</span>
+                            <span id="buyReward" style="color:#3b82f6;font-weight:bold;font-size:0.88rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">💰 Bag value at target price</span>
+                            <span id="buyBagValue" style="color:#22c55e;font-weight:bold;font-size:0.95rem;">—</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <span style="color:#94a3b8;font-size:0.78rem;">📈 Your MHT value (total)</span>
-                            <span id="calcTotalValue" style="color:#f59e0b;font-weight:bold;font-size:0.9rem;">—</span>
+                            <span style="color:#94a3b8;font-size:0.75rem;">🚀 ROI</span>
+                            <span id="buyROI" style="color:#f59e0b;font-weight:bold;font-size:1rem;">—</span>
                         </div>
                     </div>
-
-                    <!-- Placeholder vide -->
-                    <div id="calcPlaceholder" style="text-align:center;padding:10px 0;">
-                        <span style="color:#475569;font-size:0.78rem;font-style:italic;">Enter your holdings to calculate your reward 🚀</span>
+                    <div id="buyPlaceholder" style="text-align:center;padding:6px 0;margin-bottom:6px;">
+                        <span style="color:#475569;font-size:0.75rem;font-style:italic;">Enter an amount to simulate 🚀</span>
                     </div>
 
-                    <p style="color:#475569;font-size:0.68rem;text-align:center;margin-top:12px;margin-bottom:0;">
+                    <!-- DIVIDER -->
+                    <div style="border-top:1px solid rgba(255,255,255,0.06);margin:16px 0;"></div>
+
+                    <!-- SECTION REWARD -->
+                    <h6 style="font-family:'Orbitron';color:#8b5cf6;font-size:0.7rem;letter-spacing:2px;text-align:center;margin-bottom:14px;">🎁 REWARD CALCULATOR</h6>
+
+                    <div style="margin-bottom:10px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">💎 Your MHT Holdings</label>
+                        <input type="number" id="calcMHT" placeholder="e.g. 100000" min="0"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(139,92,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()">
+                    </div>
+                    <div style="margin-bottom:10px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">💵 Theoretical price at next reward ($)</label>
+                        <input type="number" id="calcPrice" placeholder="e.g. 0.001" step="0.0001" min="0"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(59,130,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()">
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
+                            📊 Circulating Supply (MHT) <span style="cursor:help;" title="Auto-filled from on-chain data">ⓘ</span>
+                        </label>
+                        <input type="number" id="calcCirc" min="1"
+                            style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.4);border-radius:10px;padding:10px 14px;color:#22c55e;font-size:0.9rem;outline:none;"
+                            oninput="calcReward()">
+                    </div>
+
+                    <div id="calcResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(139,92,246,0.15);display:none;margin-bottom:6px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">Your share of supply</span>
+                            <span id="calcShare" style="color:#8b5cf6;font-weight:bold;font-size:0.88rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">🎁 MHT Reward / Milestone</span>
+                            <span id="calcMHTReward" style="color:#3b82f6;font-weight:bold;font-size:0.88rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:#94a3b8;font-size:0.75rem;">💵 Value in USD</span>
+                            <span id="calcUSDReward" style="color:#22c55e;font-weight:bold;font-size:0.95rem;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="color:#94a3b8;font-size:0.75rem;">📈 Your MHT value (total)</span>
+                            <span id="calcTotalValue" style="color:#f59e0b;font-weight:bold;font-size:0.88rem;">—</span>
+                        </div>
+                    </div>
+                    <div id="calcPlaceholder" style="text-align:center;padding:6px 0;">
+                        <span style="color:#475569;font-size:0.75rem;font-style:italic;">Enter your holdings to calculate 🚀</span>
+                    </div>
+
+                    <p style="color:#475569;font-size:0.65rem;text-align:center;margin-top:14px;margin-bottom:0;">
                         ⚠️ Estimation only — not financial advice. DYOR.
                     </p>
                 </div>
