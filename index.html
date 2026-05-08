@@ -300,164 +300,109 @@
     </nav>
 
 
-    <!-- ═══ PRESALE BANNER + COUNTDOWN ═══ -->
-    <div id="presale-banner" style="background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6); padding: 12px 20px; text-align: center; position: relative; z-index: 100;">
-
-        <!-- Ligne 1 : infos audit + Telegram -->
-        <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.75rem; margin-bottom: 6px;">
-            🛡️ SOLIDPROOF AUDIT V2.3 ✅ 85.36/100 &nbsp;|&nbsp; ✅ FOUNDER KYC VERIFIED &nbsp;|&nbsp;
-            <a href="https://t.me/Milestone_HODL_Official" target="_blank" style="color: white; text-decoration: underline;">Join Telegram</a>
-            &nbsp;|&nbsp; <span style="color:#4ade80; font-weight:bold;">✅ CONTRACT: 0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</span>
+    <!-- ═══ BANDEAU INFO ═══ -->
+    <div style="background: linear-gradient(90deg, #f97316, #ea580c, #16a34a); padding: 8px 20px; text-align: center; z-index: 100;">
+        <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.72rem; flex-wrap:wrap; display:flex; justify-content:center; align-items:center; gap:10px;">
+            <span>🛡️ SOLIDPROOF AUDIT V2.3 ✅ 85.36/100</span>
+            <span style="opacity:0.4;">|</span>
+            <span>✅ FOUNDER KYC VERIFIED</span>
+            <span style="opacity:0.4;">|</span>
+            <span>🔐 renounceOwnership ✅</span>
+            <span style="opacity:0.4;">|</span>
+            <span style="color:#4ade80;">CONTRACT: <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#4ade80;text-decoration:none;">0x22E0...33fa</a></span>
         </div>
+    </div>
 
-        <!-- Ligne 2 : date de lancement -->
-        <div style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #ffe066; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px;">
-<span id="launch-text"></span>
-        </div> 
-        
-        <!-- Ligne 3 : Countdown cliquable -->
-            <div id="countdown-wrapper" style="display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
-                    <span id="cd-days" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
-                    <span style="font-size:0.55rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); text-transform:uppercase; margin-top:2px;">Days</span>
-                </div>
-                <span style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.5); align-self:flex-start; padding-top:4px;">:</span>
-                <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
-                    <span id="cd-hours" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
-                    <span style="font-size:0.55rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); text-transform:uppercase; margin-top:2px;">Hours</span>
-                </div>
-                <span style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.5); align-self:flex-start; padding-top:4px;">:</span>
-                <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
-                    <span id="cd-minutes" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
-                    <span style="font-size:0.55rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); text-transform:uppercase; margin-top:2px;">Minutes</span>
-                </div>
-                <span style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.5); align-self:flex-start; padding-top:4px;">:</span>
-                <div style="display:flex; flex-direction:column; align-items:center; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); border-radius:10px; padding:6px 16px; min-width:68px;">
-                    <span id="cd-seconds" style="font-family:'Orbitron',sans-serif; font-size:2rem; font-weight:900; color:#ffe066; line-height:1;">00</span>
-                    <span style="font-size:0.55rem; font-weight:700; letter-spacing:0.1em; color:rgba(255,255,255,0.85); text-transform:uppercase; margin-top:2px;">Seconds</span>
-                </div>
+    <!-- ═══ BARRE DE NAVIGATION BOUTONS ═══ -->
+    <div style="background: rgba(15,23,42,0.98); border-bottom: 1px solid rgba(59,130,246,0.15); padding: 10px 20px;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:8px; max-width:1200px; margin:0 auto;">
+
+            <!-- Ligne 1 — Actions principales -->
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:linear-gradient(45deg,rgba(34,197,94,0.25),rgba(22,163,74,0.25));border:1px solid rgba(34,197,94,0.5);transition:all 0.2s;"
+                   onmouseover="this.style.background='linear-gradient(45deg,rgba(34,197,94,0.45),rgba(22,163,74,0.45))';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='linear-gradient(45deg,rgba(34,197,94,0.25),rgba(22,163,74,0.25))';this.style.transform='translateY(0)'">
+                    🥞 BUY ON PANCAKESWAP
+                </a>
+                <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(59,130,246,0.35)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(59,130,246,0.15)';this.style.transform='translateY(0)'">
+                    📊 DEXSCREENER CHART
+                </a>
+                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.4);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(139,92,246,0.35)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(139,92,246,0.15)';this.style.transform='translateY(0)'">
+                    🛡️ AUDIT &amp; KYC SOLIDPROOF
+                </a>
             </div>
-        
-    </div>
 
-    <!-- ═══════════════════════════════════════════════
-         QUICK NAV — DOCS & PAGES
-    ═══════════════════════════════════════════════ -->
-    <div id="quick-nav" style="background: rgba(15,23,42,0.98); border-bottom: 1px solid rgba(59,130,246,0.15); padding: 10px 20px;">
-        <div style="display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; max-width:1200px; margin:0 auto;">
+            <!-- Ligne 2 — Docs & Pages -->
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
+                <a href="https://apexpad.io/mht/how-it-works-en.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.10);border:1px solid rgba(59,130,246,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(59,130,246,0.10)';this.style.transform='translateY(0)'">
+                    🇬🇧 HOW IT WORKS
+                </a>
+                <a href="https://apexpad.io/mht/how-it-works-fr.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.10);border:1px solid rgba(59,130,246,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(59,130,246,0.10)';this.style.transform='translateY(0)'">
+                    🇫🇷 COMMENT ÇA MARCHE
+                </a>
+                <a href="https://apexpad.io/MHT_Roadmap.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
+                    🗺️ ROADMAP
+                </a>
+                <a href="https://apexpad.io/mht/mht_architecture.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(34,197,94,0.22)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(34,197,94,0.08)';this.style.transform='translateY(0)'">
+                    🏗️ ARCHITECTURE
+                </a>
+                <a href="https://apexpad.io/mht/why-hold-mht.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(245,158,11,0.10);border:1px solid rgba(245,158,11,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(245,158,11,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(245,158,11,0.10)';this.style.transform='translateY(0)'">
+                    📊 WHY HOLD
+                </a>
+            </div>
 
-            <!-- How It Works EN -->
-            <a href="https://apexpad.io/mht/how-it-works-en.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.borderColor='rgba(59,130,246,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(59,130,246,0.12)';this.style.borderColor='rgba(59,130,246,0.35)';this.style.transform='translateY(0)'">
-                🇬🇧 <span>HOW IT WORKS</span>
-            </a>
-
-            <!-- How It Works FR -->
-            <a href="https://apexpad.io/mht/how-it-works-fr.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.borderColor='rgba(59,130,246,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(59,130,246,0.12)';this.style.borderColor='rgba(59,130,246,0.35)';this.style.transform='translateY(0)'">
-                🇫🇷 <span>COMMENT ÇA MARCHE</span>
-            </a>
-
-            <!-- Séparateur -->
-            <span style="color:rgba(255,255,255,0.12);font-size:1.1rem;">|</span>
-
-            <!-- Roadmap -->
-            <a href="https://apexpad.io/MHT_Roadmap.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.borderColor='rgba(139,92,246,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(139,92,246,0.12)';this.style.borderColor='rgba(139,92,246,0.35)';this.style.transform='translateY(0)'">
-                🗺️ <span>ROADMAP</span>
-            </a>
-
-            <!-- Architecture -->
-            <a href="https://apexpad.io/mht/mht_architecture.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(34,197,94,0.10);border:1px solid rgba(34,197,94,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(34,197,94,0.22)';this.style.borderColor='rgba(34,197,94,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(34,197,94,0.10)';this.style.borderColor='rgba(34,197,94,0.35)';this.style.transform='translateY(0)'">
-                🏗️ <span>ARCHITECTURE V2.1</span>
-            </a>
-
-            <!-- Why Hold -->
-            <a href="https://apexpad.io/mht/why-hold-mht.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(240,165,0,0.28)';this.style.borderColor='rgba(240,165,0,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(240,165,0,0.12)';this.style.borderColor='rgba(240,165,0,0.35)';this.style.transform='translateY(0)'">
-                📊 <span>WHY HOLD</span>
-            </a>
-            
-            <!-- Séparateur -->
-            <span style="color:rgba(255,255,255,0.12);font-size:1.1rem;">|</span>
-
-            <!-- Contact -->
-            <a href="https://apexpad.io/mht/contact.html" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(249,115,22,0.28)';this.style.borderColor='rgba(249,115,22,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(249,115,22,0.12)';this.style.borderColor='rgba(249,115,22,0.35)';this.style.transform='translateY(0)'">
-                📩 <span>CONTACT</span>
-            </a>
-
-            <!-- Whitepaper scroll -->
-            <a href="#docsSection"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);transition:all 0.2s;"
-               onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.borderColor='rgba(139,92,246,0.7)';this.style.transform='translateY(-2px)'"
-               onmouseout="this.style.background='rgba(139,92,246,0.12)';this.style.borderColor='rgba(139,92,246,0.35)';this.style.transform='translateY(0)'">
-                📄 <span>WHITEPAPER</span>
-            </a>
-
-            <!-- Séparateur -->
-            <span style="color:rgba(255,255,255,0.12);font-size:1.1rem;">|</span>
-
-            <!-- ApexPad -->
-            <a href="https://apexpad.io" target="_blank"
-               style="display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:linear-gradient(45deg,rgba(249,115,22,0.18),rgba(239,68,68,0.18));border:1px solid rgba(249,115,22,0.5);transition:all 0.2s;"
-               onmouseover="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.35),rgba(239,68,68,0.35))';this.style.borderColor='rgba(249,115,22,0.9)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 16px rgba(249,115,22,0.3)'"
-               onmouseout="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.18),rgba(239,68,68,0.18))';this.style.borderColor='rgba(249,115,22,0.5)';this.style.transform='translateY(0)';this.style.boxShadow='none'">
-                🚀 <span>APEXPAD.IO</span>
-            </a>
+            <!-- Ligne 3 — Liens -->
+            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
+                <a href="https://apexpad.io/mht/contact.html" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(249,115,22,0.10);border:1px solid rgba(249,115,22,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(249,115,22,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(249,115,22,0.10)';this.style.transform='translateY(0)'">
+                    📩 CONTACT
+                </a>
+                <a href="https://apexpad.io/mht/MHT_Whitepaper_EN.pdf" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
+                    📄 WHITEPAPER EN
+                </a>
+                <a href="https://apexpad.io/mht/MHT_Whitepaper_FR.pdf" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
+                    📄 WHITEPAPER FR
+                </a>
+                <a href="https://apexpad.io" target="_blank"
+                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:linear-gradient(45deg,rgba(249,115,22,0.15),rgba(239,68,68,0.15));border:1px solid rgba(249,115,22,0.45);transition:all 0.2s;"
+                   onmouseover="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.35),rgba(239,68,68,0.35))';this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.15),rgba(239,68,68,0.15))';this.style.transform='translateY(0)'">
+                    🚀 APEXPAD.IO
+                </a>
+            </div>
 
         </div>
     </div>
-
-    <!-- ═══ COUNTDOWN SCRIPT ═══ -->
-    <style>
-        @keyframes blink-live {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.05); }
-        }
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 20px rgba(34,197,94,0.5); }
-            50% { box-shadow: 0 0 40px rgba(34,197,94,0.9); }
-        }
-        .live-badge { animation: blink-live 0.8s ease-in-out infinite; display: inline-block; }
-        .live-banner { animation: pulse-green 1.5s ease-in-out infinite; }
-    </style>
-    <script>
-        const presaleStart = new Date('2026-04-01T12:00:00Z').getTime();
-        const presaleEnd   = new Date('2026-04-15T12:00:00Z').getTime();
-        function padCD(n) { return String(n).padStart(2, '0'); }
-        function updateCD() {
-            const wrapper = document.getElementById('countdown-wrapper');
-            const banner  = document.getElementById('presale-banner');
-            const launchText = document.getElementById('launch-text');
-            if (!wrapper) return;
-
-            // MHT V2.3 est LIVE — afficher le statut live
-            if (banner) {
-                banner.style.background = 'linear-gradient(90deg, #16a34a, #15803d, #166534)';
-                banner.classList.add('live-banner');
-            }
-            if (launchText) {
-                launchText.innerHTML = '🟢 $MHT V2.3 IS LIVE ON PANCAKESWAP — <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#ffe066;text-decoration:none;">VIEW CHART 📊</a>';
-            }
-            wrapper.innerHTML = '<span class="live-badge" style="font-family:Orbitron,sans-serif;font-size:1.6rem;font-weight:900;color:#4ade80;letter-spacing:3px;text-shadow:0 0 20px rgba(74,222,128,0.8);">🔴 LIVE ON BSC — PANCAKESWAP V2</span>';
-        }
-        updateCD();
-        setInterval(updateCD, 1000);
-    </script>
 
     <main class="container-fluid">
         <h1 class="main-title">REWARDING GROWTH, NOT LUCK.</h1>
@@ -528,25 +473,6 @@
             </div>
 
             <div class="center-col">
-                         <!-- <img src="baron.png" alt="The Baron" class="baron-img"> -->
-                 <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:15px;">
-                    <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
-                       class="btn-buy">
-                        🥞 Buy $MHT on PancakeSwap
-                    </a>
-               <!-- 
-                    <a href="https://apexpad.io/mht/contact.html" target="_blank"
-                       style="background:linear-gradient(45deg,#f97316,#ef4444);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.9rem;display:inline-block;transition:0.3s;"
-                       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                        📩 Collaborate
-                    </a>
-                    <a href="#docsSection"
-                       style="background:linear-gradient(45deg,#8b5cf6,#3b82f6);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.9rem;display:inline-block;transition:0.3s;"
-                       onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
-                        📄 Whitepaper
-                    </a>
-              -->            
-                </div>
 
                 <!-- ═══ CALCULATEUR COMPLET ═══ -->
                 <div style="width:100%;max-width:380px;margin-top:20px;background:var(--card-bg);border-radius:20px;padding:22px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 0 20px rgba(139,92,246,0.1);">
@@ -763,54 +689,7 @@
         </section>
 
 
-        <!-- ═══ V2.3 LIVE ═══ -->
-        <section class="container my-5 py-4" style="border: 1px solid rgba(34,197,94,0.4); border-radius: 20px; background: rgba(34,197,94,0.05);">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-8">
-                    <h3 style="font-family:'Orbitron'; color:#4ade80; letter-spacing:2px; margin-bottom:16px;">✅ MHT V2.3 — LIVE ON BSC MAINNET</h3>
-                    <p style="color:#94a3b8; font-size:0.9rem; line-height:1.7;">V2.3 is deployed, audited by SolidProof (85.36/100), LP locked 6 months on PinkLock, Chainlink Automation active. All V1 holders received their snapshot airdrop automatically at deploy.</p>
-                    <div class="row g-3 mt-2">
-                        <div class="col-md-6">
-                            <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:16px;">
-                                <div style="color:#4ade80; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">✅ V2.3 LIVE</div>
-                                <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.9;">
-                                    <li>✅ SolidProof Audit 85.36/100</li>
-                                    <li>✅ 5% vault asymptotique (floor 1M / cap 20M MHT)</li>
-                                    <li>✅ 70% holders / 30% marketing BNB</li>
-                                    <li>✅ 5 tranches LP progressives ($1.5M → $75M MCap)</li>
-                                    <li>✅ Flush LP 6 paliers prix ($0.0003 → $0.0008)</li>
-                                    <li>✅ Snapshot V1 hardcodé — airdrop instantané au deploy</li>
-                                    <li>✅ LP PinkLock 6 mois</li>
-                                    <li>✅ Chainlink Automation active</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.3); border-radius:12px; padding:16px;">
-                                <div style="color:#a78bfa; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; margin-bottom:8px;">📍 CONTRACT INFO</div>
-                                <ul style="color:#94a3b8; font-size:0.8rem; list-style:none; padding:0; margin:0; line-height:1.9;">
-                                    <li>📍 <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#60a5fa;">0x22E0...33fa</a></li>
-                                    <li>💧 30M MHT + 10 BNB — PinkLock 6 mois</li>
-                                    <li>📊 Prix launch : $0.000205</li>
-                                    <li>🔒 LP locked until 2026-11-04</li>
-                                    <li>⚡ Chainlink Automation active</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 text-center">
-                    <div style="background:rgba(34,197,94,0.1); border:2px solid rgba(34,197,94,0.4); border-radius:20px; padding:24px;">
-                        <div style="font-family:'Orbitron'; font-size:0.7rem; color:#4ade80; letter-spacing:2px; margin-bottom:12px;">🔐 TRUSTLESS</div>
-                        <p style="color:white; font-size:0.85rem; line-height:1.6; margin-bottom:16px;">renounceOwnership() incoming.<br><br><strong style="color:#4ade80;">No admin. No backdoor.<br>Not even the dev can touch it.</strong></p>
-                        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
-                           style="background:linear-gradient(45deg,#22c55e,#16a34a);color:white;padding:12px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
-                            🥞 Buy on PancakeSwap
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+
 
         <!-- ═══════════════════════════════════════════════
              HOW IT WORKS
@@ -850,19 +729,6 @@
                         <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% to holders pro-rata. 30% marketing swapped to BNB. All automatic, forever.</p>
                     </div>
                 </div>
-            </div>
-                <div style="text-align:center; margin-top:20px;">
-                    <div style="margin-top:30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
-                        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
-                           style="background:linear-gradient(45deg,#22c55e,#16a34a);color:white;padding:12px 35px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:1rem;">
-                            🥞 BUY $MHT ON PANCAKESWAP
-                        </a>
-                        <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
-                           style="background:linear-gradient(45deg,#3b82f6,#8b5cf6);color:white;padding:12px 35px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:1rem;">
-                            📊 DEXSCREENER CHART
-                        </a>
-                    </div>
-                </div>
         </section>
      <!-- roadmap -->
         <section class="roadmap-section">
@@ -897,11 +763,7 @@
                 </div>
             </div>
 
-            <!-- ═══ GEMINI BUYSELL centré sur le trait ═══ -->
-            <div style="text-align:center; margin: -30px auto 10px auto; position:relative; z-index:5;">
-                <img src="images/gemini_buysell.png" alt="Buy & Hold MHT"
-                     style="width:200px; border-radius:16px; box-shadow:0 0 25px rgba(34,197,94,0.3);">
-            </div>
+
 
             <!-- ═══ PHASE 2 (gauche) + DH (droite) ═══ -->
             <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
@@ -990,11 +852,7 @@
                 </div>
             </div>
 
-            <!-- ═══ VISUAL FIN ROADMAP ═══ -->
-            <div style="text-align:center; margin: 10px auto 0 auto; position:relative; z-index:5;">
-                <img src="images/gemini_4panels.png" alt="The Journey — MHT Milestones"
-                     style="width:100%; max-width:500px; border-radius:20px; box-shadow: 0 0 30px rgba(139,92,246,0.3);">
-            </div>
+
 
         </section>
 <!-- ═══════════════════════════════════════════════
@@ -1148,27 +1006,12 @@
     <footer class="py-5" style="background: #0b1120; border-top: 2px solid rgba(59, 130, 246, 0.2);">
         <div class="container text-center">
             <h4 class="brand-text mb-4">MILESTONE HODL TOKEN</h4>
-            <!-- Footer stickers — écartés et agrandis -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; padding:0 40px; flex-wrap:wrap; gap:15px;">
-                <img src="images/GOOD.png" alt="Good" style="width:160px; filter:drop-shadow(0 0 12px rgba(34,197,94,0.5));">
-                <img src="images/MHT.png" alt="$MHT" style="width:140px; filter:drop-shadow(0 0 12px rgba(59,130,246,0.5));">
-                <img src="images/FOLLOW.png" alt="Follow Us" style="width:160px; filter:drop-shadow(0 0 12px rgba(139,92,246,0.5));">
-            </div>
-           <div class="d-flex justify-content-center gap-4 mb-4">
-    <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
-    <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
-    <a href="https://x.com/apexpad_io" target="_blank" class="text-white fs-3" style="color:#f97316 !important;"><i class="bi bi-twitter-x"></i></a>
-    <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="text-white fs-3"><i class="bi bi-youtube"></i></a>
-    <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="text-white fs-3"><i class="bi bi-tiktok"></i></a>
-</div>
-            <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
-                <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
-                    🥞 Buy $MHT on PancakeSwap V2
-                </a>
-              
-                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="btn btn-sm rounded-pill" style="border:1px solid rgba(34,197,94,0.4);color:#22c55e;font-size:0.75rem;">
-                    🛡️ SolidProof V2.3 ✅ 85.36/100
-                </a>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
+                <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
+                <a href="https://x.com/apexpad_io" target="_blank" class="text-white fs-3" style="color:#f97316 !important;"><i class="bi bi-twitter-x"></i></a>
+                <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="text-white fs-3"><i class="bi bi-youtube"></i></a>
+                <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="text-white fs-3"><i class="bi bi-tiktok"></i></a>
             </div>
             <p class="small text-secondary mb-0">© 2026 Milestone HODL Token. All rights reserved.</p>
         </div>
