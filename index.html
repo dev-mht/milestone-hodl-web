@@ -1,1507 +1,1550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>MHT V2 . MILESTONE HODL TOKEN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --primary-color: #3b82f6; --secondary-color: #8b5cf6; --dark-bg: #0f172a; --card-bg: #1e293b; }
-        body { background-color: var(--dark-bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        /* Navbar */
-        .navbar { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid rgba(59, 130, 246, 0.2); padding: 0.8rem 2rem; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .nav-left { flex: 1; display: flex; align-items: center; min-width: 300px; }
-        .nav-center { flex: 1; text-align: center; }
-        .nav-right { flex: 1; text-align: right; min-width: 150px; }
-        .nav-logo { width: 42px; height: 42px; object-fit: contain; }
-        .brand-text { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; background: linear-gradient(to right, #ffffff, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-slogan { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700; color: #f97316; letter-spacing: 2px; text-transform: uppercase; }         .btn-connect { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border: none; color: white; padding: 8px 25px; border-radius: 50px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
-        .btn-connect:hover { opacity: 0.9; transform: scale(1.03); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Milestone HODL Token — $MHT | Proof-of-Performance on BSC</title>
+  <meta name="description" content="$MHT is the first Proof-of-Performance token on BNB Chain. 50% supply locked in a Smart-Vault, auto-released by Chainlink at every $1M Market Cap milestone. Buy, hold, earn." />
+  <meta name="keywords" content="MHT, Milestone HODL Token, BSC token, BNB Chain, DeFi, Smart-Vault, Chainlink, PancakeSwap, crypto rewards" />
+  <meta property="og:title" content="Milestone HODL Token — $MHT" />
+  <meta property="og:description" content="Proof-of-Performance on BSC. Every $1M MCap → 5% vault auto-released to HODLers." />
+  <meta property="og:url" content="https://milestonehodl.apexpad.io" />
+  <link rel="canonical" href="https://milestonehodl.apexpad.io/" />
 
-        /* Dashboard */
-        .main-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #ff0000; margin: 30px 0 10px 0; text-align: center; font-weight: bold; }
-        .milestone-container { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1400px; margin: 0 auto 30px auto; padding: 0 40px; }
-        .milestone-logo { width: 160px; height: 160px; object-fit: contain; } 
-        .progress-box { flex-grow: 1; max-width: 650px; background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .main-dashboard { display: flex; align-items: stretch; justify-content: space-between; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 40px; gap: 30px; }
-        .token-col, .wallet-col { width: 340px; }
-        .center-col { display: flex; flex-direction: column; align-items: center; flex-grow: 1; }
-        .wallet-card { background: var(--card-bg); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; text-align: center; }
-        .chart-container { width: 220px; height: 220px; margin: 0 auto; overflow: hidden; position: relative; }
-        .baron-img { width: 420px; height: 260px; object-fit: cover; border-radius: 200px / 125px; border: 4px solid var(--primary-color); box-shadow: 0 0 30px rgba(59, 130, 246, 0.4); }
-        
-        /* Boutons */
-        .btn-buy { background: #22c55e; color: white; border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; text-decoration: none; margin-top: 15px; display: inline-block; transition: 0.3s; }
-        .btn-buy:hover { transform: scale(1.05); background: #16a34a; }
-        .btn-claim { background: linear-gradient(45deg, #f59e0b, #ef4444); border: none; color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; transition: 0.3s; width: 100%; cursor: pointer; }
-        .btn-claim:hover { transform: scale(1.02); filter: brightness(1.1); }
-        .btn-claim:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-55GLFJLMM8');
+  </script>
 
-        /* ── Music Player ── */
-        #musicPlayer {
-            position: fixed; bottom: 25px; right: 25px; z-index: 9999;
-            display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
-        }
-        #musicToggle {
-            width: 52px; height: 52px; border-radius: 50%;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            border: none; color: white; font-size: 1.3rem; cursor: pointer;
-            box-shadow: 0 4px 20px rgba(59,130,246,0.5);
-            transition: all 0.3s; display: flex; align-items: center; justify-content: center;
-        }
-        #musicToggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(59,130,246,0.7); }
-        #musicToggle.playing { animation: pulse-music 2s infinite; }
-        @keyframes pulse-music {
-            0%,100% { box-shadow: 0 4px 20px rgba(139,92,246,0.5); }
-            50%      { box-shadow: 0 4px 30px rgba(139,92,246,0.9); }
-        }
-        #musicWidget { display: none; border-radius: 16px; overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            border: 1px solid rgba(139,92,246,0.3); }
-        #musicWidget.open { display: block; }
-        #musicLabel {
-            background: linear-gradient(45deg,#1e293b,#0f172a);
-            padding: 6px 12px; font-size: 0.7rem; color: #94a3b8;
-            text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-        /* ── V4 : Cooldown & Timelock badges ── */
-        .info-badge { display: inline-block; font-size: 0.72rem; padding: 4px 10px; border-radius: 20px; margin-top: 6px; }
-        .badge-cooldown { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
-        .badge-ready    { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-        .badge-timelock { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+  <style>
+    :root {
+      --bg:       #07090e;
+      --bg2:      #0c0f18;
+      --bg3:      #111520;
+      --border:   rgba(245,200,66,0.12);
+      --gold:     #f5c842;
+      --gold2:    #ffde7a;
+      --gold3:    #c8971a;
+      --orange:   #e8501a;
+      --text:     #e8ecf4;
+      --muted:    #5a6478;
+      --success:  #00e096;
+      --mono:     'Space Mono', monospace;
+      --display:  'Bebas Neue', sans-serif;
+      --body:     'Syne', sans-serif;
+    }
 
-        /* Roadmap */
-        .roadmap-section { max-width: 1100px; margin: 80px auto; padding: 0 40px; position: relative; overflow: hidden; }
-        .roadmap-section::before { content: ''; position: absolute; left: 50%; width: 2px; height: 100%; background: linear-gradient(to bottom, transparent, var(--primary-color), var(--secondary-color), transparent); transform: translateX(-50%); }
-        .roadmap-item { margin-bottom: 60px; position: relative; width: 50%; padding: 20px 40px; }
-        .roadmap-item:nth-child(odd) { left: 0; text-align: right; }
-        .roadmap-item:nth-child(even) { left: 50%; text-align: left; }
-        .roadmap-dot { position: absolute; top: 30px; width: 20px; height: 20px; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 15px var(--primary-color); z-index: 10; }
-        .roadmap-item:nth-child(odd) .roadmap-dot { right: -10px; }
-        .roadmap-item:nth-child(even) .roadmap-dot { left: -10px; }
-        .roadmap-content { background: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .roadmap-content:hover { transform: translateY(-5px); border-color: var(--primary-color); }
-        .roadmap-phase { font-family: 'Orbitron', sans-serif; color: var(--primary-color); font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; display: block; }
-        .roadmap-content h4 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px; color: #fff; }
-        .roadmap-content ul { list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
-        .roadmap-content ul li::before { content: '▹'; color: var(--primary-color); margin-right: 8px; }
-        .roadmap-content ul li.done { color: #22c55e; }
-        .roadmap-content ul li.done::before { color: #22c55e; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-        /* Docs */
-        .doc-card { background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid rgba(59, 130, 246, 0.3); transition: 0.3s; }
-        .doc-card:hover { border-color: var(--primary-color); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      overflow-x: hidden;
+      cursor: default;
+    }
 
-        /* ═══════════════════════════════════════════════
-           WALLET MODAL
-        ═══════════════════════════════════════════════ */
-        .wallet-modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(6px);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
-        .wallet-modal-overlay.active { display: flex; }
-        .wallet-modal {
-            background: #1e293b;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 24px;
-            padding: 32px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(59,130,246,0.1);
-            animation: modalSlideIn 0.25s ease;
-        }
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .wallet-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .wallet-modal-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
-        .wallet-modal-close { background: rgba(255,255,255,0.08); border: none; color: #94a3b8; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .wallet-modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
-        .wallet-modal-subtitle { font-size: 0.8rem; color: #64748b; margin-bottom: 24px; }
-        .wallet-option { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.03); cursor: pointer; transition: all 0.2s; margin-bottom: 10px; width: 100%; text-align: left; color: white; }
-        .wallet-option:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.4); transform: translateX(4px); }
-        .wallet-option:last-child { margin-bottom: 0; }
-        .wallet-option-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
-        .wallet-option-icon img { width: 40px; height: 40px; border-radius: 10px; object-fit: contain; }
-        .wallet-option-info { flex: 1; }
-        .wallet-option-name { font-weight: 700; font-size: 0.95rem; color: #fff; display: block; }
-        .wallet-option-desc { font-size: 0.75rem; color: #64748b; }
-        .wallet-option-badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 20px; font-weight: 600; letter-spacing: 0.5px; }
-        .badge-detected { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
-        .badge-qr { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
-        .badge-popular { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-        .wallet-divider { text-align: center; color: #334155; font-size: 0.75rem; margin: 16px 0; position: relative; }
-        .wallet-divider::before, .wallet-divider::after { content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: rgba(255,255,255,0.07); }
-        .wallet-divider::before { left: 0; }
-        .wallet-divider::after { right: 0; }
-        .qr-panel { display: none; text-align: center; padding: 10px 0; }
-        .qr-panel.active { display: block; }
-        .qr-placeholder { width: 200px; height: 200px; margin: 0 auto 16px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0f172a; font-size: 0.75rem; padding: 10px; text-align: center; }
-        .qr-back { background: none; border: none; color: #64748b; font-size: 0.8rem; cursor: pointer; margin-top: 8px; }
-        .qr-back:hover { color: #fff; }
-        .wallet-loading { display: none; text-align: center; padding: 30px 0; }
-        .wallet-loading.active { display: block; }
-        .spinner-ring { width: 50px; height: 50px; border: 3px solid rgba(59,130,246,0.2); border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.5;
+    }
 
-        /* Coin rain */
-        .coin-rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-        .falling-coin { position: absolute; width: 35px; height: auto; opacity: 0.4; animation: fall linear forwards; }
-        @keyframes fall {
-            0%   { transform: translateY(-50px) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(720deg); }
-        }
+    /* ── TOP TRUST BAR ── */
+    .trust-bar {
+      background: linear-gradient(90deg, #0c0f18, #111520, #0c0f18);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 24px; flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 11px; letter-spacing: 0.06em;
+      position: relative; z-index: 100;
+    }
+    .trust-item { display: flex; align-items: center; gap: 6px; }
+    .trust-item .badge {
+      padding: 2px 8px; border-radius: 4px;
+      font-weight: 700; font-size: 10px;
+    }
+    .badge-gold { background: var(--gold); color: #07090e; }
+    .badge-green { background: #00e096; color: #07090e; }
+    .badge-orange { background: var(--orange); color: #fff; }
+    .trust-item a { color: var(--gold); text-decoration: none; }
+    .trust-divider { color: var(--muted); }
 
-        @media (max-width: 992px) {
-            .roadmap-section::before { left: 20px; }
-            .roadmap-item { width: 100%; left: 0 !important; text-align: left !important; padding-left: 50px; }
-            .roadmap-dot { left: 10px !important; }
-            .main-dashboard { flex-direction: column; padding: 0 20px; }
-            .token-col, .wallet-col, .center-col { width: 100%; }
-            .milestone-logo { display: none; }
-            .wallet-modal { margin: 20px; }
-            .nav-center { display: none; }
-            .nav-left { min-width: unset; }
-            .nav-right { min-width: unset; }
-            .brand-text { font-size: 0.95rem; }
-            .roadmap-content h4 { font-size: 0.95rem; }
-            .roadmap-content ul { font-size: 0.8rem; line-height: 1.5; }
-            .roadmap-phase { font-size: 0.75rem; }
-            .roadmap-content { padding: 16px; }
-        }
-        @media (max-width: 576px) {
-            .main-title { font-size: 1.2rem; }
-            .btn-connect { padding: 7px 16px; font-size: 0.78rem; }
-            .baron-img { width: 90%; height: auto; }
-            .roadmap-content h4 { font-size: 0.88rem; }
-            .roadmap-content ul { font-size: 0.75rem; }
-        }
-    </style>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-55GLFJLMM8');
-    </script>
+    /* ── NAVBAR ── */
+    nav.main-nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(7,9,14,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+      font-family: var(--display);
+      font-size: 22px; letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .nav-logo-gem {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--gold), var(--gold3));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 16px rgba(245,200,66,0.3);
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-center {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    .nav-center strong { color: var(--gold); }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-btn {
+      padding: 8px 18px; border-radius: 8px;
+      font-family: var(--body); font-size: 13px; font-weight: 700;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .nav-btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .nav-btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #07090e;
+      box-shadow: 0 4px 16px rgba(245,200,66,0.25);
+    }
+    .nav-btn-primary:hover { box-shadow: 0 6px 24px rgba(245,200,66,0.4); transform: translateY(-1px); }
+
+    /* ── QUICK LINKS BAR ── */
+    .quick-links {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; flex-wrap: wrap;
+      position: relative; z-index: 99;
+    }
+    .ql {
+      padding: 6px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 700;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid transparent;
+      transition: all 0.2s; white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .ql:hover { color: var(--gold); border-color: var(--border); background: var(--bg3); }
+    .ql.ql-highlight { color: var(--gold); border-color: rgba(245,200,66,0.2); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: 1fr 520px 1fr;
+      grid-template-rows: 1fr;
+      align-items: center;
+      overflow: hidden;
+      padding: 60px 40px;
+    }
+
+    /* Radial glow */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245,200,66,0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 30% 40% at 15% 60%, rgba(232,80,26,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 30% 40% at 85% 40%, rgba(0,229,150,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Gold horizontal line */
+    .hero-line {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    /* Video columns */
+    .hero-video-left,
+    .hero-video-right {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-video-left { justify-content: flex-end; padding-right: 48px; }
+    .hero-video-right { justify-content: flex-start; padding-left: 48px; }
+
+    .video-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .video-wrap::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, rgba(245,200,66,0.4), transparent 50%, rgba(245,200,66,0.15));
+      z-index: 1;
+      pointer-events: none;
+    }
+    .video-wrap video {
+      display: block;
+      border-radius: 20px;
+      position: relative; z-index: 0;
+    }
+    .hero-video-left .video-wrap video { width: 260px; height: 260px; object-fit: cover; }
+    .hero-video-right .video-wrap video { width: 220px; height: 220px; object-fit: cover; }
+
+    /* Video glow */
+    .video-glow {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,0.12) 0%, transparent 70%);
+      pointer-events: none; z-index: -1;
+    }
+
+    /* Center content */
+    .hero-center {
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 28px;
+      position: relative; z-index: 5;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      border: 1px solid rgba(245,200,66,0.3);
+      border-radius: 100px;
+      background: rgba(245,200,66,0.05);
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold);
+      animation: fadeDown 0.8s ease both;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+    .hero-title .gold { color: var(--gold); }
+    .hero-title .dim { color: var(--muted); font-size: 0.6em; display: block; letter-spacing: 0.08em; }
+
+    .hero-sub {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.7; max-width: 380px;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+    .hero-sub strong { color: var(--text); }
+
+    /* MCap progress */
+    .hero-mcap {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      animation: fadeUp 0.8s ease 0.3s both;
+    }
+    .mcap-label {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+      display: flex; justify-content: space-between;
+    }
+    .mcap-value { color: var(--gold); }
+    .mcap-bar-outer {
+      height: 6px; background: var(--bg3);
+      border-radius: 3px; overflow: hidden; margin-bottom: 8px;
+    }
+    .mcap-bar-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold3), var(--gold), var(--gold2));
+      border-radius: 3px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(.16,1,.3,1);
+      box-shadow: 0 0 8px rgba(245,200,66,0.4);
+    }
+    .mcap-sub {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--muted); text-align: right;
+    }
+    .mcap-sub span { color: var(--success); }
+
+    .hero-ctas {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s ease 0.4s both;
+    }
+    .cta-main {
+      padding: 14px 28px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #07090e; font-weight: 800; font-size: 14px;
+      text-decoration: none; letter-spacing: 0.02em;
+      box-shadow: 0 8px 28px rgba(245,200,66,0.3);
+      transition: all 0.2s;
+    }
+    .cta-main:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(245,200,66,0.45); }
+    .cta-secondary {
+      padding: 14px 28px; border-radius: 12px;
+      background: transparent;
+      border: 1px solid rgba(245,200,66,0.25);
+      color: var(--gold); font-weight: 700; font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cta-secondary:hover { background: rgba(245,200,66,0.06); border-color: var(--gold); }
+
+    /* Key stats */
+    .hero-stats {
+      display: flex; gap: 24px;
+      animation: fadeUp 0.8s ease 0.5s both;
+    }
+    .stat { text-align: center; }
+    .stat-val {
+      font-family: var(--mono); font-size: 18px; font-weight: 700;
+      color: var(--gold);
+    }
+    .stat-label {
+      font-size: 10px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .stat-div { width: 1px; background: var(--border); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 100px 40px; position: relative; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.7; max-width: 520px;
+      margin-bottom: 56px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .how-card {
+      background: var(--bg2);
+      padding: 36px 28px;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .how-card:hover { background: var(--bg3); }
+    .how-num {
+      font-family: var(--display);
+      font-size: 5rem; line-height: 1;
+      color: rgba(245,200,66,0.07);
+      position: absolute; top: 16px; right: 20px;
+      pointer-events: none;
+    }
+    .how-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(245,200,66,0.05));
+      border: 1px solid rgba(245,200,66,0.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .how-step {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.1em; color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .how-title {
+      font-family: var(--body); font-size: 17px; font-weight: 800;
+      margin-bottom: 12px; color: var(--text);
+    }
+    .how-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── TOKENOMICS ── */
+    .tokenomics-section { background: var(--bg2); }
+    .tokenomics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: start;
+    }
+
+    /* Donut chart */
+    .donut-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 28px;
+    }
+    .donut-container {
+      position: relative; width: 280px; height: 280px;
+    }
+    .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .donut-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px;
+    }
+    .donut-center-img {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(245,200,66,0.3);
+      box-shadow: 0 0 20px rgba(245,200,66,0.2);
+    }
+    .donut-legend {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; width: 100%;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-label { font-size: 13px; color: var(--muted); }
+    .legend-pct { font-family: var(--mono); font-size: 12px; color: var(--text); font-weight: 700; }
+
+    /* Tax info */
+    .tax-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-top: 24px;
+    }
+    .tax-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .tax-type {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+    .tax-pct {
+      font-family: var(--display); font-size: 2.5rem;
+      color: var(--gold); line-height: 1;
+    }
+    .tax-breakdown {
+      font-size: 11px; color: var(--muted);
+      line-height: 1.7; margin-top: 8px;
+    }
+
+    /* Right side stats */
+    .tokenomics-right { display: flex; flex-direction: column; gap: 16px; }
+    .tstat-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      transition: border-color 0.2s;
+    }
+    .tstat-card:hover { border-color: rgba(245,200,66,0.25); }
+    .tstat-label { font-size: 13px; color: var(--muted); }
+    .tstat-val {
+      font-family: var(--mono); font-size: 15px;
+      font-weight: 700; color: var(--gold);
+    }
+    .tstat-val.green { color: var(--success); }
+
+    /* LP Tranches */
+    .tranches-title {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .tranche-row {
+      display: flex; align-items: center;
+      gap: 12px; padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tranche-row:last-child { border-bottom: none; }
+    .tranche-lock { color: var(--gold); font-size: 14px; }
+    .tranche-info { flex: 1; }
+    .tranche-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .tranche-mcap { font-size: 11px; color: var(--muted); }
+    .tranche-amount { font-family: var(--mono); font-size: 12px; color: var(--gold); }
+
+    /* ── INTERACTIVE TOOLS ── */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .tool-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tool-card:hover { border-color: rgba(245,200,66,0.25); transform: translateY(-2px); }
+    .tool-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .tool-card:hover::before { opacity: 1; }
+    .tool-title {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tool-live {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+      animation: blink 2s infinite;
+    }
+
+    /* Buy Simulator */
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: var(--mono); font-size: 14px;
+      color: var(--text); outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus { border-color: rgba(245,200,66,0.4); }
+    .field input::placeholder { color: var(--muted); }
+    .sim-result {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      font-family: var(--mono); font-size: 13px;
+      color: var(--muted); min-height: 44px;
+      display: flex; align-items: center;
+    }
+    .sim-result strong { color: var(--gold); }
+
+    /* Wallet panel */
+    .wallet-status {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px;
+      text-align: center; margin-bottom: 16px;
+    }
+    .wallet-addr { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .wallet-bal { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--gold); }
+    .wallet-usd { font-size: 12px; color: var(--muted); }
+    .connect-btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border: none; border-radius: 12px;
+      font-family: var(--body); font-size: 14px; font-weight: 800;
+      color: #07090e; cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(245,200,66,0.25);
+    }
+    .connect-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,200,66,0.4); }
+
+    /* Rewards info */
+    .reward-info {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .reward-info-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .reward-info-val { font-family: var(--mono); font-size: 16px; color: var(--gold); font-weight: 700; margin-top: 4px; }
+    .reward-info-val.pending { color: #888; font-size: 13px; }
+
+    /* ── ROADMAP ── */
+    .roadmap-section { background: var(--bg2); }
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      position: relative;
+    }
+    .roadmap-grid::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--gold), transparent);
+      opacity: 0.2;
+    }
+
+    .phase-card {
+      padding: 36px; position: relative;
+    }
+    .phase-card:nth-child(odd) { padding-right: 60px; }
+    .phase-card:nth-child(even) { padding-left: 60px; }
+
+    .phase-dot {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px rgba(245,200,66,0.5);
+      top: 44px;
+    }
+    .phase-card:nth-child(odd) .phase-dot { right: -6px; }
+    .phase-card:nth-child(even) .phase-dot { left: -6px; }
+    .phase-dot.done { background: var(--success); box-shadow: 0 0 12px rgba(0,224,150,0.5); }
+    .phase-dot.active { background: var(--gold); animation: pulseDot 2s infinite; }
+    .phase-dot.future { background: var(--muted); box-shadow: none; }
+
+    @keyframes pulseDot {
+      0%,100%{box-shadow: 0 0 12px rgba(245,200,66,0.5)}
+      50%{box-shadow: 0 0 24px rgba(245,200,66,0.8), 0 0 40px rgba(245,200,66,0.3)}
+    }
+
+    .phase-label {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .phase-title {
+      font-family: var(--display); font-size: 1.8rem;
+      color: var(--text); margin-bottom: 16px;
+    }
+    .phase-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .phase-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--muted); line-height: 1.5;
+    }
+    .phase-item .icon { flex-shrink: 0; margin-top: 1px; }
+    .phase-item.done { color: var(--text); }
+    .phase-item.done .icon { color: var(--success); }
+    .phase-item.pending .icon { color: var(--gold); }
+    .phase-item.future .icon { color: var(--muted); }
+
+    /* ── DOCUMENT CENTER ── */
+    .docs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .doc-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      text-decoration: none; color: var(--text);
+      transition: all 0.2s; display: block;
+      position: relative; overflow: hidden;
+    }
+    .doc-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .doc-card:hover { border-color: rgba(245,200,66,0.25); transform: translateY(-3px); }
+    .doc-card:hover::before { opacity: 1; }
+    .doc-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+    .doc-title {
+      font-family: var(--display); font-size: 1.6rem;
+      margin-bottom: 10px; color: var(--text);
+    }
+    .doc-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .doc-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px; font-size: 13px; font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* Exec summary */
+    .exec-box {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+    }
+    .exec-title {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .exec-items { display: flex; flex-direction: column; gap: 12px; }
+    .exec-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      font-size: 13px; color: var(--muted); line-height: 1.5;
+    }
+    .exec-item i { color: var(--success); flex-shrink: 0; margin-top: 2px; }
+    .exec-item strong { color: var(--text); }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 1px; }
+    .faq-item {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover { border-color: rgba(245,200,66,0.2); }
+    .faq-q {
+      padding: 22px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; gap: 16px;
+      font-size: 15px; font-weight: 700; color: var(--text);
+      list-style: none;
+    }
+    .faq-q::-webkit-details-marker { display: none; }
+    .faq-arrow {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 12px;
+      transition: transform 0.3s, background 0.2s;
+    }
+    details[open] .faq-arrow { transform: rotate(45deg); background: rgba(245,200,66,0.1); }
+    .faq-a {
+      padding: 0 28px 22px;
+      font-size: 14px; color: var(--muted); line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 48px 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 24px;
+    }
+    .footer-logo {
+      font-family: var(--display); font-size: 28px;
+      color: var(--text); letter-spacing: 0.04em;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-btn {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 16px; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { color: var(--gold); border-color: rgba(245,200,66,0.3); background: rgba(245,200,66,0.05); }
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 12px;
+    }
+    .footer-contract {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--muted);
+    }
+    .footer-contract a { color: var(--gold); text-decoration: none; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto; padding: 40px 20px; min-height: auto; gap: 40px; }
+      .hero-video-left, .hero-video-right { display: none; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+      .tokenomics-grid, .tools-grid, .docs-grid { grid-template-columns: 1fr; }
+      .roadmap-grid { grid-template-columns: 1fr; }
+      .roadmap-grid::before { display: none; }
+      .phase-card:nth-child(odd), .phase-card:nth-child(even) { padding: 24px; }
+      .phase-dot { display: none; }
+      section { padding: 60px 20px; }
+    }
+    @media (max-width: 600px) {
+      .how-grid { grid-template-columns: 1fr; }
+      .trust-bar { display: none; }
+      .quick-links { gap: 4px; }
+      .ql { font-size: 10px; padding: 5px 10px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ═══════════════════════════════════════════════
-         WALLET SELECTION MODAL
-    ═══════════════════════════════════════════════ -->
-    <div class="wallet-modal-overlay" id="walletModal">
-        <div class="wallet-modal">
-            <div class="wallet-modal-header">
-                <span class="wallet-modal-title">Connect Wallet</span>
-                <button class="wallet-modal-close" id="closeModal">✕</button>
-            </div>
-            <p class="wallet-modal-subtitle">Choose your preferred wallet to connect</p>
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item">
+      <span>SOLIDPROOF AUDIT V2.3</span>
+      <span class="badge badge-gold">85.36/100</span>
+    </div>
+    <span class="trust-divider">|</span>
+    <div class="trust-item">
+      <span class="badge badge-green">✓ KYC VERIFIED</span>
+    </div>
+    <span class="trust-divider">|</span>
+    <div class="trust-item">
+      <span class="badge badge-green">✓ renounceOwnership()</span>
+    </div>
+    <span class="trust-divider">|</span>
+    <div class="trust-item">
+      <span>CONTRACT:</span>
+      <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank">0x22E0...33fa</a>
+    </div>
+  </div>
 
-            <div id="walletOptions">
-                <button class="wallet-option" id="btnMetaMask">
-                    <div class="wallet-option-icon" style="background: rgba(245,158,11,0.1);">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
-                    </div>
-                    <div class="wallet-option-info">
-                        <span class="wallet-option-name">MetaMask</span>
-                        <span class="wallet-option-desc">Browser extension wallet</span>
-                    </div>
-                    <span class="wallet-option-badge" id="metamaskBadge">—</span>
-                </button>
+  <!-- NAVBAR -->
+  <nav class="main-nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-gem">💎</div>
+      MHT · <span>MILESTONE HODL</span>
+    </a>
+    <div class="nav-center">
+      🔥 <strong>TRUST THE PROCESS</strong> &nbsp;🤝&nbsp; EARN THE GROWTH 🔥
+    </div>
+    <div class="nav-right">
+      <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="nav-btn nav-btn-ghost">🥞 Buy $MHT</a>
+      <button class="nav-btn nav-btn-primary" id="navConnectBtn" onclick="connectWallet()">⚡ Connect Wallet</button>
+    </div>
+  </nav>
 
-                <button class="wallet-option" id="btnWalletConnect">
-                    <div class="wallet-option-icon" style="background: rgba(59,130,246,0.1);">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="WalletConnect"><rect width="32" height="32" rx="8" fill="#3B99FC"/><path d="M9.6 12.8c3.5-3.5 9.3-3.5 12.8 0l.4.4c.2.2.2.5 0 .7l-1.4 1.4c-.1.1-.3.1-.4 0l-.6-.6c-2.5-2.5-6.5-2.5-9 0l-.6.6c-.1.1-.3.1-.4 0L8.9 13.9c-.2-.2-.2-.5 0-.7l.7-.4zm15.8 3l1.2 1.2c.2.2.2.5 0 .7l-5.5 5.5c-.2.2-.5.2-.7 0l-3.9-3.9c-.1-.1-.2-.1-.4 0l-3.9 3.9c-.2.2-.5.2-.7 0L5.4 17.7c-.2-.2-.2-.5 0-.7l1.2-1.2c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.1.5-.1.6.1z" fill="white"/></svg>
-                    </div>
-                    <div class="wallet-option-info">
-                        <span class="wallet-option-name">WalletConnect</span>
-                        <span class="wallet-option-desc">Scan QR with Trust Wallet, MetaMask mobile…</span>
-                    </div>
-                    <span class="wallet-option-badge badge-qr">📱 QR</span>
-                </button>
+  <!-- QUICK LINKS -->
+  <div class="quick-links">
+    <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="ql ql-highlight">🥞 BUY ON PANCAKESWAP</a>
+    <a href="https://dexscreener.com/bsc/0xe2e777cebca27a61ca8d2862e9d36c548cdd6e4e" target="_blank" class="ql">📊 DEXSCREENER</a>
+    <a href="https://coinbrain.com/coins/bnb-0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa" target="_blank" class="ql">🧠 COINBRAIN</a>
+    <a href="https://v2.bubblemaps.io/map?address=0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa&chain=bsc" target="_blank" class="ql">🫧 BUBBLEMAPS</a>
+    <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="ql">🛡️ AUDIT & KYC</a>
+    <a href="pages/how-it-works-en.html" class="ql">🇬🇧 HOW IT WORKS</a>
+    <a href="pages/how-it-works-fr.html" class="ql">🇫🇷 COMMENT ÇA MARCHE</a>
+    <a href="pages/roadmap.html" class="ql">🗺️ ROADMAP</a>
+    <a href="pages/mht_architecture.html" class="ql">🏗️ ARCHITECTURE</a>
+    <a href="pages/why-hold-mht.html" class="ql">📊 WHY HOLD</a>
+    <a href="pages/contact.html" class="ql">📩 CONTACT</a>
+    <a href="docs/MHT_Whitepaper_EN.pdf" target="_blank" class="ql">📄 WHITEPAPER EN</a>
+    <a href="docs/MHT_Whitepaper_FR.pdf" target="_blank" class="ql">📄 WHITEPAPER FR</a>
+    <a href="https://t.me/Community_Milestone_hodl" target="_blank" class="ql">💬 TELEGRAM</a>
+  </div>
 
-                <div class="wallet-divider">or</div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-line"></div>
 
-                <button class="wallet-option" id="btnCoinbase">
-                    <div class="wallet-option-icon" style="background: rgba(22,163,74,0.1);">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Coinbase"><rect width="32" height="32" rx="8" fill="#1652F0"/><path d="M16 6C10.477 6 6 10.477 6 16s4.477 10 10 10 10-4.477 10-10S21.523 6 16 6zm0 15.5c-3.038 0-5.5-2.462-5.5-5.5S12.962 10.5 16 10.5s5.5 2.462 5.5 5.5-2.462 5.5-5.5 5.5zm-2-5.5c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2z" fill="white"/></svg>
-                    </div>
-                    <div class="wallet-option-info">
-                        <span class="wallet-option-name">Coinbase Wallet</span>
-                        <span class="wallet-option-desc">Extension or mobile app</span>
-                    </div>
-                    <span class="wallet-option-badge badge-popular">Popular</span>
-                </button>
-
-                <button class="wallet-option" id="btnTrustWallet">
-                    <div class="wallet-option-icon" style="background: rgba(59,130,246,0.08);">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Trust Wallet"><rect width="32" height="32" rx="8" fill="#3375BB"/><path d="M16 6l8 3.5v6c0 4.5-3.4 8.7-8 10-4.6-1.3-8-5.5-8-10v-6L16 6z" fill="white" fill-opacity="0.9"/><path d="M13.5 16l2 2 4-4" stroke="#3375BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="wallet-option-info">
-                        <span class="wallet-option-name">Trust Wallet</span>
-                        <span class="wallet-option-desc">Mobile or browser extension</span>
-                    </div>
-                    <span class="wallet-option-badge badge-popular">BSC Native</span>
-                </button>
-            </div>
-
-            <div class="wallet-loading" id="walletLoading">
-                <div class="spinner-ring"></div>
-                <p style="color:#94a3b8; font-size:0.85rem;" id="loadingText">Connecting…</p>
-                <button class="qr-back" id="cancelConnect">Cancel</button>
-            </div>
-
-            <div class="qr-panel" id="qrPanel">
-                <div class="qr-placeholder" id="qrCodeContainer">
-                    <p style="color:#334155; font-size:0.7rem;">Initializing WalletConnect…</p>
-                </div>
-                <p style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Scan with your mobile wallet</p>
-                <p style="color:#64748b; font-size:0.72rem;">Trust Wallet · MetaMask · Coinbase · Rainbow…</p>
-                <button class="qr-back" id="backFromQR">← Back to wallet list</button>
-            </div>
+    <div class="hero-video-left">
+      <div style="position:relative">
+        <div class="video-glow"></div>
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline>
+            <source src="video_coin.mp4" type="video/mp4">
+          </video>
         </div>
+      </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════
-         NAVBAR
-    ═══════════════════════════════════════════════ -->
-    <nav class="navbar navbar-dark sticky-top">
-        <div class="nav-container">
-            <div class="nav-left">
-                <img src="logo.png" alt="MHT Logo" class="nav-logo me-2">
-                <span class="brand-text">MHT . MILESTONE HODL</span>
-            </div>
-            <div class="nav-center">
-<div class="nav-slogan">🔥 TRUST THE PROCESS 🤝 EARN THE GROWTH 🔥</div>   
-         </div>
-            <div class="nav-right">
-                <button class="btn-connect" id="connectWalletBtn">
-                    <i class="bi bi-wallet2 me-2"></i>Connect
-                </button>
-            </div>
-        </div>
-    </nav>
+    <div class="hero-center">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        BNB Chain · Proof-of-Performance Token
+      </div>
 
+      <h1 class="hero-title">
+        <span class="dim">$MHT</span>
+        MILESTONE<br><span class="gold">HODL</span>
+      </h1>
 
-    <!-- ═══ BANDEAU INFO ═══ -->
-    <div style="background: linear-gradient(90deg, #f97316, #ea580c, #16a34a); padding: 8px 20px; text-align: center; z-index: 100;">
-        <div style="font-family: 'Orbitron', sans-serif; font-weight: bold; color: white; letter-spacing: 1px; font-size: 0.72rem; flex-wrap:wrap; display:flex; justify-content:center; align-items:center; gap:10px;">
-            <span>🛡️ SOLIDPROOF AUDIT V2.3 ✅ 85.36/100</span>
-            <span style="opacity:0.4;">|</span>
-            <span>✅ FOUNDER KYC VERIFIED</span>
-            <span style="opacity:0.4;">|</span>
-            <span>🔐 renounceOwnership ✅</span>
-            <span style="opacity:0.4;">|</span>
-            <span style="color:#4ade80;">CONTRACT: <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" style="color:#4ade80;text-decoration:none;">0x22E0...33fa</a></span>
+      <p class="hero-sub">
+        The first token where <strong>Market Cap growth = automatic rewards</strong>.<br>
+        Every +$1M MCap → Chainlink triggers 5% vault release to HODLers. Forever.
+      </p>
+
+      <div class="hero-mcap" id="heroMcap">
+        <div class="mcap-label">
+          <span>MILESTONE #1 PROGRESSION</span>
+          <span class="mcap-value" id="mcapDisplay">Loading...</span>
         </div>
+        <div class="mcap-bar-outer">
+          <div class="mcap-bar-inner" id="mcapBar"></div>
+        </div>
+        <div class="mcap-sub">Target: $1,000,000 MCap &nbsp;·&nbsp; <span>Next Vault Release 🔥</span></div>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="cta-main">🥞 Buy $MHT Now</a>
+        <a href="pages/how-it-works-en.html" class="cta-secondary">How it works →</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-val" id="statMcap">$275K</div>
+          <div class="stat-label">Market Cap</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <div class="stat-val">21</div>
+          <div class="stat-label">Holders</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <div class="stat-val">85.36</div>
+          <div class="stat-label">Audit Score</div>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <div class="stat-val">0%</div>
+          <div class="stat-label">Owner</div>
+        </div>
+      </div>
     </div>
 
-    <!-- ═══ BARRE DE NAVIGATION BOUTONS ═══ -->
-    <div style="background: rgba(15,23,42,0.98); border-bottom: 1px solid rgba(59,130,246,0.15); padding: 10px 20px;">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:8px; max-width:1200px; margin:0 auto;">
-
-            <!-- Ligne 1 — Actions principales -->
-            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
-                <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa&inputCurrency=BNB" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:linear-gradient(45deg,rgba(34,197,94,0.25),rgba(22,163,74,0.25));border:1px solid rgba(34,197,94,0.5);transition:all 0.2s;"
-                   onmouseover="this.style.background='linear-gradient(45deg,rgba(34,197,94,0.45),rgba(22,163,74,0.45))';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='linear-gradient(45deg,rgba(34,197,94,0.25),rgba(22,163,74,0.25))';this.style.transform='translateY(0)'">
-                    🥞 BUY ON PANCAKESWAP
-                </a>
-                <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(59,130,246,0.35)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(59,130,246,0.15)';this.style.transform='translateY(0)'">
-                    📊 DEXSCREENER CHART
-                </a>
-                <a href="https://coinbrain.com/coins/bnb-0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(59,130,246,0.35)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(59,130,246,0.15)';this.style.transform='translateY(0)'">
-                   🧠 COINBRAIN
-                </a>
-                <a href="https://v2.bubblemaps.io/map?address=0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa&chain=bsc" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(59,130,246,0.35)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(59,130,246,0.15)';this.style.transform='translateY(0)'">
-                   🫧 BUBBLEMAPS
-                </a>
-                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.4);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(139,92,246,0.35)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(139,92,246,0.15)';this.style.transform='translateY(0)'">
-                    🛡️ AUDIT &amp; KYC SOLIDPROOF
-                </a>
-            </div>
-
-            <!-- Ligne 2 — Docs & Pages -->
-            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
-                <a href="https://milestonehodl.apexpad.io/pages/how-it-works-en.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.10);border:1px solid rgba(59,130,246,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(59,130,246,0.10)';this.style.transform='translateY(0)'">
-                    🇬🇧 HOW IT WORKS
-                </a>
-                <a href="https://milestonehodl.apexpad.io/pages/how-it-works-fr.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(59,130,246,0.10);border:1px solid rgba(59,130,246,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(59,130,246,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(59,130,246,0.10)';this.style.transform='translateY(0)'">
-                    🇫🇷 COMMENT ÇA MARCHE
-                </a>
-                <a href="https://milestonehodl.apexpad.io/pages/roadmap.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
-                    🗺️ ROADMAP
-                </a>
-                <a href="https://milestonehodl.apexpad.io/pages/mht_architecture.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(34,197,94,0.22)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(34,197,94,0.08)';this.style.transform='translateY(0)'">
-                    🏗️ ARCHITECTURE
-                </a>
-                <a href="https://milestonehodl.apexpad.io/pages/why-hold-mht.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(245,158,11,0.10);border:1px solid rgba(245,158,11,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(245,158,11,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(245,158,11,0.10)';this.style.transform='translateY(0)'">
-                    📊 WHY HOLD
-                </a>
-            </div>
-
-            <!-- Ligne 3 — Liens -->
-            <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
-                <a href="https://milestonehodl.apexpad.io/pages/contact.html" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(249,115,22,0.10);border:1px solid rgba(249,115,22,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(249,115,22,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(249,115,22,0.10)';this.style.transform='translateY(0)'">
-                    📩 CONTACT
-                </a>
-                <a href="https://milestonehodl.apexpad.io/docs/MHT_Whitepaper_EN.pdf" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
-                    📄 WHITEPAPER EN
-                </a>
-                <a href="https://milestonehodl.apexpad.io/docs/MHT_Whitepaper_FR.pdf" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(139,92,246,0.10);border:1px solid rgba(139,92,246,0.3);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(139,92,246,0.28)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(139,92,246,0.10)';this.style.transform='translateY(0)'">
-                    📄 WHITEPAPER FR
-                </a>
-                <a href="https://apexpad.io" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:linear-gradient(45deg,rgba(249,115,22,0.15),rgba(239,68,68,0.15));border:1px solid rgba(249,115,22,0.45);transition:all 0.2s;"
-                   onmouseover="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.35),rgba(239,68,68,0.35))';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='linear-gradient(45deg,rgba(249,115,22,0.15),rgba(239,68,68,0.15))';this.style.transform='translateY(0)'">
-                    🚀 APEXPAD.IO
-                </a>
-                <a href="https://t.me/Community_Milestone_hodl" target="_blank"
-                   style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-family:'Orbitron',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-decoration:none;color:white;background:rgba(0,136,204,0.15);border:1px solid rgba(0,136,204,0.4);transition:all 0.2s;"
-                   onmouseover="this.style.background='rgba(0,136,204,0.35)';this.style.transform='translateY(-2px)'"
-                   onmouseout="this.style.background='rgba(0,136,204,0.15)';this.style.transform='translateY(0)'">
-                  💬 TELEGRAM COMMUNITY
-                </a>
-            </div>
-
+    <div class="hero-video-right">
+      <div style="position:relative">
+        <div class="video-glow"></div>
+        <div class="video-wrap">
+          <video autoplay muted loop playsinline>
+            <source src="video_grok.mp4" type="video/mp4">
+          </video>
         </div>
+      </div>
     </div>
+  </section>
 
-    <main class="container-fluid">
-        <h1 class="main-title">REWARDING GROWTH, NOT LUCK.</h1>
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-inner">
+      <div class="section-tag reveal">Mechanism</div>
+      <h2 class="section-title reveal">HOW IT WORKS</h2>
+      <p class="section-sub reveal">Four steps. Zero human intervention. All on-chain.</p>
 
-        <!-- ── Milestone Progress ── -->
-        <section class="milestone-container" id="milestoneSection">
-            <img src="images/WELCOME.png" class="milestone-logo" alt="Welcome" style="width:220px;height:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(59,130,246,0.4));">
-            <div class="progress-box" id="progressBox">
-                <p class="text-center small mb-2 fw-bold text-secondary text-uppercase">Next $1M Milestone Progression</p>
-                <div class="progress" style="height: 30px; border-radius: 50px; background: #0f172a; border: 1px solid rgba(255,255,255,0.05);">
-                    <div id="milestoneBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                         style="width: 0%; font-weight: bold; transition: width 1s ease-in-out; min-width:0;">
-                         $0 / $1,000,000
-                    </div>
-                </div>
-                <p class="text-center x-small mt-2 text-muted" style="font-size: 0.75rem;">
-                    Status: <span id="milestoneStatus" class="text-success fw-bold">Calculating...</span>
-                </p>
-                <p class="text-center mt-1 mb-0">
-                    <span id="milestoneCooldown" class="info-badge badge-cooldown">⏳ Loading cooldown…</span>
-                </p>
-                <!-- Referral link inside progress box -->
-                <div style="text-align:center; margin-top:12px;">
-                    <a href="https://dexscreener.com/bsc/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank"
-                       style="background:linear-gradient(45deg,#3b82f6,#8b5cf6);color:white;padding:10px 28px;border-radius:50px;font-weight:bold;text-decoration:none;font-size:0.85rem;display:inline-block;">
-                        📊 LIVE CHART — DEXSCREENER
-                    </a>
-                </div>
-            </div>
-            <img src="images/HI.png" class="milestone-logo" alt="Hi!" style="width:220px;height:220px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(139,92,246,0.4));">
-        </section>
-
-        <!-- ── Main Dashboard ── -->
-        <section class="main-dashboard">
-            <div class="token-col" style="display:flex; flex-direction:column;">
-                <div class="wallet-card text-start" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                    <h6 class="text-center small text-secondary mb-3 fw-bold">TOKEN ALLOCATION</h6>
-                    <div class="chart-container" style="position:relative;">
-                        <canvas id="tokenChart"></canvas>
-                        <!-- Pièce MHT au centre du donut -->
-                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;">
-                            <div style="width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
-                                <img src="piece.png" alt="MHT Coin" style="width:160px;height:160px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(59,130,246,0.8));border-radius:50%;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 small" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-                        <ul class="list-unstyled mb-3">
-                            <li><span style="color:#3b82f6">●</span> Smart-Vault: <strong>50%</strong></li>
-                            <li><span style="color:#64748b">●</span> LP Progressive: <strong>20%</strong></li>
-                            <li><span style="color:#f59e0b">●</span> Marketing: <strong>15%</strong></li>
-                            <li><span style="color:#a78bfa">●</span> START (LP flush): <strong>5%</strong></li>
-                            <li><span style="color:#ef4444">●</span> Founder: <strong>5%</strong></li>
-                            <li><span style="color:#10b981">●</span> Bonus V1: <strong>5%</strong></li>
-                        </ul>
-                        <div class="pt-2 border-top border-secondary">
-                            <p class="mb-1" style="color:#3b82f6"><i class="bi bi-shield-check"></i> Buy Tax: 2% (1% Burn / 1% Mkt → BNB auto-swap)</p>
-                            <p class="mb-0" style="color:#8b5cf6"><i class="bi bi-graph-up-arrow"></i> Sell Tax: 5% (1% Burn / 2% Auto-LP burned / 2% Mkt → BNB auto-swap)</p>
-                            <p class="mb-0" style="color:#22c55e; font-size:0.75rem;"><i class="bi bi-lock-fill"></i> renounceOwnership() at launch — trustless forever</p>
-                        </div>
-                        <!-- ATTENTION sticker sous tokenomics -->
-                        <div style="text-align:center; margin-top:auto; padding-top:15px;">
-                            <img src="images/ATTENTION.png" alt="Attention Please!"
-                                 style="width:180px; filter:drop-shadow(0 0 10px rgba(245,158,11,0.5));">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="center-col">
-
-                <!-- ═══ CALCULATEUR COMPLET ═══ -->
-                <div style="width:100%;max-width:380px;margin-top:20px;background:var(--card-bg);border-radius:20px;padding:22px;border:1px solid rgba(139,92,246,0.3);box-shadow:0 0 20px rgba(139,92,246,0.1);">
-
-                    <!-- ══ BUY SIMULATOR ══ -->
-                    <h6 style="font-family:'Orbitron';color:#f97316;font-size:0.7rem;letter-spacing:2px;text-align:center;margin-bottom:14px;">🛒 BUY SIMULATOR</h6>
-
-                    <!-- Invest -->
-                    <div style="margin-bottom:10px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">💵 Amount to invest ($)</label>
-                        <input type="number" id="buyUSD" placeholder="e.g. 200" min="0"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(249,115,22,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcBuy()">
-                    </div>
-
-                    <!-- Current price — read-only, auto-filled -->
-                    <div style="margin-bottom:10px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
-                            📡 Current price ($)
-                            <span style="color:#22c55e;font-size:0.65rem;margin-left:4px;">● live</span>
-                        </label>
-                        <input type="number" id="buyCurrentPrice" step="0.000001" min="0"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.35);border-radius:10px;padding:10px 14px;color:#22c55e;font-size:0.9rem;outline:none;"
-                            oninput="this.dataset.userModified='1'; calcBuy()" placeholder="auto-filled…">
-                    </div>
-
-                    <!-- Target price -->
-                    <div style="margin-bottom:14px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">🎯 Target price ($) <span style="color:#475569;font-size:0.65rem;">(optional)</span></label>
-                        <input type="number" id="buyTargetPrice" placeholder="e.g. 0.001" step="0.00001" min="0"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcBuy()">
-                    </div>
-
-                    <!-- Results -->
-                    <div id="buyResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(249,115,22,0.15);display:none;margin-bottom:6px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">🪙 MHT received (after 2% tax)</span>
-                            <span id="buyMHT" style="color:#f97316;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">📊 Your share of supply</span>
-                            <span id="buyShare" style="color:#8b5cf6;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);">
-                            <span style="color:#94a3b8;font-size:0.75rem;">🎁 Reward at next milestone</span>
-                            <span id="buyReward" style="color:#3b82f6;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div id="buyTargetRow" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">💰 Bag value at target price</span>
-                            <span id="buyBagValue" style="color:#22c55e;font-weight:bold;font-size:0.95rem;">—</span>
-                        </div>
-                        <div id="buyROIRow" style="display:flex;justify-content:space-between;align-items:center;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">🚀 ROI</span>
-                            <span id="buyROI" style="color:#f59e0b;font-weight:bold;font-size:1rem;">—</span>
-                        </div>
-                    </div>
-                    <div id="buyPlaceholder" style="text-align:center;padding:6px 0;margin-bottom:6px;">
-                        <span style="color:#475569;font-size:0.75rem;font-style:italic;">Enter an amount to simulate 🚀</span>
-                    </div>
-
-                    <!-- DIVIDER -->
-                    <div style="border-top:1px solid rgba(255,255,255,0.06);margin:16px 0;"></div>
-
-                    <!-- ══ REWARD CALCULATOR ══ -->
-                    <h6 style="font-family:'Orbitron';color:#8b5cf6;font-size:0.7rem;letter-spacing:2px;text-align:center;margin-bottom:14px;">🎁 REWARD CALCULATOR</h6>
-
-                    <!-- Holdings -->
-                    <div style="margin-bottom:10px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">💎 Your MHT Holdings</label>
-                        <input type="number" id="calcMHT" placeholder="e.g. 1000000" min="0"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(139,92,246,0.4);border-radius:10px;padding:10px 14px;color:white;font-size:0.9rem;outline:none;"
-                            oninput="calcReward()">
-                    </div>
-
-                    <!-- Current value display (auto, no input) -->
-                    <div style="margin-bottom:10px;background:#0f172a;border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
-                        <span style="color:#94a3b8;font-size:0.75rem;">💵 Current value</span>
-                        <span id="calcCurrentValue" style="color:#22c55e;font-weight:bold;font-size:0.88rem;">—</span>
-                    </div>
-
-                    <!-- Milestone selector -->
-                    <div style="margin-bottom:14px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:8px;">🏆 Milestone target</label>
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <button onclick="changeMilestone(-1)"
-                                style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.4);color:#a78bfa;font-size:1.1rem;cursor:pointer;flex-shrink:0;transition:0.2s;"
-                                onmouseover="this.style.background='rgba(139,92,246,0.35)'" onmouseout="this.style.background='rgba(139,92,246,0.15)'">−</button>
-                            <div style="flex:1;text-align:center;background:#0f172a;border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:8px 6px;">
-                                <div id="milestoneLabel" style="color:#a78bfa;font-family:'Orbitron';font-size:0.75rem;font-weight:bold;">Milestone #1</div>
-                                <div id="milestoneMcap" style="color:#64748b;font-size:0.65rem;margin-top:2px;">$1,000,000 MCap</div>
-                            </div>
-                            <button onclick="changeMilestone(+1)"
-                                style="width:36px;height:36px;border-radius:50%;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.4);color:#a78bfa;font-size:1.1rem;cursor:pointer;flex-shrink:0;transition:0.2s;"
-                                onmouseover="this.style.background='rgba(139,92,246,0.35)'" onmouseout="this.style.background='rgba(139,92,246,0.15)'">+</button>
-                        </div>
-                    </div>
-
-                    <!-- Eligible supply (auto) -->
-                    <div style="margin-bottom:14px;">
-                        <label style="color:#94a3b8;font-size:0.75rem;display:block;margin-bottom:5px;">
-                            📊 Eligible Supply <span style="cursor:help;" title="Auto-filled from on-chain data — excludes LP, marketing & apexpad wallets">ⓘ</span>
-                        </label>
-                        <input type="number" id="calcCirc" min="1"
-                            style="width:100%;background:#0f172a;border:1px solid rgba(34,197,94,0.4);border-radius:10px;padding:10px 14px;color:#22c55e;font-size:0.9rem;outline:none;"
-                            oninput="calcReward()">
-                    </div>
-
-                    <!-- Results -->
-                    <div id="calcResult" style="background:#0f172a;border-radius:12px;padding:14px;border:1px solid rgba(139,92,246,0.15);display:none;margin-bottom:6px;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">📊 Your share of supply</span>
-                            <span id="calcShare" style="color:#8b5cf6;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">🎁 MHT Reward (this milestone)</span>
-                            <span id="calcMHTReward" style="color:#3b82f6;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;">
-                            <span style="color:#94a3b8;font-size:0.75rem;">🎁 Total rewards (milestones 1→N)</span>
-                            <span id="calcMHTCumul" style="color:#60a5fa;font-weight:bold;font-size:0.88rem;">—</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,0.05);">
-                            <span style="color:#94a3b8;font-size:0.75rem;">💵 Reward value in USD</span>
-                            <span id="calcUSDReward" style="color:#22c55e;font-weight:bold;font-size:0.95rem;">—</span>
-                        </div>
-                        <!-- Total bag — highlighted -->
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:10px 12px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:10px;">
-                            <span style="color:#fbbf24;font-size:0.78rem;font-weight:bold;">💼 Total bag value</span>
-                            <span id="calcTotalValue" style="color:#f59e0b;font-weight:bold;font-size:1rem;">—</span>
-                        </div>
-                        <div style="margin-top:6px;text-align:center;">
-                            <span id="calcTotalMHT" style="color:#64748b;font-size:0.68rem;">— MHT total</span>
-                        </div>
-                    </div>
-                    <div id="calcPlaceholder" style="text-align:center;padding:6px 0;">
-                        <span style="color:#475569;font-size:0.75rem;font-style:italic;">Enter your holdings to calculate 🚀</span>
-                    </div>
-
-                    <p style="color:#475569;font-size:0.65rem;text-align:center;margin-top:14px;margin-bottom:0;">
-                        ⚠️ Estimation only — not financial advice. DYOR.
-                    </p>
-                </div>
-            </div>
-
-            <div class="wallet-col">
-                <!-- Account Status -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block">Account Status</small>
-                    <span class="fw-bold text-danger" id="accountStatus">Not Connected</span>
-                </div>
-
-                <!-- Balance + Claim -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block">Your MHT Balance</small>
-                    <span class="fw-bold d-block mb-2" id="mht-balance">0.00 MHT</span>
-                    <button class="btn-claim" id="claimBtn" disabled>
-                        <i class="bi bi-gift me-2"></i>No Rewards Yet
-                    </button>
-                </div>
-
-                <!-- Market Cap -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block">Current Market Cap</small>
-                    <span class="fw-bold text-success" id="market-cap">$0</span>
-                </div>
-
-                <!-- ✅ V4 — Eligible Supply (H-02) -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block">
-                        Eligible Supply
-                        <span class="ms-1" style="cursor:help;" title="Circulating supply eligible for rewards (excludes LP pair, marketing & apexpad wallets)">ⓘ</span>
-                    </small>
-                    <span class="fw-bold text-info" id="eligible-supply">— MHT</span>
-                </div>
-
-                <!-- ✅ V2.3 — LP Progressive Status (5 tranches MCap) -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block mb-2">
-                        LP Tranches (MCap)
-                        <span class="ms-1" style="cursor:help;" title="200M MHT released in 5 tranches at $1.5M/$10M/$25M/$50M/$75M MCap">ⓘ</span>
-                    </small>
-                    <div id="lp-status" class="small text-start">
-                        <span style="color:#f97316;">🔒 T1 : 40M ($1.5M MCap)</span><br>
-                        <span style="color:#f97316;">🔒 T2 : 40M ($10M MCap)</span><br>
-                        <span style="color:#f97316;">🔒 T3 : 40M ($25M MCap)</span><br>
-                        <span style="color:#f97316;">🔒 T4 : 40M ($50M MCap)</span><br>
-                        <span style="color:#f97316;">🔒 T5 : 40M ($75M MCap)</span>
-                    </div>
-                </div>
-
-                <!-- ✅ V2.3 — Flush LP (6 paliers prix) -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block mb-2">
-                        Flush LP (Price Tiers)
-                        <span class="ms-1" style="cursor:help;" title="61.7M MHT released in 6 price tiers ($0.0003 → $0.0008)">ⓘ</span>
-                    </small>
-                    <div id="flush-status" class="small text-start">
-                        <span style="color:#f97316;">🔒 F1 @ $0.0003</span><br>
-                        <span style="color:#f97316;">🔒 F2 @ $0.0004</span><br>
-                        <span style="color:#f97316;">🔒 F3 @ $0.0005</span><br>
-                        <span style="color:#f97316;">🔒 F4 @ $0.0006</span><br>
-                        <span style="color:#f97316;">🔒 F5 @ $0.0007</span><br>
-                        <span style="color:#f97316;">🔒 F6 @ $0.0008</span>
-                    </div>
-                </div>
-
-                <!-- ✅ V2.3 — Vault Balance -->
-                <div class="wallet-card">
-                    <small class="text-secondary d-block">Smart Vault Balance</small>
-                    <span class="fw-bold text-primary" id="vault-balance">— MHT</span>
-                </div>
-            </div>
-        </section>
-
-
-
-
-        <!-- ═══════════════════════════════════════════════
-             HOW IT WORKS
-        ═══════════════════════════════════════════════ -->
-        <section class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.08);">
-            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">HOW IT WORKS</h2>
-            <div class="row g-4 justify-content-center" style="max-width: 1000px; margin: 0 auto;">
-                <div class="col-md-3 col-6 text-center">
-                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(59,130,246,0.2); height: 100%;">
-                        <div style="font-size: 2.5rem; margin-bottom: 15px;">💎</div>
-                        <div style="font-family: 'Orbitron'; color: #3b82f6; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 1</div>
-                        <h6 style="color: white; font-weight: bold;">Buy & Hold MHT</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Purchase MHT on PancakeSwap V2 and hold in your wallet. Connect your wallet above to track your rewards.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(139,92,246,0.2); height: 100%;">
-                        <div style="font-size: 2.5rem; margin-bottom: 15px;">📈</div>
-                        <div style="font-family: 'Orbitron'; color: #8b5cf6; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 2</div>
-                        <h6 style="color: white; font-weight: bold;">Market Cap Grows</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">Every +$1,000,000 in Market Cap triggers the Smart-Vault.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(34,197,94,0.2); height: 100%;">
-                        <div style="font-size: 2.5rem; margin-bottom: 15px;">⚡</div>
-                        <div style="font-family: 'Orbitron'; color: #22c55e; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 3</div>
-                        <h6 style="color: white; font-weight: bold;">Chainlink Executes</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">5% of vault released automatically (floor 1M, cap 20M MHT) — zero human action. Ever.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div style="background: var(--card-bg); border-radius: 20px; padding: 30px 20px; border: 1px solid rgba(245,158,11,0.2); height: 100%;">
-                        <div style="font-size: 2.5rem; margin-bottom: 15px;">🎁</div>
-                        <div style="font-family: 'Orbitron'; color: #f59e0b; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px;">STEP 4</div>
-                        <h6 style="color: white; font-weight: bold;">Auto-Split & Rewards</h6>
-                        <p style="color: #94a3b8; font-size: 0.8rem; margin: 0;">70% to holders pro-rata. 30% marketing swapped to BNB. All automatic, forever.</p>
-                    </div>
-                </div>
-        </section>
-     <!-- roadmap -->
-        <section class="roadmap-section">
-            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 5px; color: #fff;">STRATEGIC ROADMAP</h2>
-
-            <!-- ═══ PHASE 1 (droite) + WORK (gauche) ═══ -->
-            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
-                <!-- WORK sticker gauche — même hauteur que le bloc -->
-                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-end; padding-right:20px;">
-                    <img src="images/WORK.png" alt="The Team is Working"
-                         style="width:190px; filter:drop-shadow(0 0 12px rgba(59,130,246,0.4));">
-                </div>
-                <!-- Trait vertical + dot -->
-                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #3b82f6);"></div>
-                    <div style="width:20px; height:20px; background:#3b82f6; border-radius:50%; box-shadow:0 0 15px #3b82f6; z-index:10; flex-shrink:0;"></div>
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #3b82f6, transparent);"></div>
-                </div>
-                <!-- Bloc Phase 1 droite -->
-                <div style="width:400px; padding-left:30px;">
-                    <div class="roadmap-content">
-                        <span class="roadmap-phase">PHASE 1</span>
-                        <h4>✅ Genesis & Launch</h4>
-                        <ul>
-                            <li class="done">✅ Smart Contract Security Audit — SolidProof 80/100</li>
-                            <li class="done">✅ MHT Dashboard V5 Release</li>
-                            <li class="done">✅ PancakeSwap Listed — LIVE 🔥</li>
-                            <li class="done">✅ DEX Launch — 17 April 2026</li>
-                            <li style="color:#f97316;">🔧 Bug identified in V1 — V2 in development</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- ═══ PHASE 2 (gauche) + DH (droite) ═══ -->
-            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
-                <!-- Bloc Phase 2 gauche -->
-                <div style="width:400px; padding-right:30px; text-align:right;">
-                    <div class="roadmap-content">
-                        <span class="roadmap-phase">PHASE 2 ✅</span>
-                        <h4>✅ V2.3 DEX Launch — LIVE</h4>
-                        <ul style="text-align:left;">
-                            <li class="done">✅ MHT V2.3 Deploy — SolidProof 85.36/100 — BSC Mainnet</li>
-                            <li class="done">✅ V1 Holders: snapshot hardcodé — airdrop instantané au deploy</li>
-                            <li class="done">✅ 30M MHT + 10 BNB → LP initial PinkLock 6 mois</li>
-                            <li class="done">✅ Chainlink Automation active</li>
-                            <li style="color:#f97316;">🔥 renounceOwnership() — trustless forever (imminent)</li>
-                            <li>T1 LP 40M auto @ $1.5M MCap — CoinGecko & CMC listing</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Trait vertical + dot -->
-                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #8b5cf6);"></div>
-                    <div style="width:20px; height:20px; background:#8b5cf6; border-radius:50%; box-shadow:0 0 15px #8b5cf6; z-index:10; flex-shrink:0;"></div>
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #8b5cf6, transparent);"></div>
-                </div>
-                <!-- DH sticker droite — même hauteur -->
-                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-start; padding-left:20px;">
-                    <img src="images/DH.png" alt="Diamond Hands"
-                         style="width:190px; filter:drop-shadow(0 0 12px rgba(139,92,246,0.5));">
-                </div>
-            </div>
-
-            <!-- ═══ PHASE 3 (droite) + UP (gauche) ═══ -->
-            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
-                <!-- UP sticker gauche -->
-                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-end; padding-right:20px;">
-                    <img src="images/UP.png" alt="UP!"
-                         style="width:190px; filter:drop-shadow(0 0 12px rgba(34,197,94,0.5));">
-                </div>
-                <!-- Trait vertical + dot -->
-                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #22c55e);"></div>
-                    <div style="width:20px; height:20px; background:#22c55e; border-radius:50%; box-shadow:0 0 15px #22c55e; z-index:10; flex-shrink:0;"></div>
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #22c55e, transparent);"></div>
-                </div>
-                <!-- Bloc Phase 3 droite -->
-                <div style="width:400px; padding-left:30px;">
-                    <div class="roadmap-content">
-                        <span class="roadmap-phase">PHASE 3</span>
-                        <h4>$10M Market Cap</h4>
-                        <ul>
-                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Recurring Milestone Reward Distribution</strong></li>
-                            <li><strong class="text-success"><i class="bi bi-droplet-fill"></i> T2 LP 40M auto @ $10M MCap</strong></li>
-                            <li>Global Marketing Blitz &amp; Influencer Partnerships</li>
-                            <li>Tier-2 Centralized Exchange (CEX) Listings</li>
-                            <li>Secondary Tier-1 Security Audit (Certik/Hacken)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══ PHASE 4 (gauche) + X1M (droite) ═══ -->
-            <div style="display:flex; align-items:stretch; justify-content:center; margin-bottom:60px; position:relative;">
-                <!-- Bloc Phase 4 gauche -->
-                <div style="width:400px; padding-right:30px; text-align:right;">
-                    <div class="roadmap-content">
-                        <span class="roadmap-phase">PHASE 4</span>
-                        <h4>$25M → $100M+ Market Cap</h4>
-                        <ul style="text-align:left;">
-                            <li><strong class="text-success"><i class="bi bi-gift-fill"></i> Ultimate Milestone Holder Payouts</strong></li>
-                            <li><strong class="text-success"><i class="bi bi-droplet-fill"></i> T3 40M @ $25M / T4 40M @ $50M / T5 40M @ $75M MCap</strong></li>
-                            <li>Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
-                            <li>Full Baron Ecosystem Expansion &amp; Governance DAO</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Trait vertical + dot -->
-                <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, transparent, #f59e0b);"></div>
-                    <div style="width:20px; height:20px; background:#f59e0b; border-radius:50%; box-shadow:0 0 15px #f59e0b; z-index:10; flex-shrink:0;"></div>
-                    <div style="width:2px; flex:1; background:linear-gradient(to bottom, #f59e0b, transparent);"></div>
-                </div>
-                <!-- X1M sticker droite -->
-                <div class="d-none d-lg-flex" style="width:200px; align-items:center; justify-content:flex-start; padding-left:20px;">
-                    <img src="images/X1M.png" alt="X1000"
-                         style="width:190px; filter:drop-shadow(0 0 12px rgba(245,158,11,0.5));">
-                </div>
-            </div>
-
-
-
-        </section>
-<!-- ═══════════════════════════════════════════════
-     DOCUMENT CENTER
-═══════════════════════════════════════════════ -->
-<section id="docsSection" class="container my-5 py-5" style="border-top: 1px solid rgba(255,255,255,0.1);">
-    <div class="row align-items-start">
-        <div class="col-lg-6" style="display:flex; flex-direction:column;">
-            <h2 style="font-family: 'Orbitron'; color: #fff; letter-spacing: 3px;" class="mb-4">DOCUMENT CENTER</h2>
-            <p class="text-secondary">
-                Dive deep into the mechanics of the Milestone HODL Token. Our White Paper details the Game Theory, the Smart-Vault protocol, and our long-term vision for a performance-based wealth distribution.
-            </p>
-            <div class="d-flex flex-wrap gap-3 mt-4">
-                <!-- LOOK_WP + MOON stickers -->
-                <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px; width:100%;">
-                    <img src="images/LOOK_WP.png" alt="Learn More"
-                         style="width:180px; filter:drop-shadow(0 0 10px rgba(139,92,246,0.4));">
-                    <img src="images/MOON.png" alt="To The Moon"
-                         style="width:180px; filter:drop-shadow(0 0 10px rgba(245,158,11,0.4));">
-                </div>
-                <a href="docs/MHT_Whitepaper_FR.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                    <span class="me-2">🇫🇷</span> WHITE PAPER (FR)
-                </a>
-                <a href="docs/MHT_Whitepaper_EN.pdf" download class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold">
-                    <span class="me-2">🇬🇧</span> WHITE PAPER (EN)
-                </a>
-                <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="btn rounded-pill px-4 py-2 fw-bold" style="border:1px solid rgba(34,197,94,0.5);color:#22c55e;background:rgba(34,197,94,0.08);">
-                    <i class="bi bi-shield-check me-2"></i>AUDIT V2.3 ✅ 85.36/100
-                </a>
-                <!-- S_P sous la bannière audit -->
-                <div style="width:100%; margin-top:15px;">
-                    <video src="images/S_P.mov" autoplay loop muted playsinline
-                           style="width:100%; max-width:420px; border-radius:16px; box-shadow:0 0 20px rgba(34,197,94,0.4);"></video>
-                </div>
-            </div>
+      <div class="how-grid reveal">
+        <div class="how-card">
+          <div class="how-num">1</div>
+          <div class="how-icon">💎</div>
+          <div class="how-step">STEP 01</div>
+          <div class="how-title">Buy & Hold $MHT</div>
+          <div class="how-desc">Purchase MHT on PancakeSwap and hold in your wallet. Connect above to track your rewards in real-time.</div>
         </div>
-
-        <div class="col-lg-6 mt-4 mt-lg-0" style="display:flex; flex-direction:column;">
-            <!-- TRUST centré en haut -->
-            <div style="text-align:center; margin-bottom:20px;">
-                <img src="images/TRUST.png" alt="Trust The Process"
-                     style="width:150px; filter:drop-shadow(0 0 12px rgba(245,158,11,0.4));">
-            </div>
-            <div class="doc-card" style="flex:1;">
-                <h5 style="font-family: 'Orbitron'; color: var(--primary-color);" class="small mb-3">EXECUTIVE SUMMARY</h5>
-                <ul class="list-unstyled small text-secondary">
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>50% Supply</strong> locked in Smart-Vault — asymptotic 5% release (floor 1M, cap 20M MHT).</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>Chainlink</strong> MCap on <code>(TOTAL_SUPPLY - burned)</code> × price — tamper-proof.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i> <strong>70% Holders / 30% Marketing BNB</strong> — per milestone.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>5 LP tranches × 40M</strong> auto-released at $1.5M / $10M / $25M / $50M / $75M MCap.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i> <strong>LP tokens burned</strong> on every injection — permanent price floor.</li>
-                    <li class="mb-2"><i class="bi bi-check2-circle text-warning me-2"></i> <strong>Snapshot V1 hardcodé</strong> au deploy — airdrop instantané, zéro claim nécessaire.</li>
-                    <li><i class="bi bi-check2-circle text-danger me-2"></i> <strong>renounceOwnership()</strong> at launch — no admin, no backdoor. Forever.</li>
-                </ul>
-            </div>
-            <!-- TEAM_MHT alignée à droite -->
-            <div style="display:flex; justify-content:flex-end; margin-top:12px;">
-                <video src="images/TEAM_MHT.mov" autoplay loop muted playsinline
-                       style="width:100%; max-width:300px; border-radius:16px; box-shadow:0 0 20px rgba(59,130,246,0.4);"></video>
-            </div>
+        <div class="how-card">
+          <div class="how-num">2</div>
+          <div class="how-icon">📈</div>
+          <div class="how-step">STEP 02</div>
+          <div class="how-title">Market Cap Grows</div>
+          <div class="how-desc">Every +$1,000,000 in Market Cap triggers the Smart-Vault. Burns accelerate scarcity. Time concentrates value.</div>
         </div>
+        <div class="how-card">
+          <div class="how-num">3</div>
+          <div class="how-icon">⚡</div>
+          <div class="how-step">STEP 03</div>
+          <div class="how-title">Chainlink Executes</div>
+          <div class="how-desc">5% of vault auto-released (floor 1M, cap 20M MHT) — tamper-proof, zero human action. The math runs itself.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">4</div>
+          <div class="how-icon">🎁</div>
+          <div class="how-step">STEP 04</div>
+          <div class="how-title">Auto-Split & Rewards</div>
+          <div class="how-desc">70% to eligible holders pro-rata. 30% marketing swapped to BNB. Distributed automatically. Forever.</div>
+        </div>
+      </div>
     </div>
-</section>
- <!-- ═══════════════════════════════════════════════ FAQ ═══════════════════════════════════════════════ -->
-        <section class="container my-5 py-5">
-            <h2 class="text-center mb-5" style="font-family: 'Orbitron'; letter-spacing: 3px;">FREQUENTLY ASKED QUESTIONS</h2>
-            <div class="accordion accordion-flush" id="faqMHT" style="max-width: 800px; margin: 0 auto;">
+  </section>
 
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                            How does the $1M Milestone system work?
-                        </button>
-                    </h2>
-                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            Every time the Market Cap grows by <strong class="text-white">$1,000,000</strong>, Chainlink Automation automatically triggers a release of <strong class="text-white">5% of the remaining vault</strong> (minimum 1M MHT, maximum 20M MHT). Market Cap is calculated on <strong class="text-white">(TOTAL_SUPPLY − burned) × MHT price</strong> via Chainlink price feed. A <strong class="text-white">24-hour cooldown</strong> between milestones prevents rapid vault draining. The vault never reaches zero — it's mathematically asymptotic.
-                        </div>
-                    </div>
-                </div>
+  <!-- TOKENOMICS -->
+  <section id="tokenomics" class="tokenomics-section">
+    <div class="section-inner">
+      <div class="section-tag reveal">On-Chain</div>
+      <h2 class="section-title reveal">TOKENOMICS</h2>
+      <p class="section-sub reveal">Designed to reward patience. Every variable is immutable.</p>
 
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            What happens if the Market Cap drops after a payout?
-                        </button>
-                    </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            Once a Milestone is reached and the reward is distributed, that level is permanently validated. A price drop does <strong class="text-white">not</strong> cancel the reward already distributed. The next reward will only trigger when the Market Cap reaches the <strong class="text-white">next $1M increment</strong> — so every milestone is a one-way ratchet upward.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                            Is the Milestone Vault secure?
-                        </button>
-                    </h2>
-                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            Yes. The Vault is governed entirely by the Smart Contract, audited by <strong class="text-white">SolidProof</strong>. Releases are restricted to the <strong class="text-white">Chainlink Automation registry</strong>, with a <strong class="text-white">24h cooldown</strong> between executions. Market cap updates use a <strong class="text-white">24h timelock</strong> to prevent instant manipulation.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                            How do I receive my rewards?
-                        </button>
-                    </h2>
-                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            Rewards are allocated <strong class="text-white">pro-rata</strong> based on your MHT balance at the exact block when a Milestone triggers. Only <strong class="text-white">eligible holders</strong> (excluding LP pair, marketing & apexpad wallets) receive rewards. To claim, simply connect your wallet and click <strong class="text-white">"Claim Rewards"</strong>.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                            How is the 5,000,000 MHT release split?
-                        </button>
-                    </h2>
-                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            Each release is split automatically by the contract: <strong class="text-white">70% goes directly to eligible holders pro-rata</strong> and <strong class="text-white">30% is swapped to BNB and sent to the marketing wallet</strong> — fully automatic, zero human intervention.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item bg-transparent border-bottom border-secondary">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-transparent text-white fw-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
-                            Why is the Sell Tax higher than the Buy Tax?
-                        </button>
-                    </h2>
-                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqMHT">
-                        <div class="accordion-body text-secondary">
-                            The asymmetric tax structure (<strong class="text-white">2% Buy / 5% Sell</strong>) is by design. It mathematically rewards patience and penalizes short-term speculation. HODLing is always the dominant strategy — buying and holding accumulates more value than frequent trading.
-                        </div>
-                    </div>
-                </div>
-
+      <div class="tokenomics-grid reveal">
+        <div class="donut-wrap">
+          <div class="donut-container">
+            <svg class="donut-svg" viewBox="0 0 100 100">
+              <!-- Smart-Vault 50% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#f5c842" stroke-width="12"
+                stroke-dasharray="119.4 238.8" stroke-dashoffset="0" opacity="0.9"/>
+              <!-- LP Progressive 20% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#5a6478" stroke-width="12"
+                stroke-dasharray="47.75 310.45" stroke-dashoffset="-119.4" opacity="0.7"/>
+              <!-- Marketing 15% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#e8501a" stroke-width="12"
+                stroke-dasharray="35.81 322.39" stroke-dashoffset="-167.15" opacity="0.8"/>
+              <!-- START LP flush 5% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#00e096" stroke-width="12"
+                stroke-dasharray="11.94 326.26" stroke-dashoffset="-202.96"/>
+              <!-- Founder 5% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#4a5568" stroke-width="12"
+                stroke-dasharray="11.94 326.26" stroke-dashoffset="-214.9"/>
+              <!-- Bonus V1 5% -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#2d3a4f" stroke-width="12"
+                stroke-dasharray="11.94 326.26" stroke-dashoffset="-226.84"/>
+            </svg>
+            <div class="donut-center">
+              <video autoplay muted loop playsinline style="width:168px;height:168px;object-fit:cover;border-radius:50%;border:2px solid rgba(245,200,66,0.35);box-shadow:0 0 28px rgba(245,200,66,0.25)">
+                <source src="video_coin.mp4" type="video/mp4">
+              </video>
             </div>
-        </section>
-    </main>
-
-    <footer class="py-5" style="background: #0b1120; border-top: 2px solid rgba(59, 130, 246, 0.2);">
-        <div class="container text-center">
-            <h4 class="brand-text mb-4">MILESTONE HODL TOKEN</h4>
-            <div class="d-flex justify-content-center gap-4 mb-4">
-                <a href="https://t.me/Milestone_HODL_Official" target="_blank" class="text-white fs-3"><i class="bi bi-telegram"></i></a>
-                <a href="https://x.com/milestone_hodl" target="_blank" class="text-white fs-3"><i class="bi bi-twitter-x"></i></a>
-                <a href="https://x.com/apexpad_io" target="_blank" class="text-white fs-3" style="color:#f97316 !important;"><i class="bi bi-twitter-x"></i></a>
-                <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="text-white fs-3"><i class="bi bi-youtube"></i></a>
-                <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="text-white fs-3"><i class="bi bi-tiktok"></i></a>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#f5c842"></div>
+              <div>
+                <div class="legend-label">Smart-Vault</div>
+                <div class="legend-pct">50%</div>
+              </div>
             </div>
-            <p class="small text-secondary mb-0">© 2026 Milestone HODL Token. All rights reserved.</p>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#5a6478"></div>
+              <div>
+                <div class="legend-label">LP Progressive</div>
+                <div class="legend-pct">20%</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#e8501a"></div>
+              <div>
+                <div class="legend-label">Marketing</div>
+                <div class="legend-pct">15%</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#00e096"></div>
+              <div>
+                <div class="legend-label">START (LP flush)</div>
+                <div class="legend-pct">5%</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#4a5568"></div>
+              <div>
+                <div class="legend-label">Founder</div>
+                <div class="legend-pct">5%</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#2d3a4f"></div>
+              <div>
+                <div class="legend-label">Bonus V1</div>
+                <div class="legend-pct">5%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tax-grid" style="width:100%">
+            <div class="tax-card">
+              <div class="tax-type">Buy Tax</div>
+              <div class="tax-pct">2%</div>
+              <div class="tax-breakdown">1% Burn<br>1% Mkt → BNB</div>
+            </div>
+            <div class="tax-card">
+              <div class="tax-type">Sell Tax</div>
+              <div class="tax-pct">5%</div>
+              <div class="tax-breakdown">1% Burn<br>2% Auto-LP burned<br>2% Mkt → BNB</div>
+            </div>
+          </div>
         </div>
-    </footer>
 
-    <!-- Coin rain -->
-    <div class="coin-rain-container" id="coinRain"></div>
+        <div class="tokenomics-right">
+          <div class="tstat-card">
+            <span class="tstat-label">Total Supply</span>
+            <span class="tstat-val">1,000,000,000 MHT</span>
+          </div>
+          <div class="tstat-card">
+            <span class="tstat-label">Smart-Vault Balance</span>
+            <span class="tstat-val" id="vaultBal">— MHT</span>
+          </div>
+          <div class="tstat-card">
+            <span class="tstat-label">Eligible Supply (Rewards)</span>
+            <span class="tstat-val green" id="eligibleSupply">~58M MHT</span>
+          </div>
+          <div class="tstat-card">
+            <span class="tstat-label">Owner Holdings</span>
+            <span class="tstat-val green">0.00% — RENOUNCED ✓</span>
+          </div>
+          <div class="tstat-card">
+            <span class="tstat-label">Audit</span>
+            <span class="tstat-val">SolidProof 85.36/100</span>
+          </div>
 
-    <!-- ═══════════════════════════════════════════════
-         SCRIPTS
-         ✅ V4 : ethers v6 (remplace v5.7.2)
-    ═══════════════════════════════════════════════ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- ✅ V4 — ethers v6 (BrowserProvider, formatUnits natifs) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
-
-    <script>
-    // ═══════════════════════════════════════════
-    //  TOKEN CHART
-    // ═══════════════════════════════════════════
-    const ctx = document.getElementById('tokenChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Smart-Vault', 'LP Progressive', 'Marketing', 'START (LP flush)', 'Founder', 'Bonus V1'],
-            datasets: [{
-                data: [50, 20, 15, 5, 5, 5],
-                backgroundColor: ['#3b82f6', '#64748b', '#f59e0b', '#a78bfa', '#ef4444', '#10b981'],
-                borderWidth: 0
-            }]
-        },
-        options: { plugins: { legend: { display: false } }, cutout: '70%', maintainAspectRatio: true }
-    });
-
-    // ═══════════════════════════════════════════
-    //  COIN RAIN
-    // ═══════════════════════════════════════════
-    function createCoin() {
-        const container = document.getElementById('coinRain');
-        const coin = document.createElement('img');
-        coin.src = 'piece.png';
-        coin.classList.add('falling-coin');
-        coin.style.left = Math.random() * 100 + "vw";
-        const duration = Math.random() * 4 + 4;
-        coin.style.animationDuration = duration + "s";
-        const size = Math.random() * 30 + 40;
-        coin.style.width = size + "px";
-        coin.style.filter = `blur(${Math.random() * 2}px)`;
-        container.appendChild(coin);
-        setTimeout(() => coin.remove(), duration * 1000);
-    }
-    setInterval(createCoin, 250);
-
-    // ═══════════════════════════════════════════
-    //  WALLET MODAL LOGIC
-    // ═══════════════════════════════════════════
-    const modal         = document.getElementById('walletModal');
-    const closeModal    = document.getElementById('closeModal');
-    const walletOptions = document.getElementById('walletOptions');
-    const walletLoading = document.getElementById('walletLoading');
-    const loadingText   = document.getElementById('loadingText');
-    const qrPanel       = document.getElementById('qrPanel');
-    const cancelConnect = document.getElementById('cancelConnect');
-    const backFromQR    = document.getElementById('backFromQR');
-    const connectBtn    = document.getElementById('connectWalletBtn');
-    const metamaskBadge = document.getElementById('metamaskBadge');
-
-    function openModal() {
-        if (window.ethereum && window.ethereum.isMetaMask) {
-            metamaskBadge.textContent = 'Detected';
-            metamaskBadge.className = 'wallet-option-badge badge-detected';
-        } else {
-            metamaskBadge.textContent = 'Install';
-            metamaskBadge.className = 'wallet-option-badge';
-            metamaskBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.3)';
-        }
-        showOptions();
-        modal.classList.add('active');
-    }
-
-    function closeModalFn() {
-        modal.classList.remove('active');
-        setTimeout(showOptions, 300);
-    }
-
-    function showOptions() {
-        walletOptions.style.display = 'block';
-        walletLoading.classList.remove('active');
-        qrPanel.classList.remove('active');
-    }
-
-    function showLoading(text) {
-        walletOptions.style.display = 'none';
-        qrPanel.classList.remove('active');
-        loadingText.textContent = text || 'Connecting…';
-        walletLoading.classList.add('active');
-    }
-
-    function showQR() {
-        walletOptions.style.display = 'none';
-        walletLoading.classList.remove('active');
-        qrPanel.classList.add('active');
-    }
-
-    connectBtn.addEventListener('click', () => {
-        if (window._mhtConnected) return;
-        openModal();
-    });
-
-    closeModal.addEventListener('click', closeModalFn);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalFn(); });
-    cancelConnect.addEventListener('click', showOptions);
-    backFromQR.addEventListener('click', showOptions);
-
-    // ── MetaMask ────────────────────────────────
-    document.getElementById('btnMetaMask').addEventListener('click', async () => {
-        if (!window.ethereum || !window.ethereum.isMetaMask) {
-            window.open('https://metamask.io/download/', '_blank');
-            closeModalFn();
-            return;
-        }
-        showLoading('Opening MetaMask…');
-        try {
-            await connectWithEthereum(window.ethereum);
-            closeModalFn();
-        } catch (e) {
-            showOptions();
-            if (e.code !== 4001) alert('MetaMask error: ' + e.message);
-        }
-    });
-
-    // ── WalletConnect QR ─────────────────────────
-    document.getElementById('btnWalletConnect').addEventListener('click', async () => {
-        showQR();
-        const qrContainer = document.getElementById('qrCodeContainer');
-        qrContainer.innerHTML = '<p style="color:#334155;font-size:0.7rem;">Generating QR code…</p>';
-        try {
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent('https://dev-mht.github.io/milestone-hodl-web/')}&bgcolor=ffffff&color=0f172a`;
-            qrContainer.innerHTML = `
-                <div style="text-align:center;">
-                    <img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px;" alt="QR">
-                    <p style="color:#64748b;font-size:0.65rem;margin-top:8px;">
-                        Open your wallet app and scan this QR code.<br>
-                        
-                        <em style="color:#3b82f6">WalletConnect v2 — Coming soon</em>
-                    </p>
-                </div>`;
-        } catch (e) {
-            qrContainer.innerHTML = '<p style="color:#ef4444;font-size:0.75rem;">QR generation error</p>';
-        }
-    });
-
-    // ── Coinbase Wallet ──────────────────────────
-    document.getElementById('btnCoinbase').addEventListener('click', async () => {
-        if (window.ethereum && window.ethereum.isCoinbaseWallet) {
-            showLoading('Opening Coinbase Wallet…');
-            try { await connectWithEthereum(window.ethereum); closeModalFn(); }
-            catch (e) { showOptions(); }
-        } else {
-            window.open('https://www.coinbase.com/wallet/downloads', '_blank');
-            closeModalFn();
-        }
-    });
-
-    // ── Trust Wallet ─────────────────────────────
-    document.getElementById('btnTrustWallet').addEventListener('click', async () => {
-        if (window.ethereum && window.ethereum.isTrust) {
-            showLoading('Opening Trust Wallet…');
-            try { await connectWithEthereum(window.ethereum); closeModalFn(); }
-            catch (e) { showOptions(); }
-        } else {
-            window.open('https://trustwallet.com/browser-extension', '_blank');
-            closeModalFn();
-        }
-    });
-
-    // ═══════════════════════════════════════════
-    //  CONNEXION ETHEREUM COMMUNE
-    //  ✅ V4 — ethers v6 : BrowserProvider
-    // ═══════════════════════════════════════════
-    async function connectWithEthereum(ethereumProvider) {
-        await ethereumProvider.request({ method: 'eth_requestAccounts' });
-
-        // ✅ ethers v6 : BrowserProvider remplace Web3Provider
-        const provider = new ethers.BrowserProvider(ethereumProvider);
-        const signer   = await provider.getSigner();
-        const address  = await signer.getAddress();
-
-        // Switch vers BSC Mainnet (chainId 56 = 0x38)
-        const network = await provider.getNetwork();
-        if (Number(network.chainId) !== 56) {
-            try {
-                await ethereumProvider.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: '0x38' }]
-                });
-            } catch (switchErr) {
-                if (switchErr.code === 4902) {
-                    await ethereumProvider.request({
-                        method: 'wallet_addEthereumChain',
-                        params: [{
-                            chainId: '0x38',
-                            chainName: 'BNB Smart Chain',
-                            nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-                            rpcUrls: ['https://bsc-dataseed.binance.org/'],
-                            blockExplorerUrls: ['https://bscscan.com']
-                        }]
-                    });
-                }
-            }
-        }
-
-        // Mettre à jour le bouton connect
-        const short = address.slice(0, 6) + '…' + address.slice(-4);
-        connectBtn.innerHTML = `<i class="bi bi-check-circle me-2"></i>${short}`;
-        connectBtn.style.background = 'linear-gradient(45deg, #10b981, #3b82f6)';
-        window._mhtConnected = true;
-
-        // Lancer app.js
-        if (typeof window.initMHT === 'function') {
-            window.initMHT(provider, signer, address);
-        }
-
-        // Pas de bouton enableTrading en V2.3
-
-        // Écoute changements
-        ethereumProvider.on('accountsChanged', () => location.reload());
-        ethereumProvider.on('chainChanged',    () => location.reload());
-    }
-    </script>
-
-    <!-- ✅ app.js V5 Mainnet chargé en dernier -->
-    <script src="app.js"></script>
-
-    <!-- ═══ MUSIC PLAYER FIXE ═══ -->
-    <div id="musicPlayer">
-        <div id="musicWidget">
-            <div id="musicLabel">🎵 CED'S VIBES — MHT SOUNDTRACK</div>
-            <iframe id="scWidget"
-                id="scWidget" src=""
-                width="280" height="166" frameborder="0" scrolling="no" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-popups">
-            </iframe>
+          <div style="margin-top:8px">
+            <div class="tranches-title">LP TRANCHES — AUTO-RELEASED</div>
+            <div class="tranche-row">
+              <span class="tranche-lock">🔒</span>
+              <div class="tranche-info">
+                <div class="tranche-name">T1</div>
+                <div class="tranche-mcap">$1.5M MCap</div>
+              </div>
+              <span class="tranche-amount">40M MHT</span>
+            </div>
+            <div class="tranche-row">
+              <span class="tranche-lock">🔒</span>
+              <div class="tranche-info">
+                <div class="tranche-name">T2</div>
+                <div class="tranche-mcap">$10M MCap</div>
+              </div>
+              <span class="tranche-amount">40M MHT</span>
+            </div>
+            <div class="tranche-row">
+              <span class="tranche-lock">🔒</span>
+              <div class="tranche-info">
+                <div class="tranche-name">T3</div>
+                <div class="tranche-mcap">$25M MCap</div>
+              </div>
+              <span class="tranche-amount">40M MHT</span>
+            </div>
+            <div class="tranche-row">
+              <span class="tranche-lock">🔒</span>
+              <div class="tranche-info">
+                <div class="tranche-name">T4 · T5</div>
+                <div class="tranche-mcap">$50M · $75M MCap</div>
+              </div>
+              <span class="tranche-amount">40M each</span>
+            </div>
+          </div>
         </div>
-        <button id="musicToggle" onclick="toggleMusic()" title="🎵 MHT Soundtrack">
-            🎵
-        </button>
+      </div>
     </div>
+  </section>
 
-    <script>
-    let musicOpen = false;
-    function toggleMusic() {
-        musicOpen = !musicOpen;
-        const widget = document.getElementById('musicWidget');
-        const btn    = document.getElementById('musicToggle');
-        if (musicOpen) {
-            widget.classList.add('open');
-            btn.textContent = '✕';
-            btn.classList.add('playing');
+  <!-- INTERACTIVE TOOLS -->
+  <section id="tools">
+    <div class="section-inner">
+      <div class="section-tag reveal">Live Data</div>
+      <h2 class="section-title reveal">YOUR DASHBOARD</h2>
+      <p class="section-sub reveal">Connect your wallet to track rewards. Simulate your investment. All live.</p>
+
+      <div class="tools-grid reveal">
+        <!-- Buy Simulator -->
+        <div class="tool-card">
+          <div class="tool-title">
+            <div class="tool-live"></div>
+            BUY SIMULATOR
+          </div>
+          <div class="field">
+            <label>Amount to invest ($)</label>
+            <input type="number" id="simAmount" placeholder="e.g. 200" />
+          </div>
+          <div class="field">
+            <label>Current Price ($) <span style="color:var(--success);font-size:10px">● LIVE</span></label>
+            <input type="text" id="simPrice" readonly placeholder="Loading..." />
+          </div>
+          <div class="field">
+            <label>Target Price ($) <span style="color:var(--muted);font-size:10px">optional</span></label>
+            <input type="number" id="simTarget" placeholder="e.g. 0.001" />
+          </div>
+          <div class="sim-result" id="simResult">Enter an amount to simulate 🚀</div>
+        </div>
+
+        <!-- Reward Calculator -->
+        <div class="tool-card">
+          <div class="tool-title">🎁 REWARD CALCULATOR</div>
+          <div class="field">
+            <label>Your MHT Holdings</label>
+            <input type="number" id="rewardHolding" placeholder="e.g. 1000000" />
+          </div>
+          <div class="field">
+            <label>Milestone Target</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <button onclick="changeM(-1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px">−</button>
+              <div id="mLabel" style="flex:1;text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:var(--mono);font-size:12px;color:var(--gold)">Milestone #1 — $1M MCap</div>
+              <button onclick="changeM(1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px">+</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Eligible Supply</label>
+            <input type="text" id="eligibleInput" value="58290727" readonly style="color:var(--muted)" />
+          </div>
+          <div class="sim-result" id="rewardResult">Enter your holdings to calculate 🚀</div>
+        </div>
+
+        <!-- Wallet -->
+        <div class="tool-card">
+          <div class="tool-title">💼 YOUR ACCOUNT</div>
+          <div class="wallet-status">
+            <div class="wallet-addr" id="walletAddr">Not Connected</div>
+            <div class="wallet-bal" id="walletBal">0.00 MHT</div>
+            <div class="wallet-usd" id="walletUsd">$0.00</div>
+          </div>
+          <button class="connect-btn" id="connectBtn" onclick="connectWallet()">⚡ Connect Wallet</button>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+            <div class="reward-info">
+              <div class="reward-info-label">Current Market Cap</div>
+              <div class="reward-info-val" id="mcapInfo">Loading...</div>
+            </div>
+            <div class="reward-info">
+              <div class="reward-info-label">Smart-Vault Balance</div>
+              <div class="reward-info-val pending" id="vaultInfo">— MHT</div>
+            </div>
+            <div class="reward-info">
+              <div class="reward-info-label">Next Milestone</div>
+              <div class="reward-info-val">$1,000,000 MCap 🔥</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap" class="roadmap-section">
+    <div class="section-inner">
+      <div class="section-tag reveal">Timeline</div>
+      <h2 class="section-title reveal">STRATEGIC ROADMAP</h2>
+      <p class="section-sub reveal">From genesis to global DeFi infrastructure.</p>
+
+      <div class="roadmap-grid reveal">
+        <div class="phase-card">
+          <div class="phase-dot done"></div>
+          <div class="phase-label">PHASE 1 ✅</div>
+          <div class="phase-title">Genesis & Launch</div>
+          <ul class="phase-items">
+            <li class="phase-item done"><span class="icon">✅</span> Smart Contract Security Audit — SolidProof 85.36/100</li>
+            <li class="phase-item done"><span class="icon">✅</span> MHT Dashboard V5 Release</li>
+            <li class="phase-item done"><span class="icon">✅</span> PancakeSwap Listed — LIVE 🔥</li>
+            <li class="phase-item done"><span class="icon">✅</span> DEX Launch — 17 April 2026</li>
+            <li class="phase-item done"><span class="icon">✅</span> renounceOwnership() — Trustless Forever</li>
+          </ul>
+        </div>
+
+        <div class="phase-card">
+          <div class="phase-dot active"></div>
+          <div class="phase-label">PHASE 2 ✅ LIVE</div>
+          <div class="phase-title">V2.3 DEX Launch</div>
+          <ul class="phase-items">
+            <li class="phase-item done"><span class="icon">✅</span> MHT V2.3 Deploy — SolidProof 85.36/100 — BSC Mainnet</li>
+            <li class="phase-item done"><span class="icon">✅</span> V1 Holders: snapshot hardcoded — airdrop at deploy</li>
+            <li class="phase-item done"><span class="icon">✅</span> 30M MHT + 10 BNB → LP initial PinkLock 6 months</li>
+            <li class="phase-item done"><span class="icon">✅</span> Chainlink Automation active</li>
+            <li class="phase-item pending"><span class="icon">🔥</span> T1 LP 40M auto @ $1.5M MCap — CoinGecko & CMC listing</li>
+            <li class="phase-item pending"><span class="icon">🔥</span> First Milestone Reward Distribution</li>
+          </ul>
+        </div>
+
+        <div class="phase-card">
+          <div class="phase-dot future"></div>
+          <div class="phase-label">PHASE 3</div>
+          <div class="phase-title">$10M Market Cap</div>
+          <ul class="phase-items">
+            <li class="phase-item future"><span class="icon">◦</span> Recurring Milestone Reward Distribution</li>
+            <li class="phase-item future"><span class="icon">◦</span> T2 LP 40M auto @ $10M MCap</li>
+            <li class="phase-item future"><span class="icon">◦</span> Global Marketing Blitz & Influencer Partnerships</li>
+            <li class="phase-item future"><span class="icon">◦</span> Tier-2 Centralized Exchange (CEX) Listings</li>
+            <li class="phase-item future"><span class="icon">◦</span> Secondary Tier-1 Security Audit (Certik/Hacken)</li>
+          </ul>
+        </div>
+
+        <div class="phase-card">
+          <div class="phase-dot future"></div>
+          <div class="phase-label">PHASE 4</div>
+          <div class="phase-title">$25M → $100M+ MCap</div>
+          <ul class="phase-items">
+            <li class="phase-item future"><span class="icon">◦</span> Ultimate Milestone Holder Payouts</li>
+            <li class="phase-item future"><span class="icon">◦</span> T3 40M @ $25M / T4 40M @ $50M / T5 40M @ $75M MCap</li>
+            <li class="phase-item future"><span class="icon">◦</span> Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
+            <li class="phase-item future"><span class="icon">◦</span> Full Baron Ecosystem Expansion & Governance DAO</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENT CENTER -->
+  <section id="docs">
+    <div class="section-inner">
+      <div class="section-tag reveal">Research</div>
+      <h2 class="section-title reveal">DOCUMENT CENTER</h2>
+      <p class="section-sub reveal">Deep-dive into the mechanics. The math is all there.</p>
+
+      <div class="docs-grid reveal">
+        <div>
+          <a href="docs/MHT_Whitepaper_FR.pdf" target="_blank" class="doc-card" style="margin-bottom:16px">
+            <span class="doc-icon">🇫🇷</span>
+            <div class="doc-title">WHITEPAPER FR</div>
+            <div class="doc-desc">La mécanique complète du Smart-Vault, la théorie des jeux, et la vision long-terme du $MHT.</div>
+            <div class="doc-cta">Télécharger le PDF <i class="bi bi-arrow-right"></i></div>
+          </a>
+          <a href="docs/MHT_Whitepaper_EN.pdf" target="_blank" class="doc-card">
+            <span class="doc-icon">🇬🇧</span>
+            <div class="doc-title">WHITEPAPER EN</div>
+            <div class="doc-desc">Complete Smart-Vault mechanics, game theory, and the long-term vision for $MHT.</div>
+            <div class="doc-cta">Download PDF <i class="bi bi-arrow-right"></i></div>
+          </a>
+        </div>
+
+        <div class="exec-box">
+          <div class="exec-title">Executive Summary</div>
+          <div class="exec-items">
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>50% Supply</strong> locked in Smart-Vault — asymptotic 5% release (floor 1M, cap 20M MHT).</span>
+            </div>
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>Chainlink</strong> MCap on (TOTAL_SUPPLY − burned) × price — tamper-proof.</span>
+            </div>
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>70% Holders / 30% Marketing BNB</strong> — per milestone.</span>
+            </div>
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>5 LP tranches × 40M</strong> auto-released at $1.5M / $10M / $25M / $50M / $75M MCap.</span>
+            </div>
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>LP tokens burned</strong> on every injection — permanent price floor.</span>
+            </div>
+            <div class="exec-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <span><strong>renounceOwnership()</strong> at launch — no admin, no backdoor. Forever.</span>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+            <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank">
+              <img src="sp_badge.png" alt="SolidProof Audit 85.36 — KYC Bronze" style="height:80px;border-radius:10px;border:1px solid rgba(245,200,66,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s;display:block" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+            <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid rgba(245,200,66,0.3);border-radius:10px;text-decoration:none;color:var(--gold);font-size:13px;font-weight:700;transition:all 0.2s" onmouseover="this.style.background='rgba(245,200,66,0.06)'" onmouseout="this.style.background='transparent'">
+              🛡️ AUDIT V2.3 — SolidProof <strong>85.36/100</strong> <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:var(--bg2)">
+    <div class="section-inner">
+      <div class="section-tag reveal">Knowledge Base</div>
+      <h2 class="section-title reveal">FREQUENTLY ASKED<br>QUESTIONS</h2>
+
+      <div class="faq-list reveal" style="max-width:760px">
+        <details class="faq-item">
+          <summary class="faq-q">How does the $1M Milestone system work? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Every time the Market Cap grows by $1,000,000, Chainlink Automation automatically triggers a release of 5% of the remaining vault (floor: 1M MHT, cap: 20M MHT). 70% goes to eligible holders pro-rata. 30% is swapped to BNB for marketing. Zero human action required — ever.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">What happens if the Market Cap drops after a payout? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Once a Milestone is reached and the reward distributed, that level is permanently validated. A price drop does not cancel or reverse the reward. The next trigger requires a new +$1M MCap from the last validated milestone.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Is the Milestone Vault secure? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Yes. The Vault is governed entirely by the Smart Contract, audited by SolidProof (85.36/100). Releases are restricted to the Chainlink Automation trigger only. The founder has renounced ownership — there is no admin key, no backdoor, no override possible.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">How do I receive my rewards? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Rewards are allocated pro-rata based on your MHT balance at the exact block when a Milestone triggers. Only eligible supply counts (excludes vault, LP tranches, marketing wallet, burn address, and PancakeSwap pair). Rewards are sent directly to your wallet — no claim needed.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">How is the vault release split? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Each release is split automatically by the contract: 70% goes directly to eligible holders pro-rata and 30% is swapped to BNB for marketing. The split is hardcoded and cannot be changed.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Why is the Sell Tax higher than the Buy Tax? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">The asymmetric tax structure (2% Buy / 5% Sell) is by design. It mathematically rewards patience and penalizes short-term selling. The extra sell tax feeds the auto-LP burn mechanism, creating a permanent price floor that grows over time.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-logo">MILESTONE <span>HODL</span> TOKEN</div>
+        <div class="footer-socials">
+          <a href="https://t.me/Community_Milestone_hodl" target="_blank" class="social-btn"><i class="bi bi-telegram"></i></a>
+          <a href="https://x.com/milestone_hodl" target="_blank" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="social-btn"><i class="bi bi-youtube"></i></a>
+          <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="social-btn"><i class="bi bi-tiktok"></i></a>
+          <a href="https://apexpad.io" target="_blank" class="social-btn">🚀</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Milestone HODL Token. All rights reserved.</span>
+        <span class="footer-contract">
+          <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank">0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</a>
+        </span>
+        <a href="pages/contact.html" style="color:var(--muted);text-decoration:none;font-size:12px">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- APP.JS (gardé intact) -->
+  <script src="app.js"></script>
+  <script src="music-config.js"></script>
+
+  <script>
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Stagger children
+          e.target.querySelectorAll('.how-card, .phase-card, .doc-card, .tstat-card').forEach((c, i) => {
+            c.style.transitionDelay = (i * 0.08) + 's';
+            c.style.opacity = '1';
+            c.style.transform = 'none';
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── MCAP PROGRESS BAR ──
+    function updateMcap(mcap) {
+      const pct = Math.min((mcap / 1000000) * 100, 100);
+      document.getElementById('mcapBar').style.width = pct + '%';
+      document.getElementById('mcapDisplay').textContent = '$' + mcap.toLocaleString();
+      document.getElementById('statMcap').textContent = '$' + (mcap >= 1000 ? Math.round(mcap/1000) + 'K' : mcap);
+      document.getElementById('mcapInfo').textContent = '$' + mcap.toLocaleString();
+    }
+
+    // Lire depuis app.js si disponible, sinon fallback
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const mcapEl = document.querySelector('[data-mcap]');
+        if (mcapEl) {
+          updateMcap(parseFloat(mcapEl.dataset.mcap) || 275200);
         } else {
-            widget.classList.remove('open');
-            btn.textContent = '🎵';
-            btn.classList.remove('playing');
+          updateMcap(275200); // fallback
         }
-    }
-    </script>
-
-    <!-- ── On-chain helpers + fetch eligible supply ── -->
-    <script>
-    const MHT_CONTRACT = '0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa';
-    const BSC_RPC      = 'https://bsc-dataseed1.binance.org/';
-
-    async function fetchEligibleSupplyOnChain() {
-        try {
-            const payload = { jsonrpc:'2.0', id:1, method:'eth_call', params:[{ to: MHT_CONTRACT, data:'0xcd415c4a' }, 'latest'] };
-            const res  = await fetch(BSC_RPC, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-            const json = await res.json();
-            if (json.result && json.result !== '0x') {
-                const supply = Number(BigInt(json.result)) / 1e18;
-                const el = document.getElementById('calcCirc');
-                if (el && supply > 0) {
-                    el.value = Math.round(supply);
-                    el.style.color = '#22c55e'; // vert = données on-chain live
-                    calcReward(); // recalcule avec la vraie supply
-                }
-                return supply;
-            }
-        } catch(e) { console.warn('On-chain fetch failed:', e); }
-        return 58290727;
-    }
-
-    function getEligibleSupply() {
-        const el = document.getElementById('calcCirc');
-        return (el && el.value) ? parseFloat(el.value) : 58_290_727;
-    }
-
-    function getCurrentPrice() {
-        const el = document.getElementById('mhtPriceUSD');
-        if (el) { const v = parseFloat(el.textContent.replace(/[^0-9.]/g,'')); if (v > 0) return v; }
-        return 0.000209;
-    }
-
-    function getVaultRelease() {
-        return Math.min(Math.max(500_000_000 * 0.05, 1_000_000), 20_000_000);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Pré-remplir calcCirc avec fallback immédiatement
-        const circEl = document.getElementById('calcCirc');
-        if (circEl && !circEl.value) {
-            circEl.value = 58290727;
-            circEl.style.color = '#94a3b8';
+        // Lire price live si dispo
+        const priceEl = document.getElementById('tokenPrice') || document.querySelector('[data-price]');
+        if (priceEl) {
+          const price = parseFloat(priceEl.textContent || priceEl.dataset.price);
+          if (price) document.getElementById('simPrice').value = price.toFixed(8);
         }
-        // Fetch on-chain (écrase le fallback si succès)
-        fetchEligibleSupplyOnChain();
-        // Pré-remplir buyCurrentPrice — retry jusqu'à ce que le prix live soit dispo
-        let priceRetry = 0;
-        const fillPrice = setInterval(() => {
-            const p = getCurrentPrice();
-            const pf = document.getElementById('buyCurrentPrice');
-            if (pf && !pf.dataset.userModified) {
-                if (p > 0) pf.value = p;
-            }
-            if (++priceRetry > 20) clearInterval(fillPrice);
-        }, 500);
-        setInterval(fetchEligibleSupplyOnChain, 60000);
-        // Refresh prix toutes les 30s si non modifié par user
-        setInterval(() => {
-            const pf = document.getElementById('buyCurrentPrice');
-            if (pf && !pf.dataset.userModified) {
-                const p = getCurrentPrice();
-                if (p > 0) pf.value = p;
-            }
-        }, 30000);
+      }, 1500);
     });
-    </script>
 
-    <script>
-    let currentMilestone = 1;
-    const MAX_MILESTONE  = 20;
+    // ── BUY SIMULATOR ──
+    function simulate() {
+      const amount = parseFloat(document.getElementById('simAmount').value);
+      const price = parseFloat(document.getElementById('simPrice').value);
+      const target = parseFloat(document.getElementById('simTarget').value);
+      const res = document.getElementById('simResult');
 
-    // Prix cible au milestone N : MCap = N × $1M, prix = MCap / 1B total supply
-    function getMilestonePriceTarget(n) {
-        return (n * 1_000_000) / 1_000_000_000;
+      if (!amount || !price) { res.innerHTML = 'Enter an amount to simulate 🚀'; return; }
+      const tokens = amount / price;
+      let html = `<strong>${tokens.toLocaleString(undefined,{maximumFractionDigits:0})} MHT</strong>`;
+      if (target && target > price) {
+        const gain = (tokens * target) - amount;
+        html += ` &nbsp;·&nbsp; <strong style="color:var(--success)">+$${gain.toLocaleString(undefined,{maximumFractionDigits:0})}</strong> at target`;
+      }
+      res.innerHTML = html;
     }
+    document.getElementById('simAmount').addEventListener('input', simulate);
+    document.getElementById('simTarget').addEventListener('input', simulate);
 
-    function updateMilestoneUI() {
-        document.getElementById('milestoneLabel').textContent = 'Milestone #' + currentMilestone;
-        document.getElementById('milestoneMcap').textContent  = '$' + (currentMilestone * 1_000_000).toLocaleString('en-US') + ' MCap';
-        calcReward();
+    // ── REWARD CALCULATOR ──
+    let milestone = 1;
+    const milestones = [
+      {label:'Milestone #1 — $1M MCap', vault: 500000000 * 0.05},
+      {label:'Milestone #2 — $2M MCap', vault: 500000000 * 0.05 * 0.95},
+      {label:'Milestone #3 — $3M MCap', vault: 500000000 * 0.05 * 0.95 * 0.95},
+    ];
+    function changeM(d) {
+      milestone = Math.max(1, Math.min(milestones.length, milestone + d));
+      document.getElementById('mLabel').textContent = milestones[milestone-1].label;
+      calcReward();
     }
-
-    function changeMilestone(delta) {
-        const next = currentMilestone + delta;
-        if (next < 1 || next > MAX_MILESTONE) return;
-        currentMilestone = next;
-        updateMilestoneUI();
-    }
-
-    // Vault release pour un solde donné
-    function vaultReleaseFor(vaultBalance) {
-        return Math.min(Math.max(vaultBalance * 0.05, 1_000_000), 20_000_000);
-    }
-
-    // ── BUY calculator ──
-    function calcBuy() {
-        const usd         = parseFloat(document.getElementById('buyUSD').value)         || 0;
-        const targetPrice = parseFloat(document.getElementById('buyTargetPrice').value) || 0;
-        const result      = document.getElementById('buyResult');
-        const placeholder = document.getElementById('buyPlaceholder');
-
-        // Auto-fill prix actuel si vide
-        const priceField = document.getElementById('buyCurrentPrice');
-        if (!priceField.value || parseFloat(priceField.value) <= 0) {
-            const livePrice = getCurrentPrice();
-            if (livePrice > 0) priceField.value = livePrice;
-        }
-        const curPrice = parseFloat(priceField.value) || getCurrentPrice();
-
-        if (usd <= 0 || curPrice <= 0) { result.style.display='none'; placeholder.style.display='block'; return; }
-
-        const taxRate     = 0.02;
-        const mhtReceived = (usd / curPrice) * (1 - taxRate);
-        const circ        = getEligibleSupply();
-        const sharePct    = mhtReceived / circ;
-        const rewardPool  = getVaultRelease() * 0.70;
-        const mhtReward   = sharePct * rewardPool;
-
-        result.style.display      = 'block';
-        placeholder.style.display = 'none';
-
-        document.getElementById('buyMHT').textContent    = mhtReceived.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
-        document.getElementById('buyShare').textContent  = (sharePct * 100).toFixed(4) + '%';
-        document.getElementById('buyReward').textContent = mhtReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
-
-        if (targetPrice > 0) {
-            const bagValue = (mhtReceived + mhtReward) * targetPrice;
-            const roi      = ((bagValue - usd) / usd) * 100;
-            document.getElementById('buyBagValue').textContent               = '$' + bagValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            document.getElementById('buyROI').textContent                    = (roi >= 0 ? '+' : '') + roi.toLocaleString('en-US', {maximumFractionDigits: 0}) + '%';
-            document.getElementById('buyROI').style.color                    = roi > 0 ? '#22c55e' : '#ef4444';
-            document.getElementById('buyTargetRow').style.display            = 'flex';
-            document.getElementById('buyROIRow').style.display               = 'flex';
-        } else {
-            document.getElementById('buyTargetRow').style.display = 'none';
-            document.getElementById('buyROIRow').style.display    = 'none';
-        }
-    }
-
-    // ── REWARD calculator ──
     function calcReward() {
-        const mht  = parseFloat(document.getElementById('calcMHT').value)  || 0;
-        const circ = parseFloat(document.getElementById('calcCirc').value) || 58_290_727;
-        const n    = currentMilestone;
-
-        const result      = document.getElementById('calcResult');
-        const placeholder = document.getElementById('calcPlaceholder');
-
-        // Valeur actuelle — utilise le prix live (buyCurrentPrice ou feed)
-        const priceField = document.getElementById('buyCurrentPrice');
-        const livePrice = (priceField && parseFloat(priceField.value) > 0)
-            ? parseFloat(priceField.value)
-            : getCurrentPrice();
-        const currentValueEl = document.getElementById('calcCurrentValue');
-        if (mht > 0 && livePrice > 0) {
-            currentValueEl.textContent = '$' + (mht * livePrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        } else {
-            currentValueEl.textContent = '—';
-        }
-
-        if (mht <= 0) { result.style.display='none'; placeholder.style.display='block'; return; }
-
-        const sharePct = mht / circ;
-
-        // Simulation cumulative sur N milestones (vault asymptotique)
-        let vault       = 500_000_000;
-        let totalReward = 0;
-        let rewardAtN   = 0;
-        for (let i = 1; i <= n; i++) {
-            const release    = vaultReleaseFor(vault);
-            const holderPool = release * 0.70;
-            const reward     = sharePct * holderPool;
-            totalReward     += reward;
-            if (i === n) rewardAtN = reward;
-            vault -= release;
-        }
-
-        const priceAtN  = getMilestonePriceTarget(n);
-        const usdReward = totalReward * priceAtN;
-        const totalMHT  = mht + totalReward;
-        const totalUSD  = totalMHT * priceAtN;
-
-        document.getElementById('calcShare').textContent      = (sharePct * 100).toFixed(4) + '%';
-        document.getElementById('calcMHTReward').textContent  = rewardAtN.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
-        document.getElementById('calcMHTCumul').textContent   = totalReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
-        document.getElementById('calcUSDReward').textContent  = '$' + usdReward.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        document.getElementById('calcTotalValue').textContent = '$' + totalUSD.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        document.getElementById('calcTotalMHT').textContent   = totalMHT.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT total (holdings + rewards)';
-
-        result.style.display      = 'block';
-        placeholder.style.display = 'none';
+      const holdings = parseFloat(document.getElementById('rewardHolding').value);
+      const eligible = parseFloat(document.getElementById('eligibleInput').value);
+      const res = document.getElementById('rewardResult');
+      if (!holdings || !eligible) { res.innerHTML = 'Enter your holdings to calculate 🚀'; return; }
+      const release = Math.max(1000000, Math.min(20000000, milestones[milestone-1].vault));
+      const share = (holdings / eligible) * release * 0.70;
+      res.innerHTML = `<strong>${Math.round(share).toLocaleString()} MHT</strong> estimated reward`;
     }
+    document.getElementById('rewardHolding').addEventListener('input', calcReward);
 
-    // Init au chargement
-    document.addEventListener('DOMContentLoaded', () => { updateMilestoneUI(); });
-    </script>
-    <script src="music-config.js"></script>
-<script>
-document.getElementById('scWidget').src = 
-  'https://w.soundcloud.com/player/?url=' + 
-  encodeURIComponent(SOUNDCLOUD_URL) + 
-  '&color=%233b82f6&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false';
-</script>
+    // ── WALLET CONNECT ──
+    async function connectWallet() {
+      if (typeof window.ethereum === 'undefined') {
+        alert('MetaMask not detected. Please install MetaMask.');
+        return;
+      }
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const addr = accounts[0];
+        const short = addr.slice(0,6) + '...' + addr.slice(-4);
+        // Mettre à jour le panneau wallet
+        document.getElementById('walletAddr').textContent = short;
+        document.getElementById('connectBtn').textContent = '✓ Connected';
+        document.getElementById('connectBtn').style.background = 'linear-gradient(135deg, #00e096, #00b87a)';
+        // Mettre à jour le bouton navbar
+        const navBtn = document.getElementById('navConnectBtn');
+        navBtn.textContent = '✓ ' + short;
+        navBtn.style.background = 'linear-gradient(135deg, #00e096, #00b87a)';
+        navBtn.onclick = null;
+      } catch(e) { console.error(e); }
+    }
+  </script>
+
 </body>
 </html>
