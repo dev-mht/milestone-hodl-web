@@ -23,6 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
 
   <style>
     :root {
@@ -832,6 +833,70 @@
       .quick-links { gap: 4px; }
       .ql { font-size: 10px; padding: 5px 10px; }
     }
+
+        /* ═══════════════════════════════════════════════
+           WALLET MODAL
+        ═══════════════════════════════════════════════ */
+        .wallet-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+            z-index: 9999; align-items: center; justify-content: center;
+        }
+        .wallet-modal-overlay.active { display: flex; }
+        .wallet-modal {
+            background: #1e293b; border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 24px; padding: 32px; width: 100%; max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(59,130,246,0.1);
+            animation: modalSlideIn 0.25s ease;
+        }
+        @keyframes modalSlideIn {
+            from { opacity:0; transform: translateY(20px) scale(0.97); }
+            to   { opacity:1; transform: translateY(0) scale(1); }
+        }
+        .wallet-modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        .wallet-modal-title { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; font-weight:700; color:#fff; letter-spacing:2px; }
+        .wallet-modal-close { background:rgba(255,255,255,0.08); border:none; color:#94a3b8; width:32px; height:32px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s; }
+        .wallet-modal-close:hover { background:rgba(255,255,255,0.15); color:#fff; }
+        .wallet-modal-subtitle { font-size:0.8rem; color:#64748b; margin-bottom:24px; }
+        .wallet-option { display:flex; align-items:center; gap:16px; padding:16px 20px; border-radius:16px; border:1px solid rgba(255,255,255,0.07); background:rgba(255,255,255,0.03); cursor:pointer; transition:all 0.2s; margin-bottom:10px; width:100%; text-align:left; color:white; }
+        .wallet-option:hover { background:rgba(245,200,66,0.08); border-color:rgba(245,200,66,0.3); transform:translateX(4px); }
+        .wallet-option-icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .wallet-option-icon img { width:40px; height:40px; border-radius:10px; object-fit:contain; }
+        .wallet-option-info { flex:1; }
+        .wallet-option-name { font-weight:700; font-size:0.95rem; color:#fff; display:block; }
+        .wallet-option-desc { font-size:0.75rem; color:#64748b; }
+        .wallet-option-badge { font-size:0.65rem; padding:3px 8px; border-radius:20px; font-weight:600; letter-spacing:0.5px; }
+        .badge-detected { background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); }
+        .badge-qr { background:rgba(139,92,246,0.15); color:#a78bfa; border:1px solid rgba(139,92,246,0.3); }
+        .badge-popular { background:rgba(245,200,66,0.15); color:#f5c842; border:1px solid rgba(245,200,66,0.3); }
+        .wallet-divider { text-align:center; color:#334155; font-size:0.75rem; margin:16px 0; position:relative; }
+        .wallet-divider::before, .wallet-divider::after { content:''; position:absolute; top:50%; width:42%; height:1px; background:rgba(255,255,255,0.07); }
+        .wallet-divider::before { left:0; } .wallet-divider::after { right:0; }
+        .qr-panel { display:none; text-align:center; padding:10px 0; }
+        .qr-panel.active { display:block; }
+        .qr-placeholder { width:200px; height:200px; margin:0 auto 16px; background:white; border-radius:12px; display:flex; align-items:center; justify-content:center; padding:10px; }
+        .qr-back { background:none; border:none; color:#64748b; font-size:0.8rem; cursor:pointer; margin-top:8px; }
+        .qr-back:hover { color:#fff; }
+        .wallet-loading { display:none; text-align:center; padding:30px 0; }
+        .wallet-loading.active { display:block; }
+        .spinner-ring { width:50px; height:50px; border:3px solid rgba(245,200,66,0.2); border-top-color:#f5c842; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+
+        /* ── Music Player ── */
+        #musicPlayer { position:fixed; bottom:25px; right:25px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+        #musicToggle { width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#f5c842,#c8971a); border:none; color:#07090e; font-size:1.3rem; cursor:pointer; box-shadow:0 4px 20px rgba(245,200,66,0.4); transition:all 0.3s; display:flex; align-items:center; justify-content:center; }
+        #musicToggle:hover { transform:scale(1.1); }
+        #musicToggle.playing { animation:pulse-music 2s infinite; }
+        @keyframes pulse-music { 0%,100%{box-shadow:0 4px 20px rgba(245,200,66,0.4);}50%{box-shadow:0 4px 30px rgba(245,200,66,0.8);} }
+        #musicWidget { display:none; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.5); border:1px solid rgba(245,200,66,0.2); }
+        #musicWidget.open { display:block; }
+        #musicLabel { background:linear-gradient(45deg,#1e293b,#0f172a); padding:6px 12px; font-size:0.7rem; color:#94a3b8; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); font-family:'Space Mono',monospace; letter-spacing:1px; }
+
+        /* Cooldown badges */
+        .info-badge { display:inline-block; font-size:0.72rem; padding:4px 10px; border-radius:20px; margin-top:6px; }
+        .badge-cooldown { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
+        .badge-ready { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.3); }
+
   </style>
 </head>
 <body>
@@ -868,7 +933,7 @@
     </div>
     <div class="nav-right">
       <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="nav-btn nav-btn-ghost">🥞 Buy $MHT</a>
-      <button class="nav-btn nav-btn-primary" id="navConnectBtn" onclick="connectWallet()">⚡ Connect Wallet</button>
+      <button class="nav-btn nav-btn-primary" id="connectWalletBtn">⚡ Connect Wallet</button>
     </div>
   </nav>
 
@@ -1114,11 +1179,11 @@
           </div>
           <div class="tstat-card">
             <span class="tstat-label">Smart-Vault Balance</span>
-            <span class="tstat-val" id="vaultBal">— MHT</span>
+            <span class="tstat-val" id="vaultBal"><span id="vault-balance-tok">— MHT</span></span>
           </div>
           <div class="tstat-card">
             <span class="tstat-label">Eligible Supply (Rewards)</span>
-            <span class="tstat-val green" id="eligibleSupply">~58M MHT</span>
+            <span class="tstat-val green" id="eligibleSupply"><span id="eligible-supply">~58M MHT</span></span>
           </div>
           <div class="tstat-card">
             <span class="tstat-label">Owner Holdings</span>
@@ -1225,18 +1290,21 @@
           <div class="tool-title">💼 YOUR ACCOUNT</div>
           <div class="wallet-status">
             <div class="wallet-addr" id="walletAddr">Not Connected</div>
-            <div class="wallet-bal" id="walletBal">0.00 MHT</div>
+            <div class="wallet-bal" id="walletBal"><span id="mht-balance">0.00 MHT</span></div>
             <div class="wallet-usd" id="walletUsd">$0.00</div>
           </div>
-          <button class="connect-btn" id="connectBtn" onclick="connectWallet()">⚡ Connect Wallet</button>
+          <button class="connect-btn" id="connectBtn" onclick="openModal ? openModal() : null">⚡ Connect Wallet</button>
+          <button id="claimBtn" class="connect-btn" style="margin-top:10px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:none" disabled>
+            <i class="bi bi-gift me-2"></i>No Rewards Yet
+          </button>
           <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
             <div class="reward-info">
               <div class="reward-info-label">Current Market Cap</div>
-              <div class="reward-info-val" id="mcapInfo">Loading...</div>
+              <div class="reward-info-val" id="mcapInfo"><span id="market-cap">Loading...</span></div>
             </div>
             <div class="reward-info">
               <div class="reward-info-label">Smart-Vault Balance</div>
-              <div class="reward-info-val pending" id="vaultInfo">— MHT</div>
+              <div class="reward-info-val pending" id="vaultInfo"><span id="vault-balance">— MHT</span></div>
             </div>
             <div class="reward-info">
               <div class="reward-info-label">Next Milestone</div>
@@ -1523,26 +1591,226 @@
     }
     document.getElementById('rewardHolding').addEventListener('input', calcReward);
 
-    // ── WALLET CONNECT ──
-    async function connectWallet() {
-      if (typeof window.ethereum === 'undefined') {
-        alert('MetaMask not detected. Please install MetaMask.');
-        return;
+    // connectWallet géré par le modal wallet ci-dessous
+  </script>
+
+
+  <!-- WALLET MODAL -->
+  <div class="wallet-modal-overlay" id="walletModal">
+    <div class="wallet-modal">
+      <div class="wallet-modal-header">
+        <span class="wallet-modal-title">Connect Wallet</span>
+        <button class="wallet-modal-close" id="closeModal">✕</button>
+      </div>
+      <p class="wallet-modal-subtitle">Choose your preferred wallet to connect</p>
+      <div id="walletOptions">
+        <button class="wallet-option" id="btnMetaMask">
+          <div class="wallet-option-icon" style="background:rgba(245,158,11,0.1)">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask">
+          </div>
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">MetaMask</span>
+            <span class="wallet-option-desc">Browser extension wallet</span>
+          </div>
+          <span class="wallet-option-badge" id="metamaskBadge">—</span>
+        </button>
+        <button class="wallet-option" id="btnWalletConnect">
+          <div class="wallet-option-icon" style="background:rgba(59,130,246,0.1)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="#3B99FC"/><path d="M9.6 12.8c3.5-3.5 9.3-3.5 12.8 0l.4.4c.2.2.2.5 0 .7l-1.4 1.4c-.1.1-.3.1-.4 0l-.6-.6c-2.5-2.5-6.5-2.5-9 0l-.6.6c-.1.1-.3.1-.4 0L8.9 13.9c-.2-.2-.2-.5 0-.7l.7-.4zm15.8 3l1.2 1.2c.2.2.2.5 0 .7l-5.5 5.5c-.2.2-.5.2-.7 0l-3.9-3.9c-.1-.1-.2-.1-.4 0l-3.9 3.9c-.2.2-.5.2-.7 0L5.4 17.7c-.2-.2-.2-.5 0-.7l1.2-1.2c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.2.5-.2.7 0l3.9 3.9c.1.1.2.1.4 0l3.9-3.9c.2-.1.5-.1.6.1z" fill="white"/></svg>
+          </div>
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">WalletConnect</span>
+            <span class="wallet-option-desc">Scan QR with Trust Wallet, MetaMask mobile…</span>
+          </div>
+          <span class="wallet-option-badge badge-qr">📱 QR</span>
+        </button>
+        <div class="wallet-divider">or</div>
+        <button class="wallet-option" id="btnCoinbase">
+          <div class="wallet-option-icon" style="background:rgba(22,163,74,0.1)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="#1652F0"/><path d="M16 6C10.477 6 6 10.477 6 16s4.477 10 10 10 10-4.477 10-10S21.523 6 16 6zm0 15.5c-3.038 0-5.5-2.462-5.5-5.5S12.962 10.5 16 10.5s5.5 2.462 5.5 5.5-2.462 5.5-5.5 5.5zm-2-5.5c0 1.105.895 2 2 2s2-.895 2-2-.895-2-2-2-2 .895-2 2z" fill="white"/></svg>
+          </div>
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">Coinbase Wallet</span>
+            <span class="wallet-option-desc">Extension or mobile app</span>
+          </div>
+          <span class="wallet-option-badge badge-popular">Popular</span>
+        </button>
+        <button class="wallet-option" id="btnTrustWallet">
+          <div class="wallet-option-icon" style="background:rgba(59,130,246,0.08)">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="#3375BB"/><path d="M16 6l8 3.5v6c0 4.5-3.4 8.7-8 10-4.6-1.3-8-5.5-8-10v-6L16 6z" fill="white" fill-opacity="0.9"/><path d="M13.5 16l2 2 4-4" stroke="#3375BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">Trust Wallet</span>
+            <span class="wallet-option-desc">Mobile or browser extension</span>
+          </div>
+          <span class="wallet-option-badge badge-popular">BSC Native</span>
+        </button>
+      </div>
+      <div class="wallet-loading" id="walletLoading">
+        <div class="spinner-ring"></div>
+        <p style="color:#94a3b8;font-size:0.85rem" id="loadingText">Connecting…</p>
+        <button class="qr-back" id="cancelConnect">Cancel</button>
+      </div>
+      <div class="qr-panel" id="qrPanel">
+        <div class="qr-placeholder" id="qrCodeContainer">
+          <p style="color:#334155;font-size:0.7rem">Initializing…</p>
+        </div>
+        <p style="color:#94a3b8;font-size:0.8rem;margin-bottom:4px">Scan with your mobile wallet</p>
+        <p style="color:#64748b;font-size:0.72rem">Trust Wallet · MetaMask · Coinbase · Rainbow…</p>
+        <button class="qr-back" id="backFromQR">← Back to wallet list</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <div id="musicPlayer">
+    <div id="musicWidget">
+      <div id="musicLabel">🎵 CED'S VIBES — MHT SOUNDTRACK</div>
+      <iframe id="scWidget" src="" width="280" height="166" frameborder="0" scrolling="no" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+    </div>
+    <button id="musicToggle" onclick="toggleMusic()" title="🎵 MHT Soundtrack">🎵</button>
+  </div>
+
+
+  <!-- WALLET MODAL + MUSIC LOGIC -->
+  <script>
+    // ── WALLET MODAL ──────────────────────────────────────────────────────────
+    const modal         = document.getElementById('walletModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const walletOptions = document.getElementById('walletOptions');
+    const walletLoading = document.getElementById('walletLoading');
+    const loadingText   = document.getElementById('loadingText');
+    const qrPanel       = document.getElementById('qrPanel');
+    const cancelConnect = document.getElementById('cancelConnect');
+    const backFromQR    = document.getElementById('backFromQR');
+    const connectBtn    = document.getElementById('connectWalletBtn');
+    const metamaskBadge = document.getElementById('metamaskBadge');
+
+    function openModal() {
+      if (window.ethereum && window.ethereum.isMetaMask) {
+        metamaskBadge.textContent = 'Detected';
+        metamaskBadge.className = 'wallet-option-badge badge-detected';
+      } else {
+        metamaskBadge.textContent = 'Install';
+        metamaskBadge.className = 'wallet-option-badge';
+        metamaskBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.3)';
       }
+      showOptions();
+      modal.classList.add('active');
+    }
+    function closeModalFn() { modal.classList.remove('active'); setTimeout(showOptions, 300); }
+    function showOptions() { walletOptions.style.display='block'; walletLoading.classList.remove('active'); qrPanel.classList.remove('active'); }
+    function showLoading(text) { walletOptions.style.display='none'; qrPanel.classList.remove('active'); loadingText.textContent=text||'Connecting…'; walletLoading.classList.add('active'); }
+    function showQR() { walletOptions.style.display='none'; walletLoading.classList.remove('active'); qrPanel.classList.add('active'); }
+
+    connectBtn.addEventListener('click', () => { if (!window._mhtConnected) openModal(); });
+    closeModalBtn.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModalFn(); });
+    cancelConnect.addEventListener('click', showOptions);
+    backFromQR.addEventListener('click', showOptions);
+
+    document.getElementById('btnMetaMask').addEventListener('click', async () => {
+      if (!window.ethereum || !window.ethereum.isMetaMask) { window.open('https://metamask.io/download/','_blank'); closeModalFn(); return; }
+      showLoading('Opening MetaMask…');
+      try { await connectWithEthereum(window.ethereum); closeModalFn(); }
+      catch(e) { showOptions(); if(e.code!==4001) alert('MetaMask error: '+e.message); }
+    });
+
+    document.getElementById('btnWalletConnect').addEventListener('click', async () => {
+      showQR();
+      const qrContainer = document.getElementById('qrCodeContainer');
+      qrContainer.innerHTML = '<p style="color:#334155;font-size:0.7rem">Generating QR…</p>';
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const addr = accounts[0];
-        const short = addr.slice(0,6) + '...' + addr.slice(-4);
-        // Mettre à jour le panneau wallet
-        document.getElementById('walletAddr').textContent = short;
-        document.getElementById('connectBtn').textContent = '✓ Connected';
-        document.getElementById('connectBtn').style.background = 'linear-gradient(135deg, #00e096, #00b87a)';
-        // Mettre à jour le bouton navbar
-        const navBtn = document.getElementById('navConnectBtn');
-        navBtn.textContent = '✓ ' + short;
-        navBtn.style.background = 'linear-gradient(135deg, #00e096, #00b87a)';
-        navBtn.onclick = null;
-      } catch(e) { console.error(e); }
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent('https://milestonehodl.apexpad.io/')}&bgcolor=ffffff&color=0f172a`;
+        qrContainer.innerHTML = `<img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px" alt="QR"><p style="color:#64748b;font-size:0.65rem;margin-top:8px"><em style="color:#f5c842">WalletConnect v2 — Coming soon</em></p>`;
+      } catch(e) { qrContainer.innerHTML = '<p style="color:#ef4444;font-size:0.75rem">QR error</p>'; }
+    });
+
+    document.getElementById('btnCoinbase').addEventListener('click', async () => {
+      if (window.ethereum && window.ethereum.isCoinbaseWallet) {
+        showLoading('Opening Coinbase Wallet…');
+        try { await connectWithEthereum(window.ethereum); closeModalFn(); } catch(e) { showOptions(); }
+      } else { window.open('https://www.coinbase.com/wallet/downloads','_blank'); closeModalFn(); }
+    });
+
+    document.getElementById('btnTrustWallet').addEventListener('click', async () => {
+      if (window.ethereum && window.ethereum.isTrust) {
+        showLoading('Opening Trust Wallet…');
+        try { await connectWithEthereum(window.ethereum); closeModalFn(); } catch(e) { showOptions(); }
+      } else { window.open('https://trustwallet.com/browser-extension','_blank'); closeModalFn(); }
+    });
+
+    async function connectWithEthereum(ethereumProvider) {
+      await ethereumProvider.request({ method: 'eth_requestAccounts' });
+      const provider = new ethers.BrowserProvider(ethereumProvider);
+      const signer   = await provider.getSigner();
+      const address  = await signer.getAddress();
+      // Switch BSC
+      const network = await provider.getNetwork();
+      if (Number(network.chainId) !== 56) {
+        try {
+          await ethereumProvider.request({ method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}] });
+        } catch(switchErr) {
+          if (switchErr.code === 4902) {
+            await ethereumProvider.request({ method:'wallet_addEthereumChain', params:[{
+              chainId:'0x38', chainName:'BNB Smart Chain',
+              nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},
+              rpcUrls:['https://bsc-dataseed.binance.org/'],
+              blockExplorerUrls:['https://bscscan.com']
+            }]});
+          }
+        }
+      }
+      // Mettre à jour UI
+      const short = address.slice(0,6)+'…'+address.slice(-4);
+      connectBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>'+short;
+      connectBtn.style.background = 'linear-gradient(135deg,#00e096,#00b87a)';
+      window._mhtConnected = true;
+      // Mettre à jour wallet panel
+      document.getElementById('walletAddr').textContent = short;
+      document.getElementById('connectBtn').textContent = '✓ Connected';
+      document.getElementById('connectBtn').style.background = 'linear-gradient(135deg,#00e096,#00b87a)';
+      const claimBtnEl = document.getElementById('claimBtn');
+      if (claimBtnEl) claimBtnEl.style.display = 'block';
+      // Lancer app.js
+      if (typeof window.initMHT === 'function') window.initMHT(provider, signer, address);
+      ethereumProvider.on('accountsChanged', ()=>location.reload());
+      ethereumProvider.on('chainChanged', ()=>location.reload());
+    }
+
+    // Auto-connect si déjà connecté
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.ethereum && window.ethereum.selectedAddress) {
+        const p = new ethers.BrowserProvider(window.ethereum);
+        p.getSigner().then(s => s.getAddress().then(addr => {
+          const short = addr.slice(0,6)+'…'+addr.slice(-4);
+          connectBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>'+short;
+          connectBtn.style.background = 'linear-gradient(135deg,#00e096,#00b87a)';
+          window._mhtConnected = true;
+          p.getSigner().then(sg => window.initMHT && window.initMHT(p, sg, addr));
+        })).catch(()=>{});
+      }
+    });
+
+    // ── MUSIC WIDGET ──────────────────────────────────────────────────────────
+    let musicOpen = false;
+    function toggleMusic() {
+      musicOpen = !musicOpen;
+      const widget = document.getElementById('musicWidget');
+      const btn    = document.getElementById('musicToggle');
+      const iframe = document.getElementById('scWidget');
+      if (musicOpen) {
+        if (typeof SOUNDCLOUD_URL !== 'undefined' && iframe.src === '') {
+          iframe.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(SOUNDCLOUD_URL) + '&color=%23f5c842&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false';
+        }
+        widget.classList.add('open');
+        btn.textContent = '✕';
+        btn.classList.add('playing');
+      } else {
+        widget.classList.remove('open');
+        btn.textContent = '🎵';
+        btn.classList.remove('playing');
+      }
     }
   </script>
 
