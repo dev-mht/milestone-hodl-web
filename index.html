@@ -136,6 +136,25 @@
     }
     .nav-btn-primary:hover { box-shadow: 0 6px 24px rgba(245,200,66,0.4); transform: translateY(-1px); }
 
+    /* ── ANCHOR NAV ── */
+    .anchor-nav {
+      background: var(--bg);
+      border-bottom: 1px solid rgba(245,200,66,0.08);
+      padding: 8px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; flex-wrap: wrap;
+      position: relative; z-index: 98;
+    }
+    .an {
+      padding: 5px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid rgba(245,200,66,0.15);
+      transition: all 0.2s; white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    .an:hover { color: var(--gold); border-color: rgba(245,200,66,0.4); background: rgba(245,200,66,0.06); transform: translateY(-1px); }
+
     /* ── QUICK LINKS BAR ── */
     .quick-links {
       background: var(--bg2);
@@ -256,14 +275,15 @@
 
     .hero-title {
       font-family: var(--display);
-      font-size: clamp(3.5rem, 7vw, 6rem);
-      line-height: 0.95;
+      font-size: clamp(1.8rem, 4.2vw, 3.8rem);
+      line-height: 1;
       letter-spacing: 0.02em;
       color: var(--text);
+      white-space: nowrap;
       animation: fadeUp 0.8s ease 0.1s both;
     }
     .hero-title .gold { color: var(--gold); }
-    .hero-title .dim { color: var(--muted); font-size: 0.6em; display: block; letter-spacing: 0.08em; }
+    .hero-title .dim { color: var(--muted); font-size: 0.6em; letter-spacing: 0.08em; }
 
     .hero-sub {
       font-size: 15px; color: var(--muted);
@@ -888,8 +908,9 @@
         #musicToggle:hover { transform:scale(1.1); }
         #musicToggle.playing { animation:pulse-music 2s infinite; }
         @keyframes pulse-music { 0%,100%{box-shadow:0 4px 20px rgba(245,200,66,0.4);}50%{box-shadow:0 4px 30px rgba(245,200,66,0.8);} }
-        #musicWidget { display:none; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.5); border:1px solid rgba(245,200,66,0.2); }
+        #musicWidget { display:none; border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.5); border:1px solid rgba(245,200,66,0.2); background:#1a1a2e; min-width:280px; }
         #musicWidget.open { display:block; }
+        #musicLabel { background:linear-gradient(135deg,#1a1a2e,#0f0f1a); color:#f5c842; font-size:11px; font-weight:700; letter-spacing:0.08em; padding:10px 14px; border-bottom:1px solid rgba(245,200,66,0.15); font-family:'Space Mono',monospace; }
         #musicLabel { background:linear-gradient(45deg,#1e293b,#0f172a); padding:6px 12px; font-size:0.7rem; color:#94a3b8; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); font-family:'Space Mono',monospace; letter-spacing:1px; }
 
         /* Cooldown badges */
@@ -925,7 +946,7 @@
   <!-- NAVBAR -->
   <nav class="main-nav">
     <a href="#" class="nav-logo">
-      <div class="nav-logo-gem">💎</div>
+      <div class="nav-logo-gem"><img src="piece.png" alt="MHT" style="width:26px;height:26px;border-radius:6px;object-fit:contain;"></div>
       MHT · <span>MILESTONE HODL</span>
     </a>
     <div class="nav-center">
@@ -936,6 +957,14 @@
       <button class="nav-btn nav-btn-primary" id="connectWalletBtn">⚡ Connect Wallet</button>
     </div>
   </nav>
+
+  <!-- ANCHOR NAV -->
+  <div class="anchor-nav">
+    <a href="#tools" class="an">📊 Dashboard</a>
+    <a href="#tokenomics" class="an">🪙 Tokenomics</a>
+    <a href="#how" class="an">⚙️ How It Works</a>
+    <a href="#roadmap" class="an">🗺️ Roadmap</a>
+  </div>
 
   <!-- QUICK LINKS -->
   <div class="quick-links">
@@ -977,8 +1006,7 @@
       </div>
 
       <h1 class="hero-title">
-        <span class="dim">$MHT</span>
-        MILESTONE<br><span class="gold">HODL</span>
+        <span class="dim">$MHT</span> MILESTONE <span class="gold">HODL</span> TOKEN
       </h1>
 
       <p class="hero-sub">
@@ -989,10 +1017,10 @@
       <div class="hero-mcap" id="heroMcap">
         <div class="mcap-label">
           <span>MILESTONE #1 PROGRESSION</span>
-          <span class="mcap-value" id="mcapDisplay">Loading...</span>
+          <span class="mcap-value" id="mcapDisplay">—</span>
         </div>
         <div class="mcap-bar-outer">
-          <div class="mcap-bar-inner" id="mcapBar"></div>
+          <div class="mcap-bar-inner" id="mcapBar" style="width:0%"></div>
         </div>
         <div class="mcap-sub">Target: $1,000,000 MCap &nbsp;·&nbsp; <span>Next Vault Release 🔥</span></div>
       </div>
@@ -1004,12 +1032,12 @@
 
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-val" id="statMcap">$275K</div>
+          <div class="stat-val" id="statMcap">—</div>
           <div class="stat-label">Market Cap</div>
         </div>
         <div class="stat-div"></div>
         <div class="stat">
-          <div class="stat-val">21</div>
+          <div class="stat-val" id="statHolders">—</div>
           <div class="stat-label">Holders</div>
         </div>
         <div class="stat-div"></div>
@@ -1032,46 +1060,6 @@
           <video autoplay muted loop playsinline>
             <source src="video_grok.mp4" type="video/mp4">
           </video>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="section-inner">
-      <div class="section-tag reveal">Mechanism</div>
-      <h2 class="section-title reveal">HOW IT WORKS</h2>
-      <p class="section-sub reveal">Four steps. Zero human intervention. All on-chain.</p>
-
-      <div class="how-grid reveal">
-        <div class="how-card">
-          <div class="how-num">1</div>
-          <div class="how-icon">💎</div>
-          <div class="how-step">STEP 01</div>
-          <div class="how-title">Buy & Hold $MHT</div>
-          <div class="how-desc">Purchase MHT on PancakeSwap and hold in your wallet. Connect above to track your rewards in real-time.</div>
-        </div>
-        <div class="how-card">
-          <div class="how-num">2</div>
-          <div class="how-icon">📈</div>
-          <div class="how-step">STEP 02</div>
-          <div class="how-title">Market Cap Grows</div>
-          <div class="how-desc">Every +$1,000,000 in Market Cap triggers the Smart-Vault. Burns accelerate scarcity. Time concentrates value.</div>
-        </div>
-        <div class="how-card">
-          <div class="how-num">3</div>
-          <div class="how-icon">⚡</div>
-          <div class="how-step">STEP 03</div>
-          <div class="how-title">Chainlink Executes</div>
-          <div class="how-desc">5% of vault auto-released (floor 1M, cap 20M MHT) — tamper-proof, zero human action. The math runs itself.</div>
-        </div>
-        <div class="how-card">
-          <div class="how-num">4</div>
-          <div class="how-icon">🎁</div>
-          <div class="how-step">STEP 04</div>
-          <div class="how-title">Auto-Split & Rewards</div>
-          <div class="how-desc">70% to eligible holders pro-rata. 30% marketing swapped to BNB. Distributed automatically. Forever.</div>
         </div>
       </div>
     </div>
@@ -1316,6 +1304,46 @@
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-inner">
+      <div class="section-tag reveal">Mechanism</div>
+      <h2 class="section-title reveal">HOW IT WORKS</h2>
+      <p class="section-sub reveal">Four steps. Zero human intervention. All on-chain.</p>
+
+      <div class="how-grid reveal">
+        <div class="how-card">
+          <div class="how-num">1</div>
+          <div class="how-icon">💎</div>
+          <div class="how-step">STEP 01</div>
+          <div class="how-title">Buy & Hold $MHT</div>
+          <div class="how-desc">Purchase MHT on PancakeSwap and hold in your wallet. Connect above to track your rewards in real-time.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">2</div>
+          <div class="how-icon">📈</div>
+          <div class="how-step">STEP 02</div>
+          <div class="how-title">Market Cap Grows</div>
+          <div class="how-desc">Every +$1,000,000 in Market Cap triggers the Smart-Vault. Burns accelerate scarcity. Time concentrates value.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">3</div>
+          <div class="how-icon">⚡</div>
+          <div class="how-step">STEP 03</div>
+          <div class="how-title">Chainlink Executes</div>
+          <div class="how-desc">5% of vault auto-released (floor 1M, cap 20M MHT) — tamper-proof, zero human action. The math runs itself.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">4</div>
+          <div class="how-icon">🎁</div>
+          <div class="how-step">STEP 04</div>
+          <div class="how-title">Auto-Split & Rewards</div>
+          <div class="how-desc">70% to eligible holders pro-rata. 30% marketing swapped to BNB. Distributed automatically. Forever.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ROADMAP -->
   <section id="roadmap" class="roadmap-section">
     <div class="section-inner">
@@ -1502,6 +1530,61 @@
   </footer>
 
   <!-- APP.JS (gardé intact) -->
+  <script>
+  // ── CHARGEMENT PUBLIC MCap + Holders (sans wallet) ──────────────────────────
+  (async function loadPublicStats() {
+    const CONTRACT = "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa";
+    const RPC      = "https://bsc-dataseed.binance.org/";
+    const ABI_MIN  = [
+      "function getMarketCap() view returns (uint256)",
+      "function nextMilestoneUSD() view returns (uint256)",
+    ];
+    try {
+      const provider = new ethers.JsonRpcProvider(RPC);
+      const contract = new ethers.Contract(CONTRACT, ABI_MIN, provider);
+
+      const [mcapRaw, nextRaw] = await Promise.all([
+        contract.getMarketCap(),
+        contract.nextMilestoneUSD(),
+      ]);
+
+      const mcap = parseFloat(ethers.formatUnits(mcapRaw, 18));
+      const next = parseFloat(ethers.formatUnits(nextRaw, 18));
+      const STEP = 1_000_000;
+      const prev = next - STEP;
+      const pct  = mcap <= prev ? 0 : mcap >= next ? 100 : Math.round(((mcap - prev) / STEP) * 100);
+
+      // Stats hero
+      const mcapFmt = "$" + (mcap >= 1_000_000
+        ? (mcap / 1_000_000).toFixed(2) + "M"
+        : Math.round(mcap).toLocaleString("en-US"));
+      const statMcapEl = document.getElementById("statMcap");
+      if (statMcapEl) statMcapEl.textContent = mcapFmt;
+
+      // Barre de progression
+      const barEl     = document.getElementById("mcapBar");
+      const displayEl = document.getElementById("mcapDisplay");
+      if (barEl)     barEl.style.width = pct + "%";
+      if (displayEl) displayEl.textContent = mcapFmt + " / $1M";
+
+      // Holders via BscScan API (public, no key needed for basic)
+      try {
+        const res = await fetch(
+          "https://api.bscscan.com/api?module=token&action=tokeninfo&contractaddress=" + CONTRACT + "&apikey=YourApiKeyToken"
+        );
+        const data = await res.json();
+        const holders = data?.result?.[0]?.holdersCount;
+        const statHoldersEl = document.getElementById("statHolders");
+        if (statHoldersEl && holders) statHoldersEl.textContent = parseInt(holders).toLocaleString("en-US");
+      } catch(e) {
+        // holders unavailable without API key — leave as —
+      }
+
+    } catch(e) {
+      console.warn("Public stats load failed:", e);
+    }
+  })();
+  </script>
   <script src="app.js"></script>
   <script src="music-config.js"></script>
 
