@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>MHT — Launch Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fire: #ff4500;
+  --ember: #ff6b00;
+  --gold: #ffaa00;
+  --bg: #060606;
+  --card: #0d0d0d;
+  --border: #1a1a1a;
+  --text: #e0e0e0;
+  --muted: #555;
+  --green: #22c55e;
+  --blue: #3b82f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: .4;
+}
+
+/* ── TICKER ── */
+.ticker-wrap {
+  background: linear-gradient(90deg, var(--fire), var(--ember), var(--gold), var(--ember), var(--fire));
+  background-size: 400% 100%;
+  animation: gradientShift 4s ease infinite;
+  padding: 8px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+@keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+.ticker {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+.ticker span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 2px;
+  padding: 0 32px;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 80px 24px 60px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,69,0,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: var(--fire);
+  border: 1px solid rgba(255,69,0,.3);
+  padding: 5px 16px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  background: rgba(255,69,0,.05);
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--fire) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.hero h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  letter-spacing: 6px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 0.9rem;
+  color: #777;
+  letter-spacing: 1px;
+  font-family: 'Space Mono', monospace;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── BADGES STATUS ── */
+.status-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0 24px 48px;
+  position: relative;
+  z-index: 1;
+}
+.badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+.badge-green { background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); color: var(--green); }
+.badge-fire  { background: rgba(255,69,0,.1);  border: 1px solid rgba(255,69,0,.3);  color: var(--fire); }
+.badge-blue  { background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.3); color: var(--blue); }
+.badge-gold  { background: rgba(255,170,0,.1);  border: 1px solid rgba(255,170,0,.3);  color: var(--gold); }
+
+/* ── TIMELINE ── */
+.timeline-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--fire) 10%, var(--fire) 90%, transparent);
+  transform: translateX(-50%);
+  opacity: .25;
+}
+
+.phase {
+  position: relative;
+  margin-bottom: 64px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.phase.visible { opacity: 1; transform: translateY(0); }
+
+/* Phase header */
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.phase-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--fire);
+  opacity: .15;
+  min-width: 64px;
+  text-align: right;
+}
+
+.phase-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--fire);
+  background: var(--bg);
+  flex-shrink: 0;
+  position: relative;
+}
+.phase-dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--fire);
+}
+.phase-dot.done { border-color: var(--green); }
+.phase-dot.done::after { background: var(--green); }
+.phase-dot.next { border-color: var(--gold); box-shadow: 0 0 12px rgba(255,170,0,.4); }
+.phase-dot.next::after { background: var(--gold); animation: pulse 1.5s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+
+.phase-title-wrap { flex: 1; }
+.phase-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.phase-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  color: #fff;
+  line-height: 1;
+}
+.phase-title.fire { color: var(--fire); }
+.phase-title.gold { color: var(--gold); }
+.phase-title.green { color: var(--green); }
+
+/* Phase card */
+.phase-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-left: 90px;
+  position: relative;
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 4px 4px 0 0;
+}
+.phase-card.done::before { background: linear-gradient(90deg, var(--green), transparent); }
+.phase-card.next::before { background: linear-gradient(90deg, var(--gold), transparent); }
+.phase-card.upcoming::before { background: linear-gradient(90deg, var(--fire), transparent); }
+.phase-card.future::before { background: linear-gradient(90deg, var(--blue), transparent); }
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.04);
+  transition: border-color .2s;
+}
+.item:hover { border-color: rgba(255,69,0,.2); }
+
+.item-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.item-text {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #aaa;
+}
+.item-text strong { color: #ddd; font-weight: 600; }
+
+.item.done-item .item-text { color: rgba(34,197,94,.8); }
+.item.next-item .item-text { color: rgba(255,170,0,.9); }
+
+/* section divider */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+  border-left: 2px solid var(--fire);
+  padding-left: 10px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+footer p {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+.slogan {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 6px;
+  background: linear-gradient(90deg, var(--fire), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .timeline-line { display: none; }
+  .phase-num { display: none; }
+  .phase-card { margin-left: 0; }
+  .items-grid { grid-template-columns: 1fr; }
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>🔥 MHT V2.3 — LIVE ON BSC ✅</span>
+    <span>///</span>
+    <span>FOUNDRY 17/17 ✅</span>
+    <span>///</span>
+    <span>ECHIDNA 15/15 ✅</span>
+    <span>///</span>
+    <span>SOLIDPROOF V2.3 — 85.36/100 ✅</span>
+    <span>///</span>
+    <span>⛔ PRESALE CANCELLED — FUNDS REFUNDED</span>
+    <span>///</span>
+    <span>🚀 DEX LAUNCHED ✅ PANCAKESWAP</span>
+    <span>///</span>
+    <span>CHAINLINK AUTOMATION ✅</span>
+    <span>///</span>
+    <span>TRUST THE PROCESS • EARN THE GROWTH</span>
+    <span>///</span>
+    <span>🔥 MHT V2.3 — LIVE ON BSC ✅</span>
+    <span>///</span>
+    <span>FOUNDRY 17/17 ✅</span>
+    <span>///</span>
+    <span>ECHIDNA 15/15 ✅</span>
+    <span>///</span>
+    <span>SOLIDPROOF V2.3 — 85.36/100 ✅</span>
+    <span>///</span>
+    <span>⛔ PRESALE CANCELLED — FUNDS REFUNDED</span>
+    <span>///</span>
+    <span>🚀 DEX LAUNCHED ✅ PANCAKESWAP</span>
+    <span>///</span>
+    <span>CHAINLINK AUTOMATION ✅</span>
+    <span>///</span>
+    <span>TRUST THE PROCESS • EARN THE GROWTH</span>
+    <span>///</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">// LAUNCH SEQUENCE INITIATED</div>
+  <h1>ROADMAP</h1>
+  <h2>MILESTONE HODL TOKEN</h2>
+  <p>From launch to ecosystem — every step, no shortcuts.</p>
+</div>
+
+<!-- STATUS BADGES -->
+<div class="status-bar">
+  <span class="badge badge-green">✅ SOLIDPROOF AUDIT V1 80/100</span>
+  <span class="badge badge-green">✅ FOUNDRY 17/17 PASS</span>
+  <span class="badge badge-green">✅ ECHIDNA 15/15 PASS</span>
+  <span class="badge badge-fire">⛔ PRESALE CANCELLED — REFUNDED</span>
+  <span class="badge badge-green">✅ SOLIDPROOF V2.3 — 85.36/100</span>
+  <span class="badge badge-green">✅ DEX LIVE — PANCAKESWAP V2</span>
+  <span class="badge badge-green">✅ APEXPAD.IO LIVE</span>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline-wrap">
+  <div class="timeline-line"></div>
+
+  <!-- PHASE 0 — FONDATIONS -->
+  <div class="phase visible">
+    <div class="phase-header">
+      <div class="phase-num">00</div>
+      <div class="phase-dot done"></div>
+      <div class="phase-title-wrap">
+        <div class="phase-label">// COMPLETED</div>
+        <div class="phase-title green">FONDATIONS</div>
+      </div>
+    </div>
+    <div class="phase-card done">
+      <div class="items-grid">
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Smart Contract MHT V4.1</strong> — déployé & vérifié BSCScan</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>ApexPad Factory V3</strong> — déployé & vérifié BSCScan</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Audit SolidProof</strong> — 80/100</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Tests intégration</strong> — 100/100 BSC Testnet</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Dashboard MHT V5</strong> — live sur GitHub Pages</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Chainlink Automation</strong> — registry configuré Mainnet</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>White Paper v4.4</strong> — FR & EN disponibles</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Programme Ambassador</strong> — liens referral actifs</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Page Presale dédiée</strong> — apexpad.io/presale.html — tracking referral on-chain</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Système referral automatique</strong> — Google Sheet + notifications email</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Formulaire Apply</strong> — apexpad.io/apply.html — notifications instantanées équipe ApexPad</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Domaine apexpad.io</strong> — acheté & live — 19 Mars 2026</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Presale Contract déployé & vérifié</strong> — <code style="font-size:0.7rem;color:#22c55e;">0x0247ad...6b6a</code> — BSCScan</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 — PRESALE CANCELLED -->
+  <div class="phase visible">
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-dot done"></div>
+      <div class="phase-title-wrap">
+        <div class="phase-label">// COMPLETED — ⛔ CANCELLED APRIL 15, 2026 — FUNDS REFUNDED</div>
+        <div class="phase-title" style="color:#ff4500;">PRESALE — CANCELLED</div>
+      </div>
+    </div>
+    <div class="phase-card done" style="border-color:rgba(255,69,0,0.3);">
+      <div class="section-label">// Technique</div>
+      <div class="items-grid">
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Approve 100M MHT</strong> → contrat presale ApexPad</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Presale V4 déployée</strong> via createPresale() — BSC Mainnet — 31 Mars 2026</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Prix : $0.0002 / MHT</strong> — Hard Cap $20,000 — Min 0.01 BNB — Max 3 BNB</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>0% taxe achat</strong> pendant toute la presale</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>LP Lock 70% — 6 mois</strong> — enforced on-chain ApexPad</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Contrat vérifié BSCScan</strong> — <code style="font-size:0.7rem;color:#22c55e;">0x0247ad28486992fe9cf08d0c8c4c08baf13f6b6a</code></span></div>
+      </div>
+      <div class="section-label" style="margin-top:16px">// Marketing</div>
+      <div class="items-grid">
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Annonce presale</strong> — Telegram + Twitter/X</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Activation ambassadors</strong> — liens referral partagés</span></div>
+        <div class="item done-item"><span class="item-icon">⛔</span><span class="item-text"><strong>Presale annulée</strong> — 15 Avril 2026 — 100M MHT récupérés — 0.02 BNB remboursés on-chain</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>MHT V2.1 en développement</strong> — architecture complète + 5 audits automatisés</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 — DEX LAUNCH V2.3 ✅ -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-dot done"></div>
+      <div class="phase-title-wrap">
+        <div class="phase-label">// COMPLETED — MAY 4, 2026</div>
+        <div class="phase-title gold">DEX LAUNCH V2.3 ✅</div>
+      </div>
+    </div>
+    <div class="phase-card done">
+      <div class="section-label">// Technique</div>
+      <div class="items-grid">
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>SolidProof audit V2.3</strong> — 85.36/100</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>KYC Founder</strong> — vérifié par SolidProof (Bronze)</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Retirer LP V1</strong> — paire 0x50A8cD... — effectué le 30 avril 2026</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Deploy MHT V2.3</strong> — BSC Mainnet — 4 mai 2026 — block 96315300</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>initLiquidity()</strong> — 30M MHT + 10 BNB → PancakeSwap — TVL $12,446</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>PinkLock LP tokens</strong> — 6 mois — Record #1572038 — unlock 04/11/2026</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Chainlink Automation</strong> — upkeep V2.3 active — 5 LINK</span></div>
+        <div class="item next-item"><span class="item-icon">🔥</span><span class="item-text"><strong>renounceOwnership()</strong> — irréversible — trustless forever — IMMINENT</span></div>
+      </div>
+      <div class="section-label" style="margin-top:16px">// Marketing</div>
+      <div class="items-grid">
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Annonce launch V2.3</strong> — Telegram + @apexpad_io</span></div>
+        <div class="item next-item"><span class="item-icon">📊</span><span class="item-text"><strong>Soumission CoinGecko + CMC</strong> — listing tracking</span></div>
+        <div class="item next-item"><span class="item-icon">🎥</span><span class="item-text"><strong>Campagne influenceurs</strong> — YouTube + TikTok crypto</span></div>
+        <div class="item done-item"><span class="item-icon">✅</span><span class="item-text"><strong>Snapshot V1 airdropé</strong> — 12 holders récompensés au deploy</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 — MILESTONES & GROWTH -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-dot"></div>
+      <div class="phase-title-wrap">
+        <div class="phase-label">// $1M — $10M MARKET CAP</div>
+        <div class="phase-title fire">MILESTONES & GROWTH</div>
+      </div>
+    </div>
+    <div class="phase-card upcoming">
+      <div class="section-label">// Mécanisme Smart-Vault</div>
+      <div class="items-grid">
+        <div class="item"><span class="item-icon">⚡</span><span class="item-text"><strong>Chaque +$1M Market Cap</strong> → 5% vault libérés automatiquement</span></div>
+        <div class="item"><span class="item-icon">🎁</span><span class="item-text"><strong>70% holders pro-rata</strong> — distribués automatiquement</span></div>
+        <div class="item"><span class="item-icon">📣</span><span class="item-text"><strong>30% auto-swapped to BNB</strong> → marketing wallet</span></div>
+        <div class="item"><span class="item-icon">💧</span><span class="item-text"><strong>T2 40M @ $10M MCap</strong> — LP auto</span></div>
+        <div class="item"><span class="item-icon">💧</span><span class="item-text"><strong>T3 40M @ $25M MCap</strong> — LP auto</span></div>
+      </div>
+      <div class="section-label" style="margin-top:16px">// Marketing</div>
+      <div class="items-grid">
+        <div class="item"><span class="item-icon">🏦</span><span class="item-text"><strong>Approches CEX Tier-2</strong> — BitMart, Toobit, Azbit</span></div>
+        <div class="item"><span class="item-icon">🌍</span><span class="item-text"><strong>Expansion communauté</strong> — groupes régionaux Telegram</span></div>
+        <div class="item"><span class="item-icon">🤝</span><span class="item-text"><strong>Partenariats projets BSC</strong> — via ApexPad</span></div>
+        <div class="item"><span class="item-icon">📣</span><span class="item-text"><strong>Campagne influenceurs Tier-2</strong> — YouTube, TikTok crypto</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 — CEX & SCALE -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">04</div>
+      <div class="phase-dot"></div>
+      <div class="phase-title-wrap">
+        <div class="phase-label">// $10M+ MARKET CAP</div>
+        <div class="phase-title fire">CEX & SCALE</div>
+      </div>
+    </div>
+    <div class="phase-card future">
+      <div class="section-label">// Technique</div>
+      <div class="items-grid">
+        <div class="item"><span class="item-icon">🛡️</span><span class="item-text"><strong>Audit Certik / Hacken</strong> — sécurité Tier-1</span></div>
+        <div class="item"><span class="item-icon">💧</span><span class="item-text"><strong>Milestone 25</strong> — T4 40M MHT libérés → LP</span></div>
+        <div class="item"><span class="item-icon">🔗</span><span class="item-text"><strong>Multi-chain expansion</strong> — ETH, AVAX, BASE via ApexPad</span></div>
+      </div>
+      <div class="section-label" style="margin-top:16px">// Marketing & Listings</div>
+      <div class="items-grid">
+        <div class="item"><span class="item-icon">🏦</span><span class="item-text"><strong>Listings CEX Tier-1</strong> — Binance, OKX, KuCoin</span></div>
+        <div class="item"><span class="item-icon">📊</span><span class="item-text"><strong>CMC & CG Top Rankings</strong> — campagne votes communauté</span></div>
+        <div class="item"><span class="item-icon">🎙️</span><span class="item-text"><strong>Influenceurs Tier-1</strong> — partenariats majeurs</span></div>
+        <div class="item"><span class="item-icon">🏛️</span><span class="item-text"><strong>Governance DAO</strong> — Baron Ecosystem</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="slogan">Trust the process • Earn the growth</div>
+  <p>© 2026 MILESTONE HODL TOKEN — ALL RIGHTS RESERVED</p>
+  <p style="margin-top:8px">
+    <a href="https://t.me/Milestone_HODL_Official" style="color:var(--fire);text-decoration:none;margin:0 12px">TELEGRAM</a>
+    <a href="https://x.com/milestone_hodl" style="color:var(--fire);text-decoration:none;margin:0 12px">TWITTER / X</a>
+    <a href="https://milestonehodl.apexpad.io" style="color:var(--fire);text-decoration:none;margin:0 12px">DASHBOARD</a>
+    <a href="https://apexpad.io" style="color:var(--fire);text-decoration:none;margin:0 12px">APEXPAD.IO</a>
+    <a href="https://milestonehodl.apexpad.io/pages/mht_architecture.html" style="color:var(--fire);text-decoration:none;margin:0 12px">V2.3 ARCHITECTURE 🔥</a>
+  </p>
+</footer>
+
+<script>
+// Scroll animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.phase').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

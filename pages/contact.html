@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Milestone HODL Token</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+    :root {
+      --bg:        #080b10;
+      --bg2:       #0d1219;
+      --bg3:       #111820;
+      --border:    rgba(255,255,255,0.07);
+      --gold:      #f5c842;
+      --gold2:     #ffde7a;
+      --cyan:      #00e5ff;
+      --text:      #e8edf4;
+      --muted:     #6b7a90;
+      --success:   #00e096;
+      --error:     #ff4d6a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND FX ── */
+    .bg-fx {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .bg-fx::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      animation: pulse 8s ease-in-out infinite;
+    }
+    .bg-fx::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,0.05) 0%, transparent 70%);
+      bottom: -100px; left: -100px;
+      animation: pulse 10s ease-in-out infinite reverse;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.15); opacity: 0.6; }
+    }
+
+    .grid-overlay {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(245,200,66,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,200,66,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative; z-index: 10;
+      padding: 28px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      background: rgba(8,11,16,0.8);
+    }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-badge {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700; font-size: 13px;
+      color: #080b10;
+      box-shadow: 0 0 20px rgba(245,200,66,0.3);
+    }
+    .logo-text { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; color: var(--text); }
+    .logo-text span { color: var(--gold); }
+
+    nav { display: flex; gap: 8px; }
+    nav a {
+      padding: 8px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); text-decoration: none;
+      transition: all 0.2s; border: 1px solid transparent;
+    }
+    nav a:hover { color: var(--text); border-color: var(--border); background: var(--bg3); }
+    nav a.cta { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #080b10; border-color: transparent; }
+    nav a.cta:hover { opacity: 0.9; }
+
+    /* ── MAIN ── */
+    main {
+      position: relative; z-index: 5;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 64px;
+      animation: fadeUp 0.6s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      border: 1px solid rgba(245,200,66,0.3);
+      border-radius: 100px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      background: rgba(245,200,66,0.05);
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    h1 .accent { color: var(--gold); }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      line-height: 1.7; max-width: 520px; margin: 0 auto;
+    }
+    .hero-sub a { color: var(--gold); text-decoration: none; }
+    .hero-sub a:hover { text-decoration: underline; }
+
+    /* ── NOTICE ── */
+    .notice {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: rgba(255,77,106,0.08);
+      border: 1px solid rgba(255,77,106,0.25);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s ease 0.15s both;
+    }
+    .notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .notice-text { font-size: 13px; line-height: 1.6; color: #ffb3be; }
+    .notice-text strong { color: #ff4d6a; }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .form-grid { display: grid; gap: 24px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    label {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    label span { color: var(--gold); margin-left: 2px; }
+
+    input, select, textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px; color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(245,200,66,0.5);
+      box-shadow: 0 0 0 3px rgba(245,200,66,0.08);
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a90' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      cursor: pointer;
+    }
+    select option { background: var(--bg3); }
+    textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+    /* ── RECAPTCHA BADGE ── */
+    .recaptcha-note {
+      font-size: 11px; color: var(--muted);
+      text-align: center; line-height: 1.6;
+    }
+    .recaptcha-note a { color: var(--muted); }
+
+    /* ── SUBMIT ── */
+    .submit-btn {
+      width: 100%; padding: 18px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border: none; border-radius: 14px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px; font-weight: 700;
+      letter-spacing: 0.04em; color: #080b10;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 8px 32px rgba(245,200,66,0.25);
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245,200,66,0.35); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-inner { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(8,11,16,0.3);
+      border-top-color: #080b10;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .submit-btn.loading .spinner { display: block; }
+    .submit-btn.loading .btn-text { display: none; }
+
+    /* ── FEEDBACK ── */
+    .feedback {
+      display: none; padding: 16px 20px;
+      border-radius: 12px; font-size: 14px; font-weight: 600;
+      align-items: center; gap: 12px;
+    }
+    .feedback.success {
+      display: flex;
+      background: rgba(0,224,150,0.1);
+      border: 1px solid rgba(0,224,150,0.3);
+      color: var(--success);
+    }
+    .feedback.error {
+      display: flex;
+      background: rgba(255,77,106,0.1);
+      border: 1px solid rgba(255,77,106,0.3);
+      color: var(--error);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 5;
+      text-align: center; padding: 32px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 13px;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Hide default reCAPTCHA badge */
+    .grecaptcha-badge { visibility: hidden !important; }
+
+    @media (max-width: 640px) {
+      header { padding: 20px; }
+      nav { display: none; }
+      .form-card { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+</head>
+<body>
+
+  <div class="bg-fx"></div>
+  <div class="grid-overlay"></div>
+
+  <header>
+    <a href="https://apexpad.io" class="logo">
+      <div class="logo-badge">MHT</div>
+      <span class="logo-text">Milestone<span>HODL</span></span>
+    </a>
+    <nav>
+      <a href="https://apexpad.io/presale.html">Presale</a>
+      <a href="https://milestonehodl.apexpad.io">Dashboard</a>
+      <a href="https://apexpad.io/presale.html" class="cta">Buy $MHT</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="hero">
+      <div class="hero-tag">Official Contact</div>
+      <h1>Get in <span class="accent">Touch</span></h1>
+      <p class="hero-sub">
+        For partnerships, holder support, or press inquiries — fill out the form below.
+        All general questions should be asked publicly in our
+        <a href="https://t.me/Community_Milestone_hodl">Telegram community</a>.
+      </p>
+    </div>
+
+    <div class="notice">
+      <div class="notice-icon">🛡️</div>
+      <div class="notice-text">
+        <strong>Anti-Scam Notice:</strong> The MHT team will <strong>NEVER</strong> DM you first,
+        ask for your private keys, or request funds. Any unsolicited contact claiming to be the team is a scammer.
+        This form is the <strong>only official</strong> way to reach us privately.
+      </div>
+    </div>
+
+    <div class="form-card">
+      <form id="contactForm" class="form-grid">
+
+        <div class="form-row">
+          <div class="field">
+            <label>Your Name <span>*</span></label>
+            <input type="text" name="name" placeholder="John Doe" required />
+          </div>
+          <div class="field">
+            <label>Twitter / X Handle</label>
+            <input type="text" name="twitter" placeholder="@your_handle" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email Address <span>*</span></label>
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+          <label>Subject <span>*</span></label>
+          <select name="subject" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Holder Support">🪙 Holder Support</option>
+            <option value="Partnership">🤝 Partnership / Collaboration</option>
+            <option value="Press">📰 Press / Media</option>
+            <option value="Technical Issue">🔧 Technical Issue</option>
+            <option value="Other">💬 Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Message <span>*</span></label>
+          <textarea name="message" placeholder="Describe your request in detail..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <div class="btn-inner">
+            <div class="spinner"></div>
+            <span class="btn-text">Send Message →</span>
+          </div>
+        </button>
+
+        <div class="feedback" id="feedback"></div>
+
+        <p class="recaptcha-note">
+          Protected by <a href="https://web3forms.com" target="_blank">Web3Forms</a> —
+          Your message goes directly to milestonehodl.contact@proton.me
+        </p>
+
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Milestone HODL Token — <a href="https://apexpad.io">ApexPad.io</a> &nbsp;|&nbsp;
+    <a href="https://t.me/Community_Milestone_hodl">Telegram</a> &nbsp;|&nbsp;
+    <a href="https://x.com/milestone_hodl">Twitter/X</a></p>
+  </footer>
+
+  <script>
+    // ── Web3Forms ──
+    // IMPORTANT: Remplace YOUR_ACCESS_KEY_HERE par ta clé Web3Forms
+    const W3F_KEY = 'YOUR_W3F_ACCESS_KEY_HERE';
+
+    const form = document.getElementById('contactForm');
+    const btn  = document.getElementById('submitBtn');
+    const fb   = document.getElementById('feedback');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      btn.classList.add('loading');
+      btn.disabled = true;
+      fb.className = 'feedback';
+
+      try {
+        const formData = new FormData(form);
+        formData.append('access_key', W3F_KEY);
+        formData.append('subject', 'MHT Contact: ' + form.subject.value);
+        formData.append('from_name', 'Milestone HODL Contact Form');
+        formData.append('date', new Date().toISOString());
+
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          fb.textContent = '✅ Message sent! We\'ll get back to you within 48h.';
+          fb.className = 'feedback success';
+          form.reset();
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+
+      } catch (err) {
+        console.error(err);
+        fb.textContent = '❌ Something went wrong. Please try again.';
+        fb.className = 'feedback error';
+      } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

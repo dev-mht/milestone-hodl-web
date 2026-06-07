@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Hold $MHT — The Math Behind the Token</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E8501A;
+    --orange-dim: #C23F10;
+    --gold: #F0A500;
+    --teal: #00C9A7;
+    --dark: #0A0A0F;
+    --dark2: #111118;
+    --dark3: #1A1A26;
+    --border: rgba(255,255,255,0.07);
+    --text: #E8E6E0;
+    --text-dim: #888880;
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,80,26,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--orange);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-dim);
+    max-width: 560px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .hero-stat { }
+  .hero-stat-val {
+    font-family: var(--mono);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--text);
+    display: block;
+    line-height: 1;
+  }
+  .hero-stat-val span { color: var(--orange); }
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    display: block;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 1.2s;
+  }
+  .scroll-hint::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--text-dim);
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    padding: 120px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--orange);
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: var(--orange);
+  }
+
+  .section-body {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 640px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* SUPPLY BREAKDOWN */
+  .supply-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    margin-top: 64px;
+    border: 1px solid var(--border);
+  }
+
+  .supply-card {
+    background: var(--dark2);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .supply-card:hover { background: var(--dark3); }
+
+  .supply-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .supply-card:hover::before { transform: scaleX(1); }
+
+  .supply-pct {
+    font-family: var(--mono);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .supply-name {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .supply-detail {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .supply-badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 4px 10px;
+    border: 1px solid;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .badge-locked { border-color: var(--teal); color: var(--teal); }
+  .badge-wallet { border-color: var(--gold); color: var(--gold); }
+  .badge-burn   { border-color: #FF4444; color: #FF4444; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 40px;
+  }
+
+  /* FLOWCHART */
+  .flow-container {
+    margin-top: 72px;
+    position: relative;
+  }
+
+  .flow-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-bottom: 64px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .flow-intro { grid-template-columns: 1fr; }
+  }
+
+  .flow-key-stat {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+  }
+  .flow-key-stat::after {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px; left: 20px;
+    background: var(--dark);
+    padding: 0 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .flow-key-stat-val {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .flow-key-stat-val span { color: var(--orange); }
+  .flow-key-stat-desc {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* VERTICAL FLOW */
+  .vflow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .vflow-node {
+    width: 100%;
+    max-width: 680px;
+    padding: 20px 28px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .vflow-node:hover { background: var(--dark2); }
+
+  .vflow-node.launch {
+    background: linear-gradient(135deg, rgba(232,80,26,0.15), transparent);
+    border-color: rgba(232,80,26,0.4);
+  }
+  .vflow-node.flush {
+    background: var(--dark2);
+    border-color: rgba(0,100,200,0.25);
+  }
+  .vflow-node.flush:hover { border-color: rgba(0,140,255,0.5); }
+  .vflow-node.lp {
+    background: var(--dark2);
+    border-color: rgba(0,201,167,0.25);
+  }
+  .vflow-node.lp:hover { border-color: rgba(0,201,167,0.5); }
+  .vflow-node.milestone {
+    background: linear-gradient(135deg, rgba(240,165,0,0.08), transparent);
+    border-color: rgba(240,165,0,0.3);
+  }
+
+  .vflow-node-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .vflow-label {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .vflow-price {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--teal);
+    font-weight: 700;
+  }
+  .vflow-price.fdv { color: var(--gold); }
+  .vflow-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .vflow-mech {
+    font-size: 11px;
+    color: rgba(0,201,167,0.7);
+    font-family: var(--mono);
+    margin-top: 6px;
+  }
+
+  .vflow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 2px;
+  }
+  .vflow-arrow-line {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+  }
+  .vflow-arrow-cost {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--teal);
+    background: var(--dark);
+    padding: 2px 8px;
+    border: 1px solid rgba(0,201,167,0.2);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .vflow-arrow-tip {
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--border);
+  }
+
+  .flush-section-label {
+    width: 100%;
+    max-width: 680px;
+    padding: 10px 16px;
+    background: rgba(26,74,122,0.3);
+    border: 1px solid rgba(26,74,122,0.5);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #378ADD;
+    text-align: center;
+    margin: 8px 0;
+  }
+  .lp-section-label {
+    width: 100%;
+    max-width: 680px;
+    padding: 10px 16px;
+    background: rgba(0,100,80,0.2);
+    border: 1px solid rgba(0,201,167,0.3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    text-align: center;
+    margin: 8px 0;
+  }
+  .milestone-section-label {
+    width: 100%;
+    max-width: 680px;
+    padding: 10px 16px;
+    background: rgba(100,70,0,0.2);
+    border: 1px solid rgba(240,165,0,0.3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  /* MILESTONE CHART */
+  .milestone-section { margin-top: 80px; }
+
+  .milestone-chart-wrap {
+    margin-top: 48px;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .milestone-chart-wrap::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  .chart-title {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 20px;
+  }
+  .chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-dim);
+    font-family: var(--mono);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 1px;
+  }
+
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 160px;
+  }
+
+  .bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    transition: opacity 0.2s, filter 0.2s;
+    min-height: 4px;
+  }
+  .bar:hover { filter: brightness(1.3); }
+  .bar-capped { background: var(--orange); }
+  .bar-decay  { background: var(--teal); }
+
+  .bar-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--text-dim);
+    transform: rotate(-45deg);
+    white-space: nowrap;
+    margin-top: 6px;
+  }
+
+  .tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .bar-wrap:hover .tooltip { opacity: 1; }
+
+  .chart-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.6;
+    border-left: 2px solid var(--orange);
+    padding-left: 16px;
+  }
+
+  /* WHY HOLD CARDS */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .why-card {
+    background: var(--dark2);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .why-card:hover { background: var(--dark3); }
+
+  .why-num {
+    font-family: var(--mono);
+    font-size: 60px;
+    font-weight: 700;
+    color: rgba(232,80,26,0.12);
+    line-height: 1;
+    position: absolute;
+    top: 20px; right: 24px;
+    letter-spacing: -0.04em;
+  }
+  .why-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .why-title {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .why-body {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .why-body strong { color: var(--text); font-weight: 500; }
+
+  /* MATH BOX */
+  .math-box {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 32px 40px;
+    margin-top: 64px;
+    font-family: var(--mono);
+  }
+  .math-box-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 24px;
+  }
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .math-row:last-child { border-bottom: none; }
+  .math-label { font-size: 12px; color: var(--text-dim); }
+  .math-val { font-size: 14px; color: var(--text); font-weight: 700; }
+  .math-val.highlight { color: var(--orange); }
+  .math-val.teal { color: var(--teal); }
+  .math-val.gold { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    padding: 60px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-brand {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .footer-brand span { color: var(--orange); }
+  .footer-slogan {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 14px 0;
+    white-space: nowrap;
+  }
+  .ticker {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-block;
+    padding: 0 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+  .ticker-item span { color: var(--orange); }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 24px 60px; }
+    .section { padding: 80px 24px; }
+    .hero-stats { gap: 32px; }
+    .divider { margin: 0 24px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .math-box { padding: 24px; }
+  }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Milestone HODL Token — $MHT — BNB Smart Chain</p>
+  <h1 class="hero-title">The math<br>doesn't<br><em>lie.</em></h1>
+  <p class="hero-subtitle">A token engineered to reward holders automatically — no staking, no lockup, no trust required. Rewards accumulate on-chain, claim them anytime. Just math, Chainlink, and an immutable contract.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val"><span>79</span>%</span>
+      <span class="hero-stat-label">Locked on-chain</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">$<span>0.000205</span></span>
+      <span class="hero-stat-label">Launch price</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">~$<span>20K</span></span>
+      <span class="hero-stat-label">To reach ×4 price</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val"><span>100</span>+</span>
+      <span class="hero-stat-label">Milestone rewards</span>
+    </div>
+  </div>
+  <p class="scroll-hint">Scroll to understand</p>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">$MHT <span>LAUNCH</span></span>
+    <span class="ticker-item">79% LOCKED ON-CHAIN <span>✓</span></span>
+    <span class="ticker-item">CHAINLINK AUTOMATION <span>✓</span></span>
+    <span class="ticker-item">SOLIDPROOF AUDITED <span>✓</span></span>
+    <span class="ticker-item">RENOUNCED OWNERSHIP <span>✓</span></span>
+    <span class="ticker-item">ZERO BACKDOOR <span>✓</span></span>
+    <span class="ticker-item">LP BURNED FOREVER <span>✓</span></span>
+    <span class="ticker-item">AUTO REWARDS <span>✓</span></span>
+    <span class="ticker-item">$MHT <span>LAUNCH</span></span>
+    <span class="ticker-item">79% LOCKED ON-CHAIN <span>✓</span></span>
+    <span class="ticker-item">CHAINLINK AUTOMATION <span>✓</span></span>
+    <span class="ticker-item">SOLIDPROOF AUDITED <span>✓</span></span>
+    <span class="ticker-item">RENOUNCED OWNERSHIP <span>✓</span></span>
+    <span class="ticker-item">ZERO BACKDOOR <span>✓</span></span>
+    <span class="ticker-item">LP BURNED FOREVER <span>✓</span></span>
+    <span class="ticker-item">AUTO REWARDS <span>✓</span></span>
+  </div>
+</div>
+
+<!-- SUPPLY SECTION -->
+<section class="section reveal">
+  <p class="section-tag">Token distribution</p>
+  <h2 class="section-title">Only <em>3.8%</em> of supply<br>is liquid at<br>launch.</h2>
+  <p class="section-body">30M MHT sits in the liquidity pool (tradeable via PancakeSwap) + ~8.3M distributed to V1 holders = ~38.3M liquid at launch (~3.8% of supply). Marketing and founder wallets are in circulation but held strategically — released progressively to support growth. Every LP and flush tranche adds MHT back into circulation, but each injection also deepens the pool and supports the price.</p>
+
+  <div class="supply-grid">
+    <div class="supply-card">
+      <div class="supply-pct">50%</div>
+      <div class="supply-name">Smart Vault</div>
+      <div class="supply-detail">500M MHT — released progressively to holders at every $1M FDV milestone. 5% of remaining vault per trigger, capped at 20M MHT.</div>
+      <span class="supply-badge badge-locked">Locked on-chain</span>
+    </div>
+    <div class="supply-card">
+      <div class="supply-pct">20%</div>
+      <div class="supply-name">LP Progressive</div>
+      <div class="supply-detail">200M MHT — 5 tranches of 40M each. Released when FDV crosses $1.5M / $10M / $25M / $50M / $75M. Half swapped to BNB, half added as permanent LP.</div>
+      <span class="supply-badge badge-locked">Locked on-chain</span>
+    </div>
+    <div class="supply-card">
+      <div class="supply-pct">15%</div>
+      <div class="supply-name">Marketing</div>
+      <div class="supply-detail">150M MHT — controlled by the founder. Released progressively to support growth — collaborators, campaigns, and community initiatives. Includes 5.5M MHT reserved for X giveaway winners (distribution pending @milestone_hodl account restoration).</div>
+      <span class="supply-badge badge-wallet">Strategic release</span>
+    </div>
+    <div class="supply-card">
+      <div class="supply-pct">6.2%</div>
+      <div class="supply-name">Flush LP</div>
+      <div class="supply-detail">61.7M MHT across 6 price-triggered tranches ($0.0003 → $0.0008). Each tranche deepens the liquidity pool permanently. LP tokens burned forever.</div>
+      <span class="supply-badge badge-locked">Locked on-chain</span>
+    </div>
+    <div class="supply-card">
+      <div class="supply-pct">5%</div>
+      <div class="supply-name">Founder</div>
+      <div class="supply-detail">50M MHT — included in holder rewards. The founder earns proportionally with the community at every milestone.</div>
+      <span class="supply-badge badge-wallet">HODL wallet</span>
+    </div>
+    <div class="supply-card">
+      <div class="supply-pct">3.8%</div>
+      <div class="supply-name">V1 Snapshot + Start LP</div>
+      <div class="supply-detail">30M MHT in the initial liquidity pool (PinkLock) + ~8.3M to V1 holders. The real tradeable float at launch.</div>
+      <span class="supply-badge badge-burn">Float / Pool</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FLOWCHART SECTION -->
+<section class="section reveal">
+  <p class="section-tag">Price progression</p>
+  <h2 class="section-title">From <em>$205K</em> FDV<br>to <em>$75M+</em> —<br>fully automated.</h2>
+  <p class="section-body">Each price level triggers a new liquidity injection, making the next level easier to sustain. The pool gets deeper at every step — automatically.</p>
+
+  <div class="flow-container">
+    <div class="flow-intro">
+      <div class="flow-key-stat" data-label="Launch pool">
+        <div class="flow-key-stat-val">30M <span>MHT</span></div>
+        <div class="flow-key-stat-val" style="font-size:28px; margin-top:8px;">+ 10 <span>BNB</span></div>
+        <div class="flow-key-stat-desc">Initial liquidity locked on PinkLock. Launch price: <strong style="color:var(--orange)">$0.000205</strong> per MHT — FDV $205K.</div>
+      </div>
+      <div class="flow-key-stat" data-label="Real float Day 1">
+        <div class="flow-key-stat-val">~<span>3.8%</span></div>
+        <div class="flow-key-stat-desc">Of total supply liquid at launch: 30M MHT in the LP pool (buyable on PancakeSwap) + ~8.3M from V1 holders = ~38.3M. Marketing and founder wallets are in circulation but held strategically. <strong style="color:var(--orange)">This limited liquid supply means minimal buy pressure = maximum price impact.</strong></div>
+      </div>
+    </div>
+
+    <div class="vflow">
+      <!-- LAUNCH -->
+      <div class="vflow-node launch">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🚀 Launch</div>
+          <div class="vflow-price">$0.000205</div>
+        </div>
+        <div class="vflow-sub">Pool: 30M MHT + 10 BNB — LP locked PinkLock — FDV $205K</div>
+      </div>
+
+      <!-- FLUSH SECTION -->
+      <div class="vflow-arrow"><div class="vflow-arrow-line"></div></div>
+      <div class="flush-section-label">⬇ Flush LP — 6 tranches triggered by price — 61.7M MHT → permanent liquidity</div>
+      <div class="vflow-arrow"><div class="vflow-arrow-line"></div></div>
+
+      <div class="vflow-node flush">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 1</div>
+          <div class="vflow-price">$0.0003 / FDV $300K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT released — 50% swapped to BNB + 50% added as LP — LP burned 🔥</div>
+        <div class="vflow-mech">Pool deepens automatically — harder to dump</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost">+ $2,778</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node flush">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 2</div>
+          <div class="vflow-price">$0.0004 / FDV $400K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT → permanent LP — cumul $4K total volume</div>
+        <div class="vflow-mech">Pool deepens again — price stabilizes at higher level</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost">+ $3,312</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node flush">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 3</div>
+          <div class="vflow-price">$0.0005 / FDV $500K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT → permanent LP — cumul $7.4K total volume</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost">+ $3,881</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node flush">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 4</div>
+          <div class="vflow-price">$0.0006 / FDV $600K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT → permanent LP — cumul $11.3K total volume</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost">+ $4,475</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node flush">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 5</div>
+          <div class="vflow-price">$0.0007 / FDV $700K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT → permanent LP — cumul $15.7K total volume</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost">+ $5,086</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node flush" style="border-color: rgba(0,140,255,0.5);">
+        <div class="vflow-node-top">
+          <div class="vflow-label">💧 Flush Tranche 6 — Final</div>
+          <div class="vflow-price">$0.0008 / FDV $800K</div>
+        </div>
+        <div class="vflow-sub">10.3M MHT → permanent LP — <strong style="color:#378ADD">Total: ~$20,800 to reach ×4 price</strong></div>
+        <div class="vflow-mech">All 61.7M flush MHT now burned as permanent LP — pool significantly deeper</div>
+      </div>
+
+      <!-- LP MCap -->
+      <div class="vflow-arrow"><div class="vflow-arrow-line" style="height:32px;"></div></div>
+      <div class="lp-section-label">⬇ LP MCap Tranches — 5 × 40M MHT triggered by FDV — adds massive liquidity</div>
+      <div class="vflow-arrow"><div class="vflow-arrow-line"></div></div>
+
+      <div class="vflow-node lp">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🔓 LP Tranche 1</div>
+          <div class="vflow-price fdv">FDV $1.5M / $0.0015</div>
+        </div>
+        <div class="vflow-sub">40M MHT → permanent LP — needs $15,220 additional volume from flush baseline</div>
+        <div class="vflow-mech">Pool depth multiplies — major resistance floor established</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost" style="border-color:rgba(240,165,0,0.3); color:var(--gold)">+ $127,351</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node lp">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🔓 LP Tranche 2</div>
+          <div class="vflow-price fdv">FDV $10M / $0.010</div>
+        </div>
+        <div class="vflow-sub">40M MHT → permanent LP — ×49 the launch price</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost" style="border-color:rgba(240,165,0,0.3); color:var(--gold)">+ $321,787</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node lp">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🔓 LP Tranche 3</div>
+          <div class="vflow-price fdv">FDV $25M / $0.025</div>
+        </div>
+        <div class="vflow-sub">40M MHT → permanent LP — ×122 the launch price</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost" style="border-color:rgba(240,165,0,0.3); color:var(--gold)">+ $719,236</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node lp">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🔓 LP Tranche 4</div>
+          <div class="vflow-price fdv">FDV $50M / $0.050</div>
+        </div>
+        <div class="vflow-sub">40M MHT → permanent LP — ×244 the launch price</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-cost" style="border-color:rgba(240,165,0,0.3); color:var(--gold)">+ $1,203,953</div><div class="vflow-arrow-tip"></div></div>
+
+      <div class="vflow-node lp" style="border-color:rgba(0,201,167,0.5);">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🔓 LP Tranche 5 — Final</div>
+          <div class="vflow-price fdv">FDV $75M / $0.075</div>
+        </div>
+        <div class="vflow-sub">40M MHT → permanent LP — ×366 the launch price — 200M MHT fully deployed as deep liquidity</div>
+      </div>
+
+      <!-- MILESTONES -->
+      <div class="vflow-arrow"><div class="vflow-arrow-line" style="height:32px;"></div></div>
+      <div class="milestone-section-label">⬇ Vault Milestones — every $1M FDV — rewards distributed to ALL holders</div>
+      <div class="vflow-arrow"><div class="vflow-arrow-line"></div></div>
+
+      <div class="vflow-node milestone">
+        <div class="vflow-node-top">
+          <div class="vflow-label">🏆 Milestones M1 → M6</div>
+          <div class="vflow-price" style="color:var(--gold)">$0.001 → $0.006 / 20M each</div>
+        </div>
+        <div class="vflow-sub">Each milestone releases exactly 20M MHT (5% vault = 25M → capped at 20M). 70% to holders proportionally, 30% to marketing. Triggered at every +$1M FDV.</div>
+      </div>
+      <div class="vflow-arrow"><div class="vflow-arrow-line"></div></div>
+
+      <div class="vflow-node milestone" style="border-color:rgba(240,165,0,0.5);">
+        <div class="vflow-node-top">
+          <div class="vflow-label">📉 Milestones M7+ — Decreasing releases, increasing USD value</div>
+          <div class="vflow-price" style="color:var(--gold)">5% of remaining vault</div>
+        </div>
+        <div class="vflow-sub">From M7 onwards, the vault has decreased below 400M — so 5% is less than 20M. Releases decrease progressively (asymptotic curve). <strong style="color:var(--gold)">But the price has risen ×7+ — each MHT is worth far more in USD.</strong> The vault theoretically never reaches zero — a floor of 1M MHT ensures minimum distribution always continues.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MILESTONE CHART -->
+<section class="section reveal">
+  <p class="section-tag">Vault release curve</p>
+  <h2 class="section-title">Releases start <em>large,</em><br>then <em>decay</em> —<br>but never stop.</h2>
+  <p class="section-body">The asymptotic model ensures long-term sustainability. Early holders capture the biggest releases. Late holders benefit from a price that has already multiplied many times over.</p>
+
+  <div class="milestone-chart-wrap">
+    <div class="chart-title">
+      MHT Released per Milestone (millions)
+      <div class="chart-legend">
+        <div class="chart-legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Capped at 20M</div>
+        <div class="chart-legend-item"><div class="legend-dot" style="background:var(--teal)"></div>5% of remaining vault</div>
+      </div>
+    </div>
+    <div class="bars" id="milestoneChart"></div>
+    <div class="chart-note">
+      M1–M6: vault &gt; 400M → 5% = 25M → capped at 20M. From M7: vault &lt; 400M → 5% &lt; 20M → decay begins.
+      Each release = 70% to holders proportionally + 30% marketing. Floor of 1M MHT — releases never stop.
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY HOLD -->
+<section class="section reveal">
+  <p class="section-tag">The case for holding</p>
+  <h2 class="section-title">Four reasons the math<br>rewards <em>patience.</em></h2>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <span class="why-icon">🔒</span>
+      <div class="why-title">Tiny float = explosive price moves</div>
+      <div class="why-body">At launch, <strong>30M MHT sits in the LP pool</strong> (directly buyable on PancakeSwap) + <strong>~8.3M</strong> from V1 holders = ~38.3M liquid. Marketing and founder wallets are in circulation but held strategically and released progressively to support growth. With such a limited liquid supply, <strong>a few thousand dollars of buy pressure moves the price significantly.</strong> The first ×4 price move requires only ~$20,800 total volume.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <span class="why-icon">💧</span>
+      <div class="why-title">Every price milestone = deeper liquidity</div>
+      <div class="why-body">The 6 Flush LP tranches inject <strong>61.7M MHT as permanent liquidity</strong> between $0.0003 and $0.0008. Each injection makes the pool deeper — price becomes harder to dump at every level. The 5 LP MCap tranches then inject another <strong>200M MHT</strong> as FDV crosses $1.5M → $75M.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <span class="why-icon">🏆</span>
+      <div class="why-title">Automatic rewards — just hold</div>
+      <div class="why-body">At every $1M FDV milestone, <strong>up to 20M MHT accumulates for all eligible holders proportionally</strong> — automatically calculated by Chainlink. <strong>Claim your rewards anytime</strong> via the dashboard — they wait for you on-chain. The more you hold, the larger your share. The founder's wallet is included — incentives are perfectly aligned.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <span class="why-icon">⚙️</span>
+      <div class="why-title">Zero human control after renounce</div>
+      <div class="why-body">After <strong>renounceOwnership()</strong>, no admin function is callable. The vault, LP releases, and milestone rewards are all governed by immutable code and Chainlink oracles. <strong>No rug pull is mathematically possible.</strong> SolidProof audited. All findings resolved. The contract runs itself.</div>
+    </div>
+  </div>
+
+  <!-- MATH BOX -->
+  <div class="math-box">
+    <div class="math-box-title">// Early holder scenario — 1M MHT at launch</div>
+    <div class="math-row">
+      <span class="math-label">Buy 1M MHT at launch</span>
+      <span class="math-val highlight">Cost: ~$205</span>
+    </div>
+    <div class="math-row">
+      <span class="math-label">% of eligible reward supply (~58M MHT)</span>
+      <span class="math-val">1.72% share</span>
+    </div>
+    <div class="math-row">
+      <span class="math-label">Your share per milestone (M1-M6, 20M released, 70% holders)</span>
+      <span class="math-val teal">~242,000 MHT per milestone</span>
+    </div>
+    <div class="math-row">
+      <span class="math-label">Value at milestone 1 price ($0.001)</span>
+      <span class="math-val gold">~$242 per milestone release</span>
+    </div>
+    <div class="math-row">
+      <span class="math-label">Value at LP Tranche 1 price ($0.0015)</span>
+      <span class="math-val gold">~$363 per milestone release</span>
+    </div>
+    <div class="math-row">
+      <span class="math-label">Original 1M MHT value at $0.0015</span>
+      <span class="math-val highlight">$1,500 — ×7.3 return</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Milestone <span>HODL</span> Token</div>
+    <div class="footer-slogan" style="margin-top:8px">🔥🔥 Trust the process • Earn the growth 🔥🔥</div>
+  </div>
+  <div class="footer-links">
+    <a href="https://milestonehodl.apexpad.io">Dashboard</a>
+    <a href="https://milestonehodl.apexpad.io/pages/how-it-works-en.html">How it works</a>
+    <a href="https://t.me/Community_Milestone_hodl">Telegram</a>
+    <a href="https://app.solidproof.io/projects/milestone-hodl-token">Audit</a>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Milestone chart
+  const milestones = [];
+  let vault = 500;
+  for (let i = 1; i <= 40; i++) {
+    const release = Math.min(Math.max(vault * 0.05, 1), 20);
+    milestones.push({ m: i, release, capped: vault * 0.05 >= 20 });
+    vault -= release;
+  }
+
+  const maxRelease = 20;
+  const chartEl = document.getElementById('milestoneChart');
+  milestones.forEach(m => {
+    const wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    const bar = document.createElement('div');
+    bar.className = 'bar ' + (m.capped ? 'bar-capped' : 'bar-decay');
+    const pct = (m.release / maxRelease) * 100;
+    bar.style.height = pct + '%';
+    const tip = document.createElement('div');
+    tip.className = 'tooltip';
+    tip.textContent = `M${m.m}: ${m.release.toFixed(1)}M MHT`;
+    if (m.m % 5 === 0 || m.m === 1 || m.m === 7) {
+      const lbl = document.createElement('div');
+      lbl.className = 'bar-label';
+      lbl.textContent = `M${m.m}`;
+      wrap.appendChild(bar);
+      wrap.appendChild(tip);
+      wrap.appendChild(lbl);
+    } else {
+      wrap.appendChild(bar);
+      wrap.appendChild(tip);
+    }
+    chartEl.appendChild(wrap);
+  });
+
+  // Stagger reveals
+  document.querySelectorAll('.supply-card, .why-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.07) + 's';
+  });
+</script>
+</body>
+</html>

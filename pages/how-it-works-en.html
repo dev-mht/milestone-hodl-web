@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$MHT — How It Really Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --dark: #0A0A0F;
+    --dark2: #12121A;
+    --dark3: #1A1A28;
+    --green: #00E676;
+    --red: #FF4444;
+    --white: #F0EEE8;
+    --gray: #888899;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lang-switch {
+    text-align: right;
+    margin-bottom: 40px;
+  }
+  .lang-switch a {
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    border: 1px solid var(--gold);
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .lang-switch a:hover { background: var(--gold); color: var(--dark); }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 70px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 4px 12px;
+    border-radius: 2px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  h1 span { color: var(--gold); }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .section {
+    margin-bottom: 60px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .big-statement {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-left: 3px solid var(--gold);
+    padding: 30px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+  }
+
+  .big-statement p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .big-statement p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .math-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    padding: 20px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    background: rgba(201,168,76,0.05);
+    margin: 20px 0;
+    letter-spacing: 1px;
+  }
+
+  .note {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin: 16px 0;
+  }
+
+  /* SIMULATOR */
+  .simulator-wrap {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 28px;
+  }
+
+  .control-group label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 3px;
+    background: rgba(201,168,76,0.2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  .val-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    min-width: 90px;
+    text-align: right;
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .scard {
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .scard-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .scard-value {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--green);
+  }
+
+  .scard-value.gold { color: var(--gold-light); }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 6px;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  thead tr { background: var(--dark3); }
+
+  thead th {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 14px 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(odd) { background: var(--dark2); }
+  tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+  tbody tr:hover { background: rgba(201,168,76,0.08); }
+  tbody tr.best-row { background: rgba(0,230,118,0.05) !important; }
+  tbody tr.best-row td { border-top: 1px solid rgba(0,230,118,0.15); border-bottom: 1px solid rgba(0,230,118,0.15); }
+
+  tbody td {
+    padding: 12px 12px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .td-m { color: var(--gray); }
+  .td-val { color: var(--green); font-weight: 700; font-size: 13px; }
+  .td-price { color: var(--gold-light); }
+  .td-mht { color: var(--white); }
+  .td-reward { color: rgba(0,230,118,0.7); }
+  .td-roi-pos { color: var(--green); }
+  tr.entry-row td { color: var(--gold); }
+
+  .math-line-dynamic {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    padding: 18px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px;
+    background: rgba(201,168,76,0.05);
+    margin-top: 20px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .cta-block {
+    text-align: center;
+    margin-top: 60px;
+    padding: 50px 30px;
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+  }
+
+  .cta-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+  .cta-sub { color: var(--gray); margin-bottom: 30px; font-size: 0.95rem; }
+
+  .btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--dark);
+    padding: 14px 36px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    margin: 6px;
+  }
+
+  .btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+  }
+
+  .btn-outline:hover { background: var(--gold); color: var(--dark); }
+
+  .slogan {
+    margin-top: 30px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+    margin: 50px 0;
+  }
+
+  .warning-note {
+    background: rgba(255, 200, 0, 0.05);
+    border: 1px solid rgba(255, 200, 0, 0.2);
+    border-radius: 4px;
+    padding: 12px 18px;
+    font-size: 0.8rem;
+    color: #CCAA44;
+    font-family: 'Space Mono', monospace;
+    margin: 16px 0;
+    line-height: 1.7;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+
+  @media (max-width: 600px) {
+    .controls-grid { grid-template-columns: 1fr; }
+    .summary-cards { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-switch">
+    <a href="how-it-works-fr.html">🇫🇷 Version Française</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="tag">$MHT V2.3 — Education</div>
+    <h1>For those who still don't<br>get how <span>$MHT</span> works.</h1>
+    <p class="subtitle">Let me show you. No hype. No promises. Just math — verifiable on-chain, automated by Chainlink.</p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <div class="section-label">01 — The Mechanism</div>
+    <div class="big-statement">
+      <p>Buy <strong>1 BNB</strong> worth of $MHT at DEX launch price → you receive <strong>~2,995,000 MHT</strong>.</p>
+      <p>Then just <strong>hold</strong>. Don't sell. Don't stake. Nothing.</p>
+      <p>Every time the market cap hits a new <strong>$1M milestone</strong>, Chainlink Automation automatically releases tokens from the Smart-Vault:</p>
+      <p>→ <strong>70% distributed pro-rata to all eligible holders</strong> — automatically, trustlessly, on-chain.<br>
+      → 15% injected into liquidity (LP tokens burned).<br>
+      → 15% goes to marketing (auto-swapped to BNB).</p>
+      <p class="highlight">At Milestone 10 — your 1 BNB becomes $223,000+.</p>
+    </div>
+    <div class="math-line">This is not a promise. This is math.</div>
+  </div>
+
+  <!-- SIMULATOR -->
+  <div class="section">
+    <div class="section-label">02 — Live Reward Simulator</div>
+    <div class="warning-note">
+      📌 Adjust BNB price and your investment below — everything recalculates in real time. Based on V2.3 mechanics: 500M vault, 5% release per milestone, 70% to holders, eligible supply ≈ 58.3M MHT at launch.
+    </div>
+
+    <div class="simulator-wrap">
+      <div class="controls-grid">
+        <div class="control-group">
+          <label>BNB Price (USD)</label>
+          <div class="control-row">
+            <input type="range" id="bnbPrice" min="400" max="1000" value="620" step="10">
+            <span class="val-display" id="bnbDisplay">$620</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Your Investment (BNB)</label>
+          <div class="control-row">
+            <input type="range" id="invest" min="0.1" max="10" value="1" step="0.1">
+            <span class="val-display" id="investDisplay">1.0 BNB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-cards">
+        <div class="scard">
+          <div class="scard-label">Entry Price</div>
+          <div class="scard-value gold" id="entryPrice">$0.000207</div>
+        </div>
+        <div class="scard">
+          <div class="scard-label">MHT Received</div>
+          <div class="scard-value gold" id="mhtReceived">2,995,169</div>
+        </div>
+        <div class="scard">
+          <div class="scard-label">Value at M10</div>
+          <div class="scard-value" id="valueM10">$223,042</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Milestone</th>
+              <th>MCap Target</th>
+              <th>MHT Holdings</th>
+              <th>Reward Received</th>
+              <th>Price / MHT</th>
+              <th>Total Value</th>
+              <th>ROI</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="math-line-dynamic" id="mathLine">
+        1.0 BNB invested → $223,042 at Milestone 10.<br>This is not a promise. This is math.
+      </div>
+    </div>
+
+    <div class="note">
+      ⚠️ Conservative simulation (DYOR) — Price modeled as MCap / (Total Supply - Burned). Eligible supply at launch ≈ 58.3M MHT (founder + V1 bonus holders). LP tranches ($1.5M→$75M) and flush LP (~65.7M MHT) are not modeled — additional liquidity injections may impact price and rewards. 1% of every transaction is permanently burned 🔥 increasing your proportional share over time. Real results depend on market conditions and trading volume.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ELIGIBLE SUPPLY -->
+  <div class="section">
+    <div class="section-label">03 — Why Rewards Are So High</div>
+    <div class="big-statement">
+      <p>In V2.3, the <strong>eligible supply for rewards is ~58.3M MHT</strong> at launch.</p>
+      <p>500M are locked in the vault. 200M in progressive LP. 150M in marketing. 65.7M in flush LP. None of these are eligible.</p>
+      <p>→ When 70% of a milestone release is distributed across just 54M tokens, <strong>each token receives a massive reward</strong>.</p>
+      <p>→ As milestones hit and LP tranches inject liquidity, supply grows — but so does the market cap. The math is designed to reward early HODLers most.</p>
+    </div>
+    <div class="note">
+      📌 Eligible supply excludes: vault, marketing wallet, LP pair, progressive LP contracts, flush LP balance. Founder wallet and V1 bonus holders ARE included. This is verifiable on-chain at any time.
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-title">Hold. Earn. That's it.</div>
+    <div class="cta-sub">🔥 $MHT V2.3 is LIVE on PancakeSwap — <a href="https://dexscreener.com/bsc/0xe2e777cebca27a61ca8d2862e9d36c548cdd6e4e" target="_blank">View Chart</a></div>
+    <a href="https://t.me/Milestone_HODL_Official" class="btn">Join Telegram →</a>
+    <a href="https://x.com/apexpad_io" class="btn btn-outline">Follow on X</a>
+    <div class="slogan">🔥🔥 Trust the process 🤝 Earn the growth 🔥🔥</div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL_SUPPLY = 1_000_000_000;
+const INITIAL_VAULT = 500_000_000;
+const INITIAL_BURNED = 33_004;
+const ELIGIBLE_LAUNCH = 54_300_574;
+const MHT_IN_POOL = 30_000_000;
+const BNB_IN_POOL = 10;
+
+function fmt(n) {
+  if (n >= 1_000_000) return '$' + (n / 1_000_000).toFixed(2) + 'M';
+  if (n >= 1_000) return '$' + Math.round(n).toLocaleString('en');
+  return '$' + n.toFixed(2);
+}
+
+function fmtMHT(n) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(3) + 'M';
+  return Math.round(n).toLocaleString('en');
+}
+
+function simulate(bnbPrice, investBNB) {
+  const launchPrice = (BNB_IN_POOL * bnbPrice) / MHT_IN_POOL;
+  const mhtBought = (investBNB * bnbPrice) / launchPrice;
+  const investUSD = investBNB * bnbPrice;
+
+  let vault = INITIAL_VAULT;
+  let burned = INITIAL_BURNED;
+  let eligible = ELIGIBLE_LAUNCH;
+  let holderMHT = mhtBought;
+  let rows = [];
+
+  rows.push({
+    label: 'DEX Entry', mcap: 0, mht: holderMHT,
+    reward: 0, price: launchPrice, value: investUSD, roi: 0, isEntry: true
+  });
+
+  for (let m = 1; m <= 10; m++) {
+    const mcapTarget = m * 1_000_000;
+    const mhtPrice = mcapTarget / (TOTAL_SUPPLY - burned);
+    let release = vault * 0.05;
+    release = Math.max(1_000_000, Math.min(20_000_000, release));
+    const holdersShare = release * 0.70;
+    const reward = (holderMHT / eligible) * holdersShare;
+    holderMHT += reward;
+    vault -= release;
+    burned += release * 0.005;
+    eligible += reward * 0.1;
+    const value = holderMHT * mhtPrice;
+    const roi = ((value - investUSD) / investUSD) * 100;
+    rows.push({ label: 'M' + m, mcap: mcapTarget, mht: holderMHT, reward, price: mhtPrice, value, roi, isEntry: false });
+  }
+  return { rows, launchPrice, mhtBought, investUSD };
+}
+
+function render() {
+  const bnbPrice = parseFloat(document.getElementById('bnbPrice').value);
+  const investBNB = parseFloat(document.getElementById('invest').value);
+
+  document.getElementById('bnbDisplay').textContent = '$' + bnbPrice;
+  document.getElementById('investDisplay').textContent = investBNB.toFixed(1) + ' BNB';
+
+  const { rows, launchPrice, mhtBought, investUSD } = simulate(bnbPrice, investBNB);
+  const lastRow = rows[rows.length - 1];
+
+  document.getElementById('entryPrice').textContent = '$' + launchPrice.toFixed(6);
+  document.getElementById('mhtReceived').textContent = fmtMHT(mhtBought);
+  document.getElementById('valueM10').textContent = fmt(lastRow.value);
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = rows.map(r => {
+    const roiStr = r.isEntry ? '—' : (r.roi >= 0 ? '+' : '') + Math.round(r.roi) + '%';
+    return `<tr class="${r.isEntry ? 'entry-row' : ''}">
+      <td class="td-m">${r.label}</td>
+      <td class="td-price">${r.isEntry ? 'Launch' : '$' + (r.mcap / 1e6).toFixed(0) + 'M MCap'}</td>
+      <td class="td-mht">${fmtMHT(r.mht)}</td>
+      <td class="td-reward">${r.isEntry ? '—' : '+' + fmtMHT(r.reward)}</td>
+      <td class="td-price">$${r.price.toFixed(5)}</td>
+      <td class="td-val">${fmt(r.value)}</td>
+      <td class="${r.roi > 0 ? 'td-roi-pos' : 'td-m'}" style="font-family:'Space Mono',monospace;font-size:12px">${roiStr}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('mathLine').innerHTML =
+    investBNB.toFixed(1) + ' BNB invested → ' + fmt(lastRow.value) + ' at Milestone 10.<br>This is not a promise. This is math.';
+}
+
+document.getElementById('bnbPrice').addEventListener('input', render);
+document.getElementById('invest').addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
