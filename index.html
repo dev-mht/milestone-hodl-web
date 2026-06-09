@@ -36,7 +36,7 @@
       --gold3:    #c8971a;
       --orange:   #e8501a;
       --text:     #e8ecf4;
-      --muted:    #5a6478;
+      --muted:    #9aa6ba;
       --success:  #00e096;
       --mono:     'Space Mono', monospace;
       --display:  'Bebas Neue', sans-serif;
@@ -181,11 +181,53 @@
       min-height: 92vh;
       display: grid;
       grid-template-columns: 1fr 520px 1fr;
-      grid-template-rows: 1fr;
+      grid-template-rows: auto 1fr;
       align-items: center;
       overflow: hidden;
       padding: 60px 40px;
     }
+
+    /* En-tête plein largeur : titre + ticker + sous-titre */
+    .hero-head {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      text-align: center;
+      padding-bottom: 24px;
+    }
+
+    /* Titre au-dessus, pleine largeur */
+    .hero-title-top {
+      text-align: center;
+      font-family: var(--display);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      white-space: nowrap;
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+    .hero-title-top .gold { color: var(--gold); }
+    .hero-title-top .dim  { color: var(--muted); font-size: 0.6em; letter-spacing: 0.08em; }
+
+    .mht-ticker {
+      text-align: center;
+      font-size: 6rem;
+      letter-spacing: 0.1em;
+      color: var(--dim-color, #f87c00);
+      margin-top: 0.4rem;
+      animation: fadePulse 9s ease-in-out infinite;
+    }
+
+    /* Sous-titre du hero : plus grand et plus clair, sur toute la largeur */
+    .hero-head .hero-sub {
+      max-width: 720px;
+      margin: 16px auto 0;
+      white-space: normal;
+      font-size: 19px;
+      color: #d7deea;
+      line-height: 1.6;
+    }
+    .hero-head .hero-sub strong { color: var(--text); }
 
     /* Radial glow */
     .hero::before {
@@ -212,8 +254,9 @@
     .hero-video-right {
       display: flex; align-items: center; justify-content: center;
       position: relative;
+      grid-row: 2;
     }
-    .hero-video-left { justify-content: flex-end; padding-right: 48px; }
+    .hero-video-left { justify-content: flex-end; padding-right: 28px; }
     .hero-video-right { justify-content: flex-start; padding-left: 48px; }
 
     .video-wrap {
@@ -234,7 +277,8 @@
       border-radius: 20px;
       position: relative; z-index: 0;
     }
-    .hero-video-left .video-wrap video { width: 260px; height: 260px; object-fit: cover; }
+    /* Logo de gauche : même taille que la vidéo de droite */
+    .hero-logo-img { width: 220px; height: 220px; object-fit: contain; }
     .hero-video-right .video-wrap video { width: 220px; height: 220px; object-fit: cover; }
 
     /* Video glow */
@@ -245,13 +289,13 @@
       background: radial-gradient(circle, rgba(245,200,66,0.12) 0%, transparent 70%);
       pointer-events: none; z-index: -1;
     }
-
     /* Center content */
     .hero-center {
       text-align: center;
       display: flex; flex-direction: column;
       align-items: center; gap: 28px;
       position: relative; z-index: 5;
+      grid-row: 2;
     }
 
     .hero-eyebrow {
@@ -272,6 +316,7 @@
       animation: blink 2s infinite;
     }
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
+    @keyframes fadePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
 
     .hero-title {
       font-family: var(--display);
@@ -839,6 +884,7 @@
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto; padding: 40px 20px; min-height: auto; gap: 40px; }
       .hero-video-left, .hero-video-right { display: none; }
+      .hero-title-top { white-space: normal; }
       .how-grid { grid-template-columns: 1fr 1fr; }
       .tokenomics-grid, .tools-grid, .docs-grid { grid-template-columns: 1fr; }
       .roadmap-grid { grid-template-columns: 1fr; }
@@ -988,14 +1034,20 @@
   <section class="hero">
     <div class="hero-line"></div>
 
+    <!-- En-tête pleine largeur : titre + ticker + sous-titre -->
+    <div class="hero-head">
+      <h1 class="hero-title-top">🔥MILESTONE <span class="gold">HODL</span> TOKEN🔥</h1>
+      <div class="mht-ticker">$MHT</div>
+      <p class="hero-sub">
+        The first token where <strong>Market Cap growth = automatic rewards</strong>.<br>
+        Every +$1M MCap → Chainlink triggers 5% vault release to HODLers. Forever.
+      </p>
+    </div>
+
     <div class="hero-video-left">
       <div style="position:relative">
         <div class="video-glow"></div>
-        <div class="video-wrap">
-          <video autoplay muted loop playsinline>
-            <source src="video_coin.mp4" type="video/mp4">
-          </video>
-        </div>
+        <img class="hero-logo-img" src="logo_piece.png" alt="MHT Logo">
       </div>
     </div>
 
@@ -1004,15 +1056,6 @@
         <div class="hero-eyebrow-dot"></div>
         BNB Chain · Proof-of-Performance Token
       </div>
-
-      <h1 class="hero-title">
-        <span class="dim">$MHT</span> MILESTONE <span class="gold">HODL</span> TOKEN
-      </h1>
-
-      <p class="hero-sub">
-        The first token where <strong>Market Cap growth = automatic rewards</strong>.<br>
-        Every +$1M MCap → Chainlink triggers 5% vault release to HODLers. Forever.
-      </p>
 
       <div class="hero-mcap" id="heroMcap">
         <div class="mcap-label">
