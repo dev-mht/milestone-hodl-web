@@ -1638,29 +1638,12 @@
       const prev = next - STEP;
       const pct  = mcap <= prev ? 0 : mcap >= next ? 100 : Math.round(((mcap - prev) / STEP) * 100);
 
-      // Stats hero — on n'écrit JAMAIS une valeur invalide (sinon "$NaN" à l'écran).
-      // Si getMarketCap() a reverté ici (mcap = NaN), on laisse "—" : le réconciliateur
-      // recopiera la valeur que app.js obtient autrement (#market-cap).
-      if (Number.isFinite(mcap)) {
-        const mcapFmt = "$" + (mcap >= 1_000_000
-          ? (mcap / 1_000_000).toFixed(2) + "M"
-          : Math.round(mcap).toLocaleString("en-US"));
-        const statMcapEl = document.getElementById("statMcap");
-        if (statMcapEl) statMcapEl.textContent = mcapFmt;
+      // NOTE : on n'écrit PLUS le Market Cap depuis loadPublicStats.
+      // getMarketCap() renvoie ici une valeur à la mauvaise échelle (~×1000 trop petit),
+      // ce qui entrait en conflit avec la vraie valeur d'app.js (#market-cap) et faisait
+      // osciller la barre. Source de vérité unique = #market-cap (app.js) ; le
+      // réconciliateur (reconcileDisplays) en dérive statMcap / milestoneBar / mcapDisplay.
 
-        // Barre de progression (#milestoneBar) — texte complet au centre
-        const barEl     = document.getElementById("milestoneBar");
-        const displayEl = document.getElementById("mcapDisplay");
-        if (barEl) {
-          barEl.style.width = pct + "%";
-          barEl.textContent = "$" + Math.round(mcap).toLocaleString("en-US") + " / $1,000,000";
-        }
-        if (displayEl) displayEl.textContent = mcapFmt + " / $1M";
-
-        // Market Cap du panneau wallet (visible avant connexion) — format complet
-        const mcEl = document.getElementById("market-cap");
-        if (mcEl) mcEl.textContent = "$" + Math.round(mcap).toLocaleString("en-US");
-      }
 
       // Smart-Vault Balance — tokenomics + panneau wallet (visibles avant connexion)
       if (Number.isFinite(vault)) {
@@ -2048,21 +2031,24 @@
       if (vWal && vTok && vWal.textContent && !/^[—-]/.test(vWal.textContent.trim())) {
         vTok.textContent = vWal.textContent;
       }
-      // Filet : si le hero est resté à "—" OU coincé sur "$NaN", récupère le MCap
-      // rempli par app.js (#market-cap) et l'affiche proprement dans le hero.
+      // ── Market Cap : source de vérité UNIQUE = #market-cap (rempli par app.js) ──
+      // On en dérive TOUJOURS le hero (stat + label + barre). #market-cap est au format
+      // ANGLAIS ($276,826 → virgule = milliers), donc on NE PEUT PAS utiliser
+      // parseFrNumber (format français) : on enlève simplement $, espaces et virgules.
       const mcEl   = document.getElementById("market-cap");
       const statEl = document.getElementById("statMcap");
       const dispEl = document.getElementById("mcapDisplay");
       const barEl  = document.getElementById("milestoneBar");
-      const needsFix = (el) => !el || (() => { const t = el.textContent.trim(); return /^[—-]/.test(t) || /nan/i.test(t) || t === ""; })();
       if (mcEl && !/nan/i.test(mcEl.textContent)) {
-        const mc = parseFrNumber(mcEl.textContent);
+        const mc = parseFloat(String(mcEl.textContent).replace(/[$\s\u00A0\u202F,]/g, ""));
         if (!isNaN(mc) && mc > 0) {
-          const fmt = "$" + (mc >= 1000000 ? (mc/1000000).toFixed(2)+"M" : Math.round(mc).toLocaleString("en-US"));
-          if (needsFix(statEl)) statEl.textContent = fmt;
-          if (needsFix(dispEl)) dispEl.textContent = fmt + " / $1M";
+          const compact = "$" + (mc >= 1000000 ? (mc/1000000).toFixed(2)+"M"
+                               : mc >= 1000     ? Math.round(mc/1000)+"K"
+                               :                  Math.round(mc));
+          if (statEl) statEl.textContent = compact;
+          if (dispEl) dispEl.textContent = compact;
           if (barEl) {
-            barEl.style.width = Math.min((mc % 1000000) / 1000000 * 100, 100) + "%";
+            barEl.style.width = Math.min(mc / 1000000 * 100, 100) + "%";
             barEl.textContent = "$" + Math.round(mc).toLocaleString("en-US") + " / $1,000,000";
           }
         }
