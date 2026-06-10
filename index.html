@@ -1588,17 +1588,20 @@
       const provider = new ethers.JsonRpcProvider(RPC);
       const contract = new ethers.Contract(CONTRACT, ABI_MIN, provider);
 
+      // Chaque lecture est indépendante : si une fonction reverte sur le contrat,
+      // les autres s'affichent quand même (avant, un seul revert cassait tout le hero).
+      const safeCall = async (fn) => { try { return await fn(); } catch(e){ console.warn('call failed:', e); return null; } };
       const [mcapRaw, nextRaw, priceRaw, vaultRaw] = await Promise.all([
-        contract.getMarketCap(),
-        contract.nextMilestoneUSD(),
-        contract.getMHTPrice(),
-        contract.getVaultBalance(),
+        safeCall(() => contract.getMarketCap()),
+        safeCall(() => contract.nextMilestoneUSD()),
+        safeCall(() => contract.getMHTPrice()),
+        safeCall(() => contract.getVaultBalance()),
       ]);
 
-      const mcap  = parseFloat(ethers.formatUnits(mcapRaw, 18));
-      const next  = parseFloat(ethers.formatUnits(nextRaw, 18));
-      const price = parseFloat(ethers.formatUnits(priceRaw, 18));
-      const vault = parseFloat(ethers.formatUnits(vaultRaw, 18));
+      const mcap  = mcapRaw  != null ? parseFloat(ethers.formatUnits(mcapRaw, 18))  : NaN;
+      const next  = nextRaw  != null ? parseFloat(ethers.formatUnits(nextRaw, 18))  : NaN;
+      const price = priceRaw != null ? parseFloat(ethers.formatUnits(priceRaw, 18)) : NaN;
+      const vault = vaultRaw != null ? parseFloat(ethers.formatUnits(vaultRaw, 18)) : NaN;
       // Expose pour le simulateur, le calcul walletUsd et le réconciliateur
       window._mhtPrice = price;
       window._mhtMcap  = mcap;
@@ -1950,14 +1953,19 @@
 
     // ── MUSIC WIDGET ──────────────────────────────────────────────────────────
     let musicOpen = false;
+    let musicLoaded = false;
     function toggleMusic() {
       musicOpen = !musicOpen;
       const widget = document.getElementById('musicWidget');
       const btn    = document.getElementById('musicToggle');
       const iframe = document.getElementById('scWidget');
       if (musicOpen) {
-        if (typeof SOUNDCLOUD_URL !== 'undefined' && iframe.src === '') {
+        // Charge l'iframe au 1er clic. On teste un drapeau, PAS iframe.src :
+        // un <iframe src=""> renvoie l'URL de la page via .src, donc l'ancien
+        // test (iframe.src === '') était toujours faux → l'iframe ne se chargeait jamais.
+        if (!musicLoaded && typeof SOUNDCLOUD_URL !== 'undefined') {
           iframe.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(SOUNDCLOUD_URL) + '&color=%23f5c842&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false';
+          musicLoaded = true;
         }
         widget.classList.add('open');
         btn.textContent = '✕';
@@ -2002,6 +2010,22 @@
       const vTok = document.getElementById("vault-balance-tok");
       if (vWal && vTok && vWal.textContent && !/^[—-]/.test(vWal.textContent.trim())) {
         vTok.textContent = vWal.textContent;
+      }
+      // Filet : si le hero est resté à "—", récupère le MCap rempli par app.js (#market-cap)
+      const mcEl   = document.getElementById("market-cap");
+      const statEl = document.getElementById("statMcap");
+      const dispEl = document.getElementById("mcapDisplay");
+      const barEl  = document.getElementById("mcapBar");
+      if (mcEl) {
+        const mc = parseFrNumber(mcEl.textContent);
+        if (!isNaN(mc) && mc > 0) {
+          const fmt = "$" + (mc >= 1000000 ? (mc/1000000).toFixed(2)+"M" : Math.round(mc).toLocaleString("en-US"));
+          if (statEl && /^[—-]/.test(statEl.textContent.trim())) statEl.textContent = fmt;
+          if (dispEl && /^[—-]/.test(dispEl.textContent.trim())) dispEl.textContent = fmt + " / $1M";
+          if (barEl && (!barEl.style.width || barEl.style.width === "0%")) {
+            barEl.style.width = Math.min((mc % 1000000) / 1000000 * 100, 100) + "%";
+          }
+        }
       }
     }
     setInterval(reconcileDisplays, 3000);
