@@ -353,17 +353,46 @@
       display: flex; justify-content: space-between;
     }
     .mcap-value { color: var(--gold); }
-    .mcap-bar-outer {
-      height: 6px; background: var(--bg3);
-      border-radius: 3px; overflow: hidden; margin-bottom: 8px;
+    /* ── Barre de progression "ancienne version" : verte, rayée, animée, texte au centre ── */
+    .progress-track {
+      height: 30px;
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 50px;
+      overflow: hidden;
+      display: flex;
+      margin: 6px 0 10px;
     }
-    .mcap-bar-inner {
+    .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--gold3), var(--gold), var(--gold2));
-      border-radius: 3px;
       width: 0%;
-      transition: width 1.5s cubic-bezier(.16,1,.3,1);
-      box-shadow: 0 0 8px rgba(245,200,66,0.4);
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      background-color: #16a34a;
+      border-radius: 50px;
+      transition: width 1s ease-in-out;
+      box-shadow: 0 0 14px rgba(22,163,74,0.55);
+    }
+    .progress-fill-striped {
+      background-image: linear-gradient(45deg,
+        rgba(255,255,255,.15) 25%, transparent 25%,
+        transparent 50%, rgba(255,255,255,.15) 50%,
+        rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+      background-size: 1rem 1rem;
+    }
+    .progress-fill-animated {
+      animation: progress-stripes 1s linear infinite;
+    }
+    @keyframes progress-stripes {
+      from { background-position: 1rem 0; }
+      to   { background-position: 0 0; }
     }
     .mcap-sub {
       font-family: var(--mono); font-size: 10px;
@@ -1062,8 +1091,8 @@
           <span>MILESTONE #1 PROGRESSION</span>
           <span class="mcap-value" id="mcapDisplay">—</span>
         </div>
-        <div class="mcap-bar-outer">
-          <div class="mcap-bar-inner" id="mcapBar" style="width:0%"></div>
+        <div class="progress-track">
+          <div id="milestoneBar" class="progress-fill progress-fill-striped progress-fill-animated">$0 / $1,000,000</div>
         </div>
         <div class="mcap-sub">Target: $1,000,000 MCap &nbsp;·&nbsp; <span>Next Vault Release 🔥</span></div>
       </div>
@@ -1619,10 +1648,13 @@
         const statMcapEl = document.getElementById("statMcap");
         if (statMcapEl) statMcapEl.textContent = mcapFmt;
 
-        // Barre de progression
-        const barEl     = document.getElementById("mcapBar");
+        // Barre de progression (#milestoneBar) — texte complet au centre
+        const barEl     = document.getElementById("milestoneBar");
         const displayEl = document.getElementById("mcapDisplay");
-        if (barEl)     barEl.style.width = pct + "%";
+        if (barEl) {
+          barEl.style.width = pct + "%";
+          barEl.textContent = "$" + Math.round(mcap).toLocaleString("en-US") + " / $1,000,000";
+        }
         if (displayEl) displayEl.textContent = mcapFmt + " / $1M";
 
         // Market Cap du panneau wallet (visible avant connexion) — format complet
@@ -1686,15 +1718,15 @@
 
     // ── MCAP PROGRESS BAR ──
     // NOTE : le Market Cap réel est lu on-chain par loadPublicStats() (script ci-dessus),
-    // qui remplit statMcap / mcapBar / mcapDisplay / market-cap. On ne réécrit JAMAIS
+    // qui remplit statMcap / milestoneBar / mcapDisplay / market-cap. On ne réécrit JAMAIS
     // ces éléments avec une valeur en dur ici (l'ancien fallback 275200 écrasait la
     // vraie donnée ET détruisait le span #market-cap utilisé par app.js).
     function updateMcap(mcap) {
       const pct = Math.min((mcap / 1000000) * 100, 100);
-      const bar = document.getElementById('mcapBar');
+      const bar = document.getElementById('milestoneBar');
       const disp = document.getElementById('mcapDisplay');
       const stat = document.getElementById('statMcap');
-      if (bar)  bar.style.width = pct + '%';
+      if (bar)  { bar.style.width = pct + '%'; bar.textContent = '$' + Math.round(mcap).toLocaleString('en-US') + ' / $1,000,000'; }
       if (disp) disp.textContent = '$' + mcap.toLocaleString();
       if (stat) stat.textContent = '$' + (mcap >= 1000 ? Math.round(mcap/1000) + 'K' : mcap);
     }
@@ -2021,7 +2053,7 @@
       const mcEl   = document.getElementById("market-cap");
       const statEl = document.getElementById("statMcap");
       const dispEl = document.getElementById("mcapDisplay");
-      const barEl  = document.getElementById("mcapBar");
+      const barEl  = document.getElementById("milestoneBar");
       const needsFix = (el) => !el || (() => { const t = el.textContent.trim(); return /^[—-]/.test(t) || /nan/i.test(t) || t === ""; })();
       if (mcEl && !/nan/i.test(mcEl.textContent)) {
         const mc = parseFrNumber(mcEl.textContent);
@@ -2029,8 +2061,9 @@
           const fmt = "$" + (mc >= 1000000 ? (mc/1000000).toFixed(2)+"M" : Math.round(mc).toLocaleString("en-US"));
           if (needsFix(statEl)) statEl.textContent = fmt;
           if (needsFix(dispEl)) dispEl.textContent = fmt + " / $1M";
-          if (barEl && (!barEl.style.width || barEl.style.width === "0%" || barEl.style.width === "NaN%")) {
+          if (barEl) {
             barEl.style.width = Math.min((mc % 1000000) / 1000000 * 100, 100) + "%";
+            barEl.textContent = "$" + Math.round(mc).toLocaleString("en-US") + " / $1,000,000";
           }
         }
       }
