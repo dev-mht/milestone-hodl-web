@@ -1609,30 +1609,35 @@
       const prev = next - STEP;
       const pct  = mcap <= prev ? 0 : mcap >= next ? 100 : Math.round(((mcap - prev) / STEP) * 100);
 
-      // Stats hero
-      const mcapFmt = "$" + (mcap >= 1_000_000
-        ? (mcap / 1_000_000).toFixed(2) + "M"
-        : Math.round(mcap).toLocaleString("en-US"));
-      const statMcapEl = document.getElementById("statMcap");
-      if (statMcapEl) statMcapEl.textContent = mcapFmt;
+      // Stats hero — on n'écrit JAMAIS une valeur invalide (sinon "$NaN" à l'écran).
+      // Si getMarketCap() a reverté ici (mcap = NaN), on laisse "—" : le réconciliateur
+      // recopiera la valeur que app.js obtient autrement (#market-cap).
+      if (Number.isFinite(mcap)) {
+        const mcapFmt = "$" + (mcap >= 1_000_000
+          ? (mcap / 1_000_000).toFixed(2) + "M"
+          : Math.round(mcap).toLocaleString("en-US"));
+        const statMcapEl = document.getElementById("statMcap");
+        if (statMcapEl) statMcapEl.textContent = mcapFmt;
 
-      // Barre de progression
-      const barEl     = document.getElementById("mcapBar");
-      const displayEl = document.getElementById("mcapDisplay");
-      if (barEl)     barEl.style.width = pct + "%";
-      if (displayEl) displayEl.textContent = mcapFmt + " / $1M";
+        // Barre de progression
+        const barEl     = document.getElementById("mcapBar");
+        const displayEl = document.getElementById("mcapDisplay");
+        if (barEl)     barEl.style.width = pct + "%";
+        if (displayEl) displayEl.textContent = mcapFmt + " / $1M";
 
-      // Market Cap du panneau wallet (visible avant connexion) — format complet
-      const mcapFull = "$" + Math.round(mcap).toLocaleString("en-US");
-      const mcEl = document.getElementById("market-cap");
-      if (mcEl) mcEl.textContent = mcapFull;
+        // Market Cap du panneau wallet (visible avant connexion) — format complet
+        const mcEl = document.getElementById("market-cap");
+        if (mcEl) mcEl.textContent = "$" + Math.round(mcap).toLocaleString("en-US");
+      }
 
       // Smart-Vault Balance — tokenomics + panneau wallet (visibles avant connexion)
-      const vaultFmt = Math.round(vault).toLocaleString("en-US") + " MHT";
-      const vaultTokEl = document.getElementById("vault-balance-tok");
-      const vaultWalEl = document.getElementById("vault-balance");
-      if (vaultTokEl) vaultTokEl.textContent = vaultFmt;
-      if (vaultWalEl) vaultWalEl.textContent = vaultFmt;
+      if (Number.isFinite(vault)) {
+        const vaultFmt = Math.round(vault).toLocaleString("en-US") + " MHT";
+        const vaultTokEl = document.getElementById("vault-balance-tok");
+        const vaultWalEl = document.getElementById("vault-balance");
+        if (vaultTokEl) vaultTokEl.textContent = vaultFmt;
+        if (vaultWalEl) vaultWalEl.textContent = vaultFmt;
+      }
 
       // Prix live → champ du Buy Simulator (sinon le simulateur ne calcule jamais)
       const simPriceEl = document.getElementById("simPrice");
@@ -2011,18 +2016,20 @@
       if (vWal && vTok && vWal.textContent && !/^[—-]/.test(vWal.textContent.trim())) {
         vTok.textContent = vWal.textContent;
       }
-      // Filet : si le hero est resté à "—", récupère le MCap rempli par app.js (#market-cap)
+      // Filet : si le hero est resté à "—" OU coincé sur "$NaN", récupère le MCap
+      // rempli par app.js (#market-cap) et l'affiche proprement dans le hero.
       const mcEl   = document.getElementById("market-cap");
       const statEl = document.getElementById("statMcap");
       const dispEl = document.getElementById("mcapDisplay");
       const barEl  = document.getElementById("mcapBar");
-      if (mcEl) {
+      const needsFix = (el) => !el || (() => { const t = el.textContent.trim(); return /^[—-]/.test(t) || /nan/i.test(t) || t === ""; })();
+      if (mcEl && !/nan/i.test(mcEl.textContent)) {
         const mc = parseFrNumber(mcEl.textContent);
         if (!isNaN(mc) && mc > 0) {
           const fmt = "$" + (mc >= 1000000 ? (mc/1000000).toFixed(2)+"M" : Math.round(mc).toLocaleString("en-US"));
-          if (statEl && /^[—-]/.test(statEl.textContent.trim())) statEl.textContent = fmt;
-          if (dispEl && /^[—-]/.test(dispEl.textContent.trim())) dispEl.textContent = fmt + " / $1M";
-          if (barEl && (!barEl.style.width || barEl.style.width === "0%")) {
+          if (needsFix(statEl)) statEl.textContent = fmt;
+          if (needsFix(dispEl)) dispEl.textContent = fmt + " / $1M";
+          if (barEl && (!barEl.style.width || barEl.style.width === "0%" || barEl.style.width === "NaN%")) {
             barEl.style.width = Math.min((mc % 1000000) / 1000000 * 100, 100) + "%";
           }
         }
