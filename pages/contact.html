@@ -349,6 +349,9 @@
     <div class="form-card">
       <form id="contactForm" class="form-grid">
 
+        <!-- Web3Forms honeypot anti-spam (hidden, must stay empty) -->
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
         <div class="form-row">
           <div class="field">
             <label>Your Name <span>*</span></label>
@@ -367,7 +370,8 @@
 
         <div class="field">
           <label>Subject <span>*</span></label>
-          <select name="subject" required>
+          <!-- Named "category" to avoid conflict with Web3Forms "subject" email header -->
+          <select name="category" required>
             <option value="" disabled selected>Select a category</option>
             <option value="Holder Support">🪙 Holder Support</option>
             <option value="Partnership">🤝 Partnership / Collaboration</option>
@@ -409,8 +413,7 @@
 
   <script>
     // ── Web3Forms ──
-    // IMPORTANT: Remplace YOUR_ACCESS_KEY_HERE par ta clé Web3Forms
-    const W3F_KEY = 'YOUR_W3F_ACCESS_KEY_HERE';
+    const W3F_KEY = '9aad57f0-051a-4b45-8665-911008f0788d';
 
     const form = document.getElementById('contactForm');
     const btn  = document.getElementById('submitBtn');
@@ -426,7 +429,8 @@
       try {
         const formData = new FormData(form);
         formData.append('access_key', W3F_KEY);
-        formData.append('subject', 'MHT Contact: ' + form.subject.value);
+        // Clean email subject: "MHT Contact: Partnership" etc.
+        formData.append('subject', 'MHT Contact: ' + form.category.value);
         formData.append('from_name', 'Milestone HODL Contact Form');
         formData.append('date', new Date().toISOString());
 
