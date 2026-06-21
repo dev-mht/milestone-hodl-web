@@ -1303,48 +1303,104 @@
 
       <div class="tools-grid reveal">
         <!-- Buy Simulator -->
-        <div class="tool-card">
+     <div class="tool-card">
           <div class="tool-title">
             <div class="tool-live"></div>
             BUY SIMULATOR
           </div>
           <div class="field">
             <label>Amount to invest ($)</label>
-            <input type="number" id="simAmount" placeholder="e.g. 200" />
+            <input type="number" id="buyUSD" placeholder="e.g. 200" oninput="calcBuy()" />
           </div>
           <div class="field">
             <label>Current Price ($) <span style="color:var(--success);font-size:10px">● LIVE</span></label>
-            <input type="text" id="simPrice" readonly placeholder="Loading..." />
+            <input type="number" id="buyCurrentPrice" step="0.000001" min="0" oninput="this.dataset.userModified='1'; calcBuy()" placeholder="Loading..." />
           </div>
           <div class="field">
             <label>Target Price ($) <span style="color:var(--muted);font-size:10px">optional</span></label>
-            <input type="number" id="simTarget" placeholder="e.g. 0.001" />
+            <input type="number" id="buyTargetPrice" placeholder="e.g. 0.001" step="0.00001" min="0" oninput="calcBuy()" />
           </div>
-          <div class="sim-result" id="simResult">Enter an amount to simulate 🚀</div>
-        </div>
 
-        <!-- Reward Calculator -->
+          <div id="buyResult" style="display:none; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:16px; font-family:var(--mono); font-size:12px; color:var(--muted);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span>🪙 MHT received (-2% tax)</span>
+              <span id="buyMHT" style="color:var(--gold); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span>📊 Your share of supply</span>
+              <span id="buyShare" style="color:var(--text); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; padding-top:10px; border-top:1px solid rgba(245,200,66,0.1);">
+              <span>🎁 Next milestone reward</span>
+              <span id="buyReward" style="color:var(--gold2); font-weight:700;">—</span>
+            </div>
+            <div id="buyTargetRow" style="display:flex; justify-content:space-between; margin-bottom:10px; display:none;">
+              <span>💰 Bag value at target</span>
+              <span id="buyBagValue" style="color:var(--success); font-weight:700;">—</span>
+            </div>
+            <div id="buyROIRow" style="display:flex; justify-content:space-between; display:none;">
+              <span>🚀 ROI</span>
+              <span id="buyROI" style="color:var(--gold); font-weight:700;">—</span>
+            </div>
+          </div>
+          <div id="buyPlaceholder" class="sim-result" style="justify-content:center;">Enter an amount to simulate 🚀</div>
+        </div>
         <div class="tool-card">
           <div class="tool-title">🎁 REWARD CALCULATOR</div>
           <div class="field">
             <label>Your MHT Holdings</label>
-            <input type="number" id="rewardHolding" placeholder="e.g. 1000000" />
+            <input type="number" id="calcMHT" placeholder="e.g. 1000000" min="0" oninput="calcReward()" />
           </div>
+
+          <div style="margin-bottom:16px; background:var(--bg3); border:1px solid rgba(0,224,150,0.2); border-radius:10px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:12px;">
+             <span style="color:var(--muted); text-transform:uppercase; letter-spacing:0.06em;">💵 Current value</span>
+             <span id="calcCurrentValue" style="color:var(--success); font-weight:700;">—</span>
+          </div>
+
           <div class="field">
             <label>Milestone Target</label>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
-              <button onclick="changeM(-1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px">−</button>
-              <div id="mLabel" style="flex:1;text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:var(--mono);font-size:12px;color:var(--gold)">Milestone #1 — $1M MCap</div>
-              <button onclick="changeM(1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px">+</button>
+              <button onclick="changeMilestone(-1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px;transition:0.2s;">−</button>
+              <div style="flex:1;text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px;font-family:var(--mono);">
+                <div id="milestoneLabel" style="font-size:12px;color:var(--gold);font-weight:700;">Milestone #1</div>
+                <div id="milestoneMcap" style="font-size:10px;color:var(--muted);margin-top:2px;">$1,000,000 MCap</div>
+              </div>
+              <button onclick="changeMilestone(1)" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--gold);cursor:pointer;font-size:16px;transition:0.2s;">+</button>
             </div>
           </div>
           <div class="field">
-            <label>Eligible Supply</label>
-            <input type="text" id="eligibleInput" value="58290727" readonly style="color:var(--muted)" />
+            <label>Eligible Supply <span style="cursor:help;" title="Auto-filled from on-chain data">ⓘ</span></label>
+            <input type="number" id="calcCirc" min="1" style="color:var(--success); outline:none;" oninput="calcReward()" />
           </div>
-          <div class="sim-result" id="rewardResult">Enter your holdings to calculate 🚀</div>
-        </div>
 
+          <div id="calcResult" style="display:none; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:16px; font-family:var(--mono); font-size:12px; color:var(--muted);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span>📊 Your share of supply</span>
+              <span id="calcShare" style="color:var(--text); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span>🎁 Reward (this milestone)</span>
+              <span id="calcMHTReward" style="color:var(--gold); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+              <span>🎁 Total rewards (1→N)</span>
+              <span id="calcMHTCumul" style="color:var(--gold2); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; padding-top:10px; border-top:1px solid rgba(245,200,66,0.1);">
+              <span>💵 Reward value in USD</span>
+              <span id="calcUSDReward" style="color:var(--success); font-weight:700;">—</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:14px; padding:12px; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.3); border-radius:8px;">
+              <span style="color:var(--gold); font-weight:700;">💼 Total bag value</span>
+              <span id="calcTotalValue" style="color:var(--gold); font-weight:700; font-size:14px;">—</span>
+            </div>
+            <div style="margin-top:10px;text-align:center;">
+               <span id="calcTotalMHT" style="font-size:10px;color:var(--muted);">— MHT total</span>
+            </div>
+          </div>
+          <div id="calcPlaceholder" class="sim-result" style="justify-content:center;">Enter your holdings to calculate 🚀</div>
+        </div>
+  
         <!-- Wallet -->
         <div class="tool-card">
           <div class="tool-title">💼 YOUR ACCOUNT</div>
@@ -1728,47 +1784,180 @@
       }, 1000);
     });
 
-    // ── BUY SIMULATOR ──
-    function simulate() {
-      const amount = parseFloat(document.getElementById('simAmount').value);
-      const price = parseFloat(document.getElementById('simPrice').value);
-      const target = parseFloat(document.getElementById('simTarget').value);
-      const res = document.getElementById('simResult');
+    // 🟢 DEBUT DE LA LOGIQUE DES SIMULATEURS RESTAURÉE 🟢
+    
+    // ── CONSTANTES ON-CHAIN ET VARIABLES COMMUNES ──
+    let currentMilestone = 1;
+    const MAX_MILESTONE  = 20;
+    const MHT_CONTRACT_ADDR = '0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa';
+    const BSC_RPC_URL       = 'https://bsc-dataseed1.binance.org/';
 
-      if (!amount || !price) { res.innerHTML = 'Enter an amount to simulate 🚀'; return; }
-      const tokens = amount / price;
-      let html = `<strong>${tokens.toLocaleString(undefined,{maximumFractionDigits:0})} MHT</strong>`;
-      if (target && target > price) {
-        const gain = (tokens * target) - amount;
-        html += ` &nbsp;·&nbsp; <strong style="color:var(--success)">+$${gain.toLocaleString(undefined,{maximumFractionDigits:0})}</strong> at target`;
-      }
-      res.innerHTML = html;
+    // Requête Blockchain pour l'Eligible Supply
+    async function fetchEligibleSupplyOnChain() {
+        try {
+            const payload = { jsonrpc:'2.0', id:1, method:'eth_call', params:[{ to: MHT_CONTRACT_ADDR, data:'0xcd415c4a' }, 'latest'] };
+            const res  = await fetch(BSC_RPC_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+            const json = await res.json();
+            if (json.result && json.result !== '0x') {
+                const supply = Number(BigInt(json.result)) / 1e18;
+                const el = document.getElementById('calcCirc');
+                if (el && supply > 0) {
+                    el.value = Math.round(supply);
+                    calcReward(); // Met à jour le calculateur avec la vraie data
+                }
+                return supply;
+            }
+        } catch(e) { console.warn('On-chain fetch failed:', e); }
+        return 58290727; // Fallback par défaut
     }
-    document.getElementById('simAmount').addEventListener('input', simulate);
-    document.getElementById('simTarget').addEventListener('input', simulate);
 
-    // ── REWARD CALCULATOR ──
-    let milestone = 1;
-    const milestones = [
-      {label:'Milestone #1 — $1M MCap', vault: 500000000 * 0.05},
-      {label:'Milestone #2 — $2M MCap', vault: 500000000 * 0.05 * 0.95},
-      {label:'Milestone #3 — $3M MCap', vault: 500000000 * 0.05 * 0.95 * 0.95},
-    ];
-    function changeM(d) {
-      milestone = Math.max(1, Math.min(milestones.length, milestone + d));
-      document.getElementById('mLabel').textContent = milestones[milestone-1].label;
-      calcReward();
+    function getEligibleSupply() {
+        const el = document.getElementById('calcCirc');
+        return (el && el.value) ? parseFloat(el.value) : 58290727;
     }
+
+    // Calcul du Vault asymptotique (5%)
+    function vaultReleaseFor(vaultBalance) {
+        return Math.min(Math.max(vaultBalance * 0.05, 1000000), 20000000);
+    }
+
+    function getMilestonePriceTarget(n) {
+        return (n * 1000000) / 1000000000;
+    }
+
+    // ── LE VRAI BUY SIMULATOR (AVEC TAXES) ──
+    function calcBuy() {
+        const usd         = parseFloat(document.getElementById('buyUSD').value) || 0;
+        const targetPrice = parseFloat(document.getElementById('buyTargetPrice').value) || 0;
+        const priceField  = document.getElementById('buyCurrentPrice');
+        const result      = document.getElementById('buyResult');
+        const placeholder = document.getElementById('buyPlaceholder');
+
+        const curPrice = parseFloat(priceField.value) || window._mhtPrice || 0;
+
+        if (usd <= 0 || curPrice <= 0) { result.style.display='none'; placeholder.style.display='flex'; return; }
+
+        const taxRate     = 0.02; // Taxe de 2% prise en compte !
+        const mhtReceived = (usd / curPrice) * (1 - taxRate);
+        const circ        = getEligibleSupply();
+        const sharePct    = mhtReceived / circ;
+        const rewardPool  = vaultReleaseFor(500000000) * 0.70;
+        const mhtReward   = sharePct * rewardPool;
+
+        result.style.display      = 'block';
+        placeholder.style.display = 'none';
+
+        document.getElementById('buyMHT').textContent    = mhtReceived.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
+        document.getElementById('buyShare').textContent  = (sharePct * 100).toFixed(4) + '%';
+        document.getElementById('buyReward').textContent = mhtReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
+
+        if (targetPrice > 0) {
+            const bagValue = (mhtReceived + mhtReward) * targetPrice;
+            const roi      = ((bagValue - usd) / usd) * 100;
+            document.getElementById('buyBagValue').textContent    = '$' + bagValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('buyROI').textContent         = (roi >= 0 ? '+' : '') + roi.toLocaleString('en-US', {maximumFractionDigits: 0}) + '%';
+            document.getElementById('buyROI').style.color         = roi > 0 ? 'var(--success)' : '#ef4444';
+            document.getElementById('buyTargetRow').style.display = 'flex';
+            document.getElementById('buyROIRow').style.display    = 'flex';
+        } else {
+            document.getElementById('buyTargetRow').style.display = 'none';
+            document.getElementById('buyROIRow').style.display    = 'none';
+        }
+    }
+
+    // ── LE VRAI REWARD CALCULATOR (AVEC BOUCLE LONG TERME) ──
+    function updateMilestoneUI() {
+        document.getElementById('milestoneLabel').textContent = 'Milestone #' + currentMilestone;
+        document.getElementById('milestoneMcap').textContent  = '$' + (currentMilestone * 1000000).toLocaleString('en-US') + ' MCap';
+        calcReward();
+    }
+
+    function changeMilestone(delta) {
+        const next = currentMilestone + delta;
+        if (next < 1 || next > MAX_MILESTONE) return;
+        currentMilestone = next;
+        updateMilestoneUI();
+    }
+
     function calcReward() {
-      const holdings = parseFloat(document.getElementById('rewardHolding').value);
-      const eligible = parseFloat(document.getElementById('eligibleInput').value);
-      const res = document.getElementById('rewardResult');
-      if (!holdings || !eligible) { res.innerHTML = 'Enter your holdings to calculate 🚀'; return; }
-      const release = Math.max(1000000, Math.min(20000000, milestones[milestone-1].vault));
-      const share = (holdings / eligible) * release * 0.70;
-      res.innerHTML = `<strong>${Math.round(share).toLocaleString()} MHT</strong> estimated reward`;
+        const mht  = parseFloat(document.getElementById('calcMHT').value)  || 0;
+        const circ = getEligibleSupply();
+        const n    = currentMilestone;
+
+        const result         = document.getElementById('calcResult');
+        const placeholder    = document.getElementById('calcPlaceholder');
+        const currentValueEl = document.getElementById('calcCurrentValue');
+
+        const livePrice = window._mhtPrice || 0;
+
+        if (mht > 0 && livePrice > 0) {
+            currentValueEl.textContent = '$' + (mht * livePrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        } else {
+            currentValueEl.textContent = '—';
+        }
+
+        if (mht <= 0) { result.style.display='none'; placeholder.style.display='flex'; return; }
+
+        const sharePct = mht / circ;
+
+        // Le coeur du Smart-Vault : La boucle asymptotique
+        let vault       = 500000000;
+        let totalReward = 0;
+        let rewardAtN   = 0;
+        for (let i = 1; i <= n; i++) {
+            const release    = vaultReleaseFor(vault);
+            const holderPool = release * 0.70;
+            const reward     = sharePct * holderPool;
+            totalReward     += reward;
+            if (i === n) rewardAtN = reward;
+            vault -= release;
+        }
+
+        const priceAtN  = getMilestonePriceTarget(n);
+        const usdReward = totalReward * priceAtN;
+        const totalMHT  = mht + totalReward;
+        const totalUSD  = totalMHT * priceAtN;
+
+        document.getElementById('calcShare').textContent      = (sharePct * 100).toFixed(4) + '%';
+        document.getElementById('calcMHTReward').textContent  = rewardAtN.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
+        document.getElementById('calcMHTCumul').textContent   = totalReward.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT';
+        document.getElementById('calcUSDReward').textContent  = '$' + usdReward.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('calcTotalValue').textContent = '$' + totalUSD.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('calcTotalMHT').textContent   = totalMHT.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MHT total (holdings + rewards)';
+
+        result.style.display      = 'block';
+        placeholder.style.display = 'none';
     }
-    document.getElementById('rewardHolding').addEventListener('input', calcReward);
+
+    // ── INITIALISATION ET ÉCOUTEURS ──
+    window.addEventListener('load', () => {
+        const circEl = document.getElementById('calcCirc');
+        if (circEl && !circEl.value) circEl.value = 58290727;
+        fetchEligibleSupplyOnChain();
+        setInterval(fetchEligibleSupplyOnChain, 60000); // Mise à jour de la supply chaque minute
+
+        let tries = 0;
+        const iv = setInterval(() => {
+            const priceField = document.getElementById('buyCurrentPrice');
+            if (window._mhtPrice > 0 && priceField && !priceField.dataset.userModified) {
+                priceField.value = window._mhtPrice.toFixed(8);
+                calcBuy(); 
+            }
+            if ((window._mhtPrice > 0 && priceField && priceField.value) || ++tries > 20) clearInterval(iv);
+        }, 500);
+
+        setInterval(() => {
+            const pf = document.getElementById('buyCurrentPrice');
+            if (pf && !pf.dataset.userModified && window._mhtPrice > 0) {
+                pf.value = window._mhtPrice.toFixed(8);
+                calcBuy();
+            }
+        }, 30000);
+
+        updateMilestoneUI();
+    });
+    // 🔴 FIN DE LA LOGIQUE DES SIMULATEURS RESTAURÉE 🔴 
+
 
     // connectWallet géré par le modal wallet ci-dessous
   </script>
