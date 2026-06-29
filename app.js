@@ -13,7 +13,7 @@
 const CONFIG = {
     contractAddress : "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa", // ✅ V2.3 Mainnet
     chainId         : 56,
-    rpcUrl          : "https://bsc-dataseed.binance.org/",
+    rpcUrl          : "https://bsc-rpc.publicnode.com",
     explorerUrl     : "https://bscscan.com/tx/",
 };
 
