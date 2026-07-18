@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Liquidity Pioneer Program — Milestone HODL Token</title>
+<meta name="description" content="Add and lock MHT/WBNB liquidity, secure your slot, and earn fixed ecosystem rewards. 85 slots across 3 tiers, released in 4 waves. Fully funded by the marketing wallet." />
+<meta name="keywords" content="MHT, Milestone HODL Token, Liquidity Pioneer, PinkLock, PancakeSwap, LP rewards, BNB Chain" />
+<meta property="og:title" content="MHT Liquidity Pioneer Program" />
+<meta property="og:description" content="Add and lock MHT/WBNB liquidity. Fixed, capped rewards. 85 slots, 3 tiers, 4 waves." />
+<meta property="og:url" content="https://milestonehodl.apexpad.io/pages/liquidity-pioneer-en.html" />
+<link rel="canonical" href="https://milestonehodl.apexpad.io/pages/liquidity-pioneer-en.html" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+  :root {
+    --bg:       #07090e;
+    --bg2:      #0c0f18;
+    --bg3:      #111520;
+    --border:   rgba(245,200,66,0.12);
+    --gold:     #f5c842;
+    --gold2:    #ffde7a;
+    --gold3:    #c8971a;
+    --orange:   #e8501a;
+    --text:     #e8ecf4;
+    --muted:    #9aa6ba;
+    --success:  #00e096;
+    --danger:   #f87171;
+    --mono:     'Space Mono', monospace;
+    --display:  'Bebas Neue', sans-serif;
+    --body:     'Syne', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--body); overflow-x: hidden; }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.5;
+  }
+
+  .trust-bar {
+    background: linear-gradient(90deg, #0c0f18, #111520, #0c0f18);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 24px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 24px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+    position: relative; z-index: 100;
+  }
+  .trust-item { display: flex; align-items: center; gap: 6px; }
+  .trust-item .badge { padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px; }
+  .badge-gold { background: var(--gold); color: #07090e; }
+  .badge-green { background: #00e096; color: #07090e; }
+  .trust-divider { color: var(--muted); }
+
+  nav.main-nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(7,9,14,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-size: 22px; letter-spacing: 0.04em; color: var(--text); }
+  .nav-logo-gem { width: 32px; height: 32px; background: linear-gradient(135deg, var(--gold), var(--gold3)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 0 16px rgba(245,200,66,0.3); }
+  .nav-logo span { color: var(--gold); }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-btn { padding: 8px 18px; border-radius: 8px; font-family: var(--body); font-size: 13px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: all 0.2s; }
+  .nav-btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .nav-btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #07090e; box-shadow: 0 4px 16px rgba(245,200,66,0.25); }
+  .nav-btn-primary:hover { box-shadow: 0 6px 24px rgba(245,200,66,0.4); transform: translateY(-1px); }
+
+  .hero { padding: 72px 24px 40px; text-align: center; position: relative; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .hero-tag::before, .hero-tag::after { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  .hero h1 { font-family: var(--display); font-size: clamp(2.4rem, 6vw, 4.2rem); letter-spacing: 0.02em; line-height: 1.05; max-width: 900px; margin: 0 auto 20px; }
+  .hero h1 span { color: var(--gold); }
+  .hero p { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: 16px; line-height: 1.7; }
+
+  section { padding: 64px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .section-tag::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  .section-title { font-family: var(--display); font-size: clamp(2rem, 4.5vw, 3.2rem); letter-spacing: 0.02em; margin-bottom: 16px; }
+  .section-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 640px; margin-bottom: 40px; }
+
+  .callout { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; margin-bottom: 40px; font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .callout strong { color: var(--text); }
+
+  .tiers-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 16px; background: var(--bg2); margin-bottom: 24px; }
+  table.tiers { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+  table.tiers th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--border); background: var(--bg3); }
+  table.tiers td { padding: 14px 20px; border-bottom: 1px solid var(--border); color: var(--text); }
+  table.tiers tr:last-child td { border-bottom: none; }
+  .tier-name { font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.02em; }
+  .reward-val { font-family: var(--mono); font-weight: 700; color: var(--gold2); }
+  .bonus-tag { display: inline-block; margin-left: 8px; font-family: var(--mono); font-size: 11px; color: var(--success); }
+  .row-sep td { border-top: 1px solid rgba(245,200,66,0.06); }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 48px; }
+  .stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; }
+  .stat-val { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--gold); }
+
+  .wave-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .wave-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; position: relative; }
+  .wave-num { font-family: var(--display); font-size: 2rem; color: rgba(245,200,66,0.35); line-height: 1; margin-bottom: 8px; }
+  .wave-dates { font-family: var(--mono); font-size: 13px; color: var(--gold2); margin-bottom: 6px; }
+  .wave-pct { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .vest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .vest-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 30px; position: relative; overflow: hidden; }
+  .vest-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .vest-title { font-family: var(--display); font-size: 1.5rem; margin-bottom: 6px; }
+  .vest-title span { color: var(--gold); }
+  .vest-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 12px; }
+  .vest-bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 18px 0 10px; }
+  .vest-bar .seg1 { background: var(--gold); width: 30%; }
+  .vest-bar .seg2 { background: rgba(245,200,66,0.25); width: 70%; }
+  .vest-legend { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+  .step-card { background: var(--bg2); padding: 32px 26px; }
+  .step-num { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: rgba(245,200,66,0.25); margin-bottom: 10px; }
+  .step-title { font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.02em; margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step-desc a { color: var(--gold); }
+
+  .disclaimer-box { background: var(--bg2); border: 1px solid rgba(248,113,113,0.25); border-radius: 16px; padding: 28px 30px; }
+  .disclaimer-box h3 { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.04em; color: var(--danger); margin-bottom: 14px; }
+  .disclaimer-box p { font-size: 12.5px; color: var(--muted); line-height: 1.8; margin-bottom: 14px; }
+  .disclaimer-box a { color: var(--gold2); font-weight: 700; }
+
+  .cta-band { text-align: center; padding: 56px 24px; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .cta-band h2 { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; }
+  .cta-band p { color: var(--muted); margin-bottom: 26px; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 30px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #07090e; font-weight: 700; text-decoration: none; box-shadow: 0 6px 24px rgba(245,200,66,0.3); }
+  .cta-btn:hover { transform: translateY(-1px); }
+
+  footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 48px 40px 32px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 24px; }
+  .footer-logo { font-family: var(--display); font-size: 20px; letter-spacing: 0.04em; }
+  .footer-logo span { color: var(--gold); }
+  .footer-socials { display: flex; gap: 10px; }
+  .social-btn { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); text-decoration: none; transition: all 0.2s; }
+  .social-btn:hover { color: var(--gold); border-color: rgba(245,200,66,0.3); background: rgba(245,200,66,0.05); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .footer-bottom a { color: var(--muted); }
+  .footer-links { display: flex; gap: 18px; }
+
+  @media (max-width: 640px) {
+    .nav-btn span.full { display: none; }
+    section { padding: 48px 18px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item"><span>AUDIT SOLIDPROOF V2.3</span><span class="badge badge-gold">85.36/100</span></div>
+    <span class="trust-divider">|</span>
+    <div class="trust-item"><span class="badge badge-green">✓ renounceOwnership()</span></div>
+    <span class="trust-divider">|</span>
+    <div class="trust-item"><span>PROGRAM:</span><span style="color:var(--gold)">Marketing wallet — capped allocation</span></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="main-nav">
+    <a href="../index.html" class="nav-logo">
+      <div class="nav-logo-gem"><img src="../piece.png" alt="MHT" style="width:26px;height:26px;border-radius:6px;object-fit:contain;"></div>
+      MHT · <span>MILESTONE HODL</span>
+    </a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-btn nav-btn-ghost"><span class="full">←</span> Home</a>
+      <a href="lpp-reserve.html" class="nav-btn nav-btn-primary">🔒 Reserve My Slot</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">🥇 Ecosystem Pilot Program</div>
+    <h1>MHT <span>Liquidity Pioneer</span> Program</h1>
+    <p>Support Milestone Hodl Token (MHT) liquidity, help secure the protocol, and earn ecosystem rewards. Slots are strictly limited and fully funded by the marketing wallet.</p>
+  </section>
+
+  <!-- 1. INTRO -->
+  <section id="intro" style="padding-top:0">
+    <div class="section-inner">
+      <div class="section-tag">Introduction</div>
+      <h2 class="section-title">Purpose</h2>
+      <p class="section-sub">The Milestone Hodl Token (MHT) project reached a historic milestone toward full decentralization on May 5, 2026, with the official renouncement of Smart Contract ownership — the on-chain code is now immutable and fully autonomous.</p>
+      <div class="callout">
+        To support this transition and strengthen order book depth, the team is launching the <strong>Liquidity Pioneer pilot program</strong>. Fully funded by a fixed, capped allocation from the marketing wallet, this program rewards community members who add and lock healthy liquidity on the MHT/WBNB pair (PancakeSwap).
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. TIERS -->
+  <section id="tiers" style="background:var(--bg2)">
+    <div class="section-inner">
+      <div class="section-tag">85 Slots · 3 Tiers</div>
+      <h2 class="section-title">Participation Tiers</h2>
+      <p class="section-sub">To participate, contribute a paired value (50% BNB / 50% MHT) to generate LP tokens, then lock them on the audited PinkLock platform. Rewards are not strictly proportional — either between tiers or between lock durations — by design.</p>
+
+      <div class="tiers-wrap">
+        <table class="tiers">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Contribution</th>
+              <th>Slots</th>
+              <th>Lock</th>
+              <th>Reward (MHT)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tier-name">🥉 Pioneer</td>
+              <td>0.1 BNB</td>
+              <td>42</td>
+              <td>30 days</td>
+              <td class="reward-val">6,500 MHT</td>
+            </tr>
+            <tr class="row-sep">
+              <td></td><td></td><td></td>
+              <td>90 days</td>
+              <td class="reward-val">32,500 MHT <span class="bonus-tag">+400%</span></td>
+            </tr>
+            <tr>
+              <td class="tier-name">🚀 Builder</td>
+              <td>0.5 BNB</td>
+              <td>26</td>
+              <td>30 days</td>
+              <td class="reward-val">40,000 MHT</td>
+            </tr>
+            <tr class="row-sep">
+              <td></td><td></td><td></td>
+              <td>90 days</td>
+              <td class="reward-val">240,000 MHT <span class="bonus-tag">+500%</span></td>
+            </tr>
+            <tr>
+              <td class="tier-name">💎 Foundation</td>
+              <td>1.0 BNB</td>
+              <td>17</td>
+              <td>30 days</td>
+              <td class="reward-val">98,000 MHT</td>
+            </tr>
+            <tr class="row-sep">
+              <td></td><td></td><td></td>
+              <td>90 days</td>
+              <td class="reward-val">784,000 MHT <span class="bonus-tag">+700%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:32px">Slots are released gradually across 4 waves (see below) and allocated first-come, first-served within each wave, until that wave's slots are gone.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Pool if all slots lock 90 days</div><div class="stat-val">14,895,000 MHT</div></div>
+        <div class="stat-card"><div class="stat-label">Pool if all slots lock 30 days</div><div class="stat-val">2,979,000 MHT</div></div>
+        <div class="stat-card"><div class="stat-label">Total slots</div><div class="stat-val">85</div></div>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted)">The reward for each tier and lock duration is fixed in advance and does not vary with market price, holding performance, or any other variable — it is a one-time service allocation for providing and locking liquidity, not a yield or interest.</p>
+    </div>
+  </section>
+
+  <!-- 3. WAVES -->
+  <section id="waves">
+    <div class="section-inner">
+      <div class="section-tag">Rollout Schedule · Live Availability</div>
+      <h2 class="section-title">4 Waves, August – September 2026</h2>
+      <p class="section-sub">The 85 total slots are released gradually across four 15-day waves. Each wave opens a new batch of slots across all three tiers, allocated first-come, first-served until that wave's slots are gone. The table below updates live.</p>
+
+      <div class="wave-grid" id="waveDateCards">
+        <div class="wave-card"><div class="wave-num">01</div><div class="wave-dates">Aug 1 – Aug 15, 2026</div><div class="wave-pct">Opens first</div></div>
+        <div class="wave-card"><div class="wave-num">02</div><div class="wave-dates">Aug 16 – Aug 30, 2026</div><div class="wave-pct">Second wave</div></div>
+        <div class="wave-card"><div class="wave-num">03</div><div class="wave-dates">Aug 31 – Sep 14, 2026</div><div class="wave-pct">Third wave</div></div>
+        <div class="wave-card"><div class="wave-num">04</div><div class="wave-dates">Sep 15 – late Sep 2026</div><div class="wave-pct">Final wave</div></div>
+      </div>
+
+      <div class="tiers-wrap" style="margin-top:8px">
+        <table class="tiers" id="liveTable">
+          <thead>
+            <tr>
+              <th>Wave</th>
+              <th>Tier</th>
+              <th>Duration</th>
+              <th>Reward / slot</th>
+              <th>Slots left</th>
+            </tr>
+          </thead>
+          <tbody id="liveTableBody">
+            <tr><td colspan="5" style="text-align:center;color:var(--muted);font-family:var(--mono);font-size:12px;padding:28px">Loading live availability…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:12px">"Slots left" updates the moment someone reserves through the <a href="lpp-reserve.html" style="color:var(--gold)">Reservation page</a> — refresh this page for the latest count.</p>
+    </div>
+  </section>
+
+  <script>
+    // ── Live wave/tier/duration availability ──
+    // Uses the same Apps Script Web App as lpp-reserve.html (doGet endpoint).
+    const LPP_STATUS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby0IFwqvipYZVKMrxk4s2n-Mcp4jf_R20dT9N0o3SdF4ROLQD-2fSweyv6v250e3X3wxQ/exec';
+
+    (async function loadLiveAvailability() {
+      const tbody = document.getElementById('liveTableBody');
+      if (LPP_STATUS_ENDPOINT.startsWith('REPLACE_WITH')) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);font-family:var(--mono);font-size:12px;padding:28px">Live availability coming soon.</td></tr>';
+        return;
+      }
+      try {
+        const res = await fetch(LPP_STATUS_ENDPOINT);
+        const data = await res.json();
+        if (data.status !== 'ok' || !data.rows) throw new Error('bad response');
+
+        tbody.innerHTML = data.rows.map(r => {
+          const full = r.remaining <= 0;
+          return `<tr style="${full ? 'opacity:0.4' : ''}">
+            <td>${r.wave}</td>
+            <td>${r.tier}</td>
+            <td>${r.duration}</td>
+            <td class="reward-val">${Number(r.reward).toLocaleString()} MHT</td>
+            <td style="font-family:var(--mono);${full ? 'color:var(--danger)' : 'color:var(--success)'}">${full ? 'Full' : r.remaining + ' / ' + r.total}</td>
+          </tr>`;
+        }).join('');
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--danger);font-family:var(--mono);font-size:12px;padding:28px">Could not load live availability. Please refresh or check the Reservation page directly.</td></tr>';
+      }
+    })();
+  </script>
+
+  <!-- 4. VESTING -->
+  <section id="vesting" style="background:var(--bg2)">
+    <div class="section-inner">
+      <div class="section-tag">Price Protection</div>
+      <h2 class="section-title">Distribution Schedule (Vesting)</h2>
+      <p class="section-sub">To preserve MHT price stability and reward long-term commitment, rewards are distributed on a hybrid schedule.</p>
+
+      <div class="vest-grid">
+        <div class="vest-card">
+          <div class="vest-title">30% <span>Immediate</span></div>
+          <div class="vest-bar"><div class="seg1"></div><div class="seg2"></div></div>
+          <div class="vest-legend"><span>Direct</span><span>Vesting</span></div>
+          <p class="vest-desc">Distributed immediately after your LP token lock is verified on-chain — applies to both lock durations.</p>
+        </div>
+        <div class="vest-card">
+          <div class="vest-title">70% <span>Vesting</span></div>
+          <p class="vest-desc"><strong style="color:var(--text)">30-day lock:</strong> paid in a single payment at the end of the lock (J+30).<br><br><strong style="color:var(--text)">90-day lock:</strong> paid in three equal installments — at J+30, J+60, and J+90.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. HOW TO PARTICIPATE -->
+  <section id="how">
+    <div class="section-inner">
+      <div class="section-tag">Mechanism</div>
+      <h2 class="section-title">How to Participate</h2>
+      <p class="section-sub">Four steps. Reserving your slot first protects you from locking liquidity for a slot that may already be full.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-title">Reserve Your Slot</div>
+          <div class="step-desc">Go to our <a href="lpp-reserve.html">Reservation page</a> and tell us which tier and lock duration you want. You'll get an immediate confirmation on whether a slot is currently available — do this before adding any liquidity.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-title">Buy &amp; Pair</div>
+          <div class="step-desc">Once your slot is confirmed, buy the amount of MHT needed to match the BNB value of your tier (0.1 / 0.5 / 1 BNB).</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-title">Add Liquidity</div>
+          <div class="step-desc">Deposit your BNB and MHT into the PancakeSwap pool to receive your MHT/WBNB LP tokens.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-title">Lock &amp; Submit</div>
+          <div class="step-desc">Lock your LP tokens on PinkLock (PinkSale) for 30 or 90 days, then submit your wallet address and Tx Hash through the confirmation link from step 1. Once verified, your distribution schedule activates.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LEGAL -->
+  <section id="legal" style="background:var(--bg2)">
+    <div class="section-inner">
+      <div class="section-tag">Risk Warning</div>
+      <h2 class="section-title">Legal Disclaimer</h2>
+      <div class="disclaimer-box">
+        <h3>⚠️ Read before participating</h3>
+        <p>
+          This program consists of a one-time, non-recurring token allocation drawn exclusively from the marketing reserve. It is not an offer to sell, a solicitation to buy, a promise of guaranteed return, or financial advice. MHT is a utility token, not a security. Providing DeFi liquidity carries significant risk, including market volatility and Impermanent Loss. Lock contracts are managed by the independent third-party protocol PinkLock; the MHT project disclaims responsibility for technical failure, bugs, or exploits on third-party platforms.
+        </p>
+        <p>Full terms, risk disclosures, and jurisdiction restrictions are set out in our complete disclaimer.</p>
+        <a href="legal.html">Read the full Legal Disclaimer &amp; Risk Disclosure →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-band">
+    <h2>Ready to become a Pioneer?</h2>
+    <p>Slots are limited and confirmed first-come, first-served. Start by reserving your slot.</p>
+    <a href="lpp-reserve.html" class="cta-btn">🔒 Reserve My Slot</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-logo">MILESTONE <span>HODL</span> TOKEN</div>
+        <div class="footer-socials">
+          <a href="https://t.me/Community_Milestone_hodl" target="_blank" class="social-btn"><i class="bi bi-telegram"></i></a>
+          <a href="https://x.com/milestone_hodl" target="_blank" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.youtube.com/channel/UCI9cYGu9x87ZpmbzeJHurpg" target="_blank" class="social-btn"><i class="bi bi-youtube"></i></a>
+          <a href="https://www.tiktok.com/@dev_apexpad" target="_blank" class="social-btn"><i class="bi bi-tiktok"></i></a>
+          <a href="https://apexpad.io" target="_blank" class="social-btn">🚀</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Milestone HODL Token. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="../index.html">Home</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
