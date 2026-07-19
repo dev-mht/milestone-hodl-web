@@ -359,29 +359,23 @@
         <!-- Honeypot anti-spam -->
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
-        <div class="form-row">
-          <div class="field">
-            <label>Your Name / Handle <span>*</span></label>
-            <input type="text" name="name" placeholder="John Doe" required />
-          </div>
-          <div class="field">
-            <label>Email Address <span>*</span></label>
-            <input type="email" name="email" placeholder="you@example.com" required />
-          </div>
+        <div class="notice" id="waveNotice" style="margin-bottom:4px">
+          <div class="notice-icon">📡</div>
+          <div class="notice-text" id="waveNoticeText">Checking which wave is currently open…</div>
+        </div>
+
+        <div class="field">
+          <label>Email Address <span>*</span></label>
+          <input type="email" name="email" placeholder="you@example.com" required />
         </div>
 
         <div class="field">
           <label>BSC Wallet Address <span>*</span></label>
           <input type="text" name="wallet" placeholder="0x..." required pattern="^0x[a-fA-F0-9]{40}$" />
-          <div class="field-hint">The wallet you will use to add and lock liquidity — must match the wallet on your PinkLock Tx Hash.</div>
+          <div class="field-hint">The wallet you will use to add and lock liquidity — must match the wallet on your PinkLock Tx Hash. No name or social handle required — reservations are pseudonymous.</div>
         </div>
 
-        <div class="field">
-          <label>Twitter / X Handle</label>
-          <input type="text" name="twitter" placeholder="@your_handle" />
-        </div>
-
-        <div class="form-row-3">
+        <div class="form-row">
           <div class="field">
             <label>Tier <span>*</span></label>
             <select name="tier" required>
@@ -397,17 +391,6 @@
               <option value="" disabled selected>Select duration</option>
               <option value="30 days">30 days</option>
               <option value="90 days">90 days</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Target Wave <span>*</span></label>
-            <select name="wave" required>
-              <option value="" disabled selected>Select wave</option>
-              <option value="Wave 1 (Aug 1-15)">Wave 1 (Aug 1–15)</option>
-              <option value="Wave 2 (Aug 16-30)">Wave 2 (Aug 16–30)</option>
-              <option value="Wave 3 (Aug 31-Sep 14)">Wave 3 (Aug 31–Sep 14)</option>
-              <option value="Wave 4 (Sep 15-end)">Wave 4 (Sep 15–end)</option>
-              <option value="Earliest available">Earliest available</option>
             </select>
           </div>
         </div>
@@ -439,12 +422,34 @@
 
   <script>
     // ── LPP Reservation — Google Apps Script Web App endpoint ──
-    // Replace with the deployed Web App URL (see APPS_SCRIPT_SETUP.md)
     const LPP_ENDPOINT = 'https://script.google.com/macros/s/AKfycby0IFwqvipYZVKMrxk4s2n-Mcp4jf_R20dT9N0o3SdF4ROLQD-2fSweyv6v250e3X3wxQ/exec';
 
     const form = document.getElementById('reserveForm');
     const btn  = document.getElementById('submitBtn');
     const fb   = document.getElementById('feedback');
+    const waveNotice = document.getElementById('waveNotice');
+    const waveNoticeText = document.getElementById('waveNoticeText');
+
+    // Show which wave is currently open (or that the program is closed) as soon as the page loads.
+    (async function loadCurrentWave() {
+      if (LPP_ENDPOINT.startsWith('REPLACE_WITH')) {
+        waveNoticeText.innerHTML = '⚠️ Reservation system is not connected yet. Please check back soon.';
+        return;
+      }
+      try {
+        const res = await fetch(LPP_ENDPOINT);
+        const data = await res.json();
+        if (data.status === 'ok' && data.currentWave) {
+          waveNoticeText.innerHTML = `<strong>Now open: ${data.currentWave}.</strong> Your reservation will automatically apply to this wave.`;
+        } else {
+          waveNoticeText.innerHTML = 'The Liquidity Pioneer Program is not currently accepting reservations. Please check back soon.';
+          waveNotice.classList.add('danger');
+          btn.disabled = true;
+        }
+      } catch (err) {
+        waveNoticeText.innerHTML = 'Could not check wave status. You can still try to reserve below.';
+      }
+    })();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -471,10 +476,11 @@
         });
 
         const data = await res.json();
+        const spamNote = '<br><br><span style="font-size:12px;opacity:0.8">This is an automated message — if you don\'t see the confirmation email shortly, please check your spam folder.</span>';
 
         if (data.status === 'reserved') {
           fb.className = 'feedback success';
-          fb.innerHTML = `✅ ${data.message || 'Slot reserved! Please add liquidity, lock on PinkLock, and reply to the confirmation email with your Tx Hash.'}`;
+          fb.innerHTML = `✅ ${data.message || 'Slot reserved! Please add liquidity, lock on PinkLock, and reply to the confirmation email with your Tx Hash.'}${spamNote}`;
           form.reset();
         } else if (data.status === 'full') {
           fb.className = 'feedback full';
@@ -483,6 +489,9 @@
             list = '<ul>' + data.remaining.map(r => `<li>${r}</li>`).join('') + '</ul>';
           }
           fb.innerHTML = `⚠️ ${data.message || 'That slot is full.'} ${list}`;
+        } else if (data.status === 'closed') {
+          fb.className = 'feedback full';
+          fb.innerHTML = `⚠️ ${data.message || 'Reservations are currently closed.'}`;
         } else {
           throw new Error(data.message || 'Submission failed');
         }
