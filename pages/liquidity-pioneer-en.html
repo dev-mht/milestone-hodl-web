@@ -321,8 +321,7 @@
   <script>
     // ── Live wave/tier/duration availability ──
     // Uses the same Apps Script Web App as lpp-reserve.html (doGet endpoint).
-    const LPP_STATUS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby0IFwqvipYZVKMrxk4s2n-Mcp4jf_R20dT9N0o3SdF4ROLQD-2fSweyv6v250e3X3wxQ/exec';
-
+const LPP_STATUS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyOyRlfyAtFDb0tnGCpABrCAHtU2ZS6AxZ-GnuMfROBqZhxKfYqMbmTwSwswDwm6PS5/exec';
     (async function loadLiveAvailability() {
       const tbody = document.getElementById('liveTableBody');
       if (LPP_STATUS_ENDPOINT.startsWith('REPLACE_WITH')) {
