@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$MHT V2 — Vault status report</title>
+<meta name="description" content="The $MHT V2 milestone mechanism can no longer fire. A configuration mistake on our side, plus the discontinuation of Chainlink Automation. What it means, what still works, and how to verify every claim on-chain yourself." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --dark: #0A0A0F;
+    --dark2: #12121A;
+    --dark3: #1A1A28;
+    --green: #00E676;
+    --red: #FF4444;
+    --white: #F0EEE8;
+    --gray: #888899;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark); color: var(--white);
+    font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; position: relative; z-index: 1; }
+
+  .lang-switch { text-align: right; margin-bottom: 40px; }
+  .lang-switch a {
+    color: var(--gold); text-decoration: none; font-family: 'Space Mono', monospace;
+    font-size: 13px; border: 1px solid var(--gold); padding: 6px 14px; border-radius: 4px; transition: all 0.2s;
+  }
+  .lang-switch a:hover { background: var(--gold); color: var(--dark); }
+
+  .hero { text-align: center; margin-bottom: 60px; animation: fadeUp 0.8s ease both; }
+  .tag {
+    display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4); padding: 4px 12px; border-radius: 2px;
+    letter-spacing: 3px; margin-bottom: 24px; text-transform: uppercase;
+  }
+  h1 { font-size: clamp(1.8rem, 4.6vw, 3.1rem); font-weight: 800; line-height: 1.12; margin-bottom: 20px; color: var(--white); }
+  h1 span { color: var(--gold); }
+  .subtitle { font-size: 1.05rem; color: var(--gray); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+  .stamp {
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gray);
+    margin-top: 22px; border: 1px solid rgba(201,168,76,0.2); border-radius: 4px;
+    padding: 8px 14px; display: inline-block;
+  }
+  .stamp b { color: var(--gold); }
+
+  .section { margin-bottom: 56px; animation: fadeUp 0.8s ease both; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+
+  .big-statement {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.15); border-left: 3px solid var(--gold);
+    padding: 28px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .big-statement.alert { border-left-color: var(--red); }
+  .big-statement p { font-size: 1.02rem; line-height: 1.8; color: var(--white); margin-bottom: 14px; }
+  .big-statement p:last-child { margin-bottom: 0; }
+  .big-statement h3 {
+    font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+
+  .math-line {
+    font-family: 'Space Mono', monospace; font-size: clamp(0.95rem, 2.4vw, 1.1rem); font-weight: 700;
+    color: var(--gold); text-align: center; padding: 20px; border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px; background: rgba(201,168,76,0.05); margin: 20px 0; letter-spacing: 1px;
+  }
+  .note {
+    background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px;
+    padding: 14px 18px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gray);
+    line-height: 1.7; margin: 16px 0;
+  }
+  code {
+    font-family: 'Space Mono', monospace; font-size: 0.86em; background: rgba(201,168,76,0.09);
+    border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 1px 6px;
+    color: var(--gold-light); word-break: break-word;
+  }
+  a { color: var(--gold); }
+
+  .table-wrap {
+    overflow-x: auto; margin: 22px 0; border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px; background: var(--dark2);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
+  th, td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  th {
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.05);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .ko { color: var(--red); font-weight: 700; }
+  .ok { color: var(--green); font-weight: 700; }
+
+  ol.steps { margin: 18px 0 0 20px; }
+  ol.steps li { margin-bottom: 12px; line-height: 1.75; }
+
+  ul.plain { margin: 14px 0 0 20px; }
+  ul.plain li { margin-bottom: 10px; line-height: 1.75; }
+
+  .divider { height: 1px; background: rgba(201,168,76,0.15); margin: 50px 0; }
+
+  footer { border-top: 1px solid rgba(201,168,76,0.15); padding-top: 30px; color: var(--gray); font-size: 0.85rem; line-height: 1.8; }
+  footer a { color: var(--gray); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-switch">
+    <a href="vault-status-fr.html">🇫🇷 Version Française</a>
+  </div>
+
+  <div class="hero">
+    <div class="tag">$MHT V2 — Status report</div>
+    <h1>The $MHT V2 vault<br>is <span>frozen</span>. Here is why.</h1>
+    <p class="subtitle">The milestone mechanism can no longer fire, and it never could. Below: what broke, whose fault it is, what still works, and how to check every number yourself without taking our word for it.</p>
+    <div class="stamp">Published <b>4 September 2026</b> &nbsp;·&nbsp; All figures read on-chain the same day</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-label">01 — What we found</div>
+    <div class="big-statement alert">
+      <p><strong>761,706,453 MHT</strong> — <strong>76.17% of the total supply</strong> — sit inside the $MHT V2 contract and can never come out.</p>
+      <p>Not stolen. Not moved. Not held by anyone. Frozen inside the contract, permanently, including the 500,000,000 of the Smart-Vault that was meant to be distributed to holders milestone after milestone.</p>
+      <p>No milestone has ever fired: <code>milestonesReached</code> returns <strong>0</strong>, and <code>rewardsPool</code> returns <strong>0</strong>. Not because the market cap never got there — because the function that releases them cannot succeed. It never could.</p>
+    </div>
+    <div class="math-line">The mechanism was broken from day one. We did not see it.</div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-label">02 — The cause: our own configuration mistake</div>
+    <div class="big-statement">
+      <p>The vault was released by <code>performUpkeep()</code>, a function Chainlink Automation was supposed to call. That function starts with one guard: it checks that the caller is the address stored in <code>automationRegistry</code>.</p>
+      <p>The address we registered is the <strong>Chainlink Registry</strong>. But in Chainlink Automation, the actual caller of <code>performUpkeep()</code> is never the Registry — it is the upkeep's <strong>Forwarder</strong>, a different contract with a different address.</p>
+      <p>So the guard compared two addresses that could never match. Every call was rejected. <code>_executeMilestone()</code> never ran, <code>rewardsPool</code> was never funded, and not one token ever left the vault.</p>
+      <h3>Read it yourself</h3>
+      <p>Registered in the contract: <code>0xDc21E279934fF6721CaDfDD112DAfb3261f09A2C</code><br>
+      Forwarder of our upkeep: <code>0x4256…7Fb0</code></p>
+      <p>Two different addresses. That is the whole bug. One line of configuration, chosen when the contract was deployed, and never tested against a real milestone because the market cap had not reached the first one yet.</p>
+    </div>
+    <div class="note">This is our mistake, not Chainlink's. Their documentation is correct. We read it wrong, and we deployed before proving the path end to end.</div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-label">03 — The second cause: Chainlink discontinued the service</div>
+    <div class="big-statement">
+      <p>While we were looking at something else, Chainlink announced it was moving its product line to CRE and <strong>discontinuing the Automation service</strong> our contract depended on. We cancelled the upkeep and withdrew the remaining LINK on <strong>20 August 2026</strong>.</p>
+      <p>So there were two independent causes, and either one alone was fatal. Our configuration mistake meant <code>performUpkeep()</code> could never succeed, even with a Chainlink service in perfect working order. And the discontinuation meant that even a correctly configured contract would have stopped being triggered.</p>
+      <p>Chronologically, it is that migration that made us reopen the file — and that is how we found our own error, which had gone unnoticed until then.</p>
+      <p><strong>We are not putting this on a third party.</strong> Chainlink evolved its offering, which is its right. Our contract was already broken before that, by our own hand.</p>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-label">04 — Why it cannot be repaired</div>
+    <div class="big-statement">
+      <p>The contract has a function to fix exactly this: <code>setAutomationRegistry()</code>. It is <code>onlyOwner</code>.</p>
+      <p>And $MHT V2 <strong>renounced its ownership on 5 May 2026</strong>. <code>owner()</code> returns the zero address. There is no admin key, no multisig, no backdoor — which is precisely what we promised, and precisely what makes this permanent.</p>
+      <p>The property that protects holders from a founder emptying the vault is the same property that stops anyone, including us, from repairing this. We would not undo that choice. But it has a price, and this page is that price.</p>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-label">05 — What still works, what does not</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>State</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Transfers, buys, sells</td><td class="ok">Working</td><td>The token trades normally on PancakeSwap. Nothing is blocked for holders.</td></tr>
+          <tr><td>Taxes, burn, auto-LP</td><td class="ok">Working</td><td>They run on every transaction, as designed.</td></tr>
+          <tr><td>Liquidity</td><td class="ok">Working</td><td>The pool is live and locked.</td></tr>
+          <tr><td>Milestone trigger</td><td class="ko">Dead</td><td><code>performUpkeep()</code> can never pass its own caller check.</td></tr>
+          <tr><td>Vault releases</td><td class="ko">Dead</td><td>500,000,000 MHT will never be released.</td></tr>
+          <tr><td>Holder rewards</td><td class="ko">Dead</td><td><code>rewardsPool</code> is never funded, so there is nothing to claim.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">In plain words: $MHT V2 still works as a token. It no longer works as a Proof-of-Performance mechanism — and that mechanism was the whole point.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-label">06 — What happens for holders</div>
+    <div class="big-statement">
+      <p>A <strong>version 3 of the $MHT contract is in preparation</strong>. It is written on the principle we should have applied from the start: no dependency on Chainlink, or on any third party, for the trigger.</p>
+      <p>A <strong>migration bonus is planned</strong> for $MHT V2 holders. Its terms — ratio, snapshot date, mechanics — will be published before the migration, on this site. We are not announcing numbers we have not finalised, and we are not asking anyone to act on this page.</p>
+      <p>There is no deployment date to announce yet. When there is one, it will be posted here, on X and on Telegram, and nowhere else.</p>
+    </div>
+    <div class="note">Nothing on this page is a promise of value, of price, or of return. It describes a technical failure and the mechanism we intend to publish to answer it. Holding digital assets carries a risk of total loss.</div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-label">07 — What we changed on $RMHT</div>
+    <div class="big-statement">
+      <p>$RMHT, launched on Robinhood Chain on 4 September 2026, was designed against this exact failure. The same choices will carry into $MHT V3.</p>
+      <ul class="plain">
+        <li><strong>No third party in the trigger.</strong> Milestones are fired by <code>pokeMilestone()</code>, a public function <em>anyone</em> can call. No keeper, no subscription to fund, no service that can be discontinued.</li>
+        <li><strong>Price read from the pool itself.</strong> A 30-minute time-weighted average read directly on-chain, fail-closed: if the data is not there, the contract does nothing rather than acting on a wrong number.</li>
+        <li><strong>Three confirmations, ten minutes apart, inside a two-hour window</strong> before a milestone is accepted. A wick does not release a vault.</li>
+        <li><strong>Residual powers written down, not hidden.</strong> What remains after the renounce is documented publicly, including what it could do wrong.</li>
+      </ul>
+      <p style="margin-top:16px">The full mechanism: <a href="https://rmht.apexpad.io/protocol-en.html" target="_blank" rel="noopener">how $RMHT works</a> — and the page where we answer every automated scanner finding one by one, including the ones against us: <a href="https://rmht.apexpad.io/transparency-en.html" target="_blank" rel="noopener">$RMHT transparency</a>. Both have an FR/EN toggle at the top.</p>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-label">08 — Verify all of it yourself</div>
+    <p style="line-height:1.8;color:var(--gray)">Everything above is a public variable of the contract. You do not need a terminal — six clicks are enough.</p>
+    <ol class="steps">
+      <li>Open the contract on BscScan: <a href="https://bscscan.com/address/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa#readContract" target="_blank" rel="noopener">0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</a></li>
+      <li>Click the <strong>Contract</strong> tab, then <strong>Read Contract</strong>.</li>
+      <li>Read the fields below and compare them to this table.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field to read</th><th>What it returns</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td><code>owner</code></td><td><code>0x0000…0000</code></td><td>Ownership renounced — no one can fix the contract</td></tr>
+          <tr><td><code>automationRegistry</code></td><td><code>0xDc21…9A2C</code></td><td>Not the Forwarder that actually calls <code>performUpkeep()</code></td></tr>
+          <tr><td><code>milestonesReached</code></td><td><strong>0</strong></td><td>No milestone has ever fired</td></tr>
+          <tr><td><code>rewardsPool</code></td><td><strong>0</strong></td><td>The reward pool was never funded</td></tr>
+          <tr><td><code>vaultBalance</code></td><td><strong>500,000,000</strong></td><td>The vault is intact, and unreachable</td></tr>
+          <tr><td><code>balanceOf</code> (paste the contract's own address)</td><td><strong>761,706,453</strong></td><td>76.17% of supply held by the contract itself</td></tr>
+          <tr><td><code>getMarketCap</code> / <code>nextMilestoneUSD</code></td><td>~316,355 / 1,000,000</td><td>The first milestone had not been reached either way</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Values shown as read on 4 September 2026. Market cap moves; the six others will not.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <p><strong>$MHT — Milestone HODL Token</strong> · BNB Chain · contract <code>0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</code><br>
+    Where this page and the deployed code disagree, <strong>the code is authoritative</strong>. Read it, then decide.</p>
+    <p style="margin-top:14px"><a href="../index.html">Back to the site</a> · <a href="legal.html">Legal notice</a> · <a href="https://rmht.apexpad.io/protocol-en.html" target="_blank" rel="noopener">$RMHT protocol</a></p>
+    <p style="margin-top:14px;font-size:.8rem;opacity:.75">This document describes a technical mechanism and a failure of that mechanism. It is neither investment advice nor a promise of returns. Holding digital assets carries a risk of total loss.</p>
+  </footer>
+
+</div>
+</body>
+</html>

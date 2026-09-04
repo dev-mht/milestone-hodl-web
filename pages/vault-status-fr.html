@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$MHT V2 — État du vault</title>
+<meta name="description" content="Le mécanisme de paliers de $MHT V2 ne peut plus se déclencher. Une erreur de configuration de notre part, plus l'arrêt de Chainlink Automation. Ce que ça veut dire, ce qui fonctionne encore, et comment tout vérifier vous-même on-chain." />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --dark: #0A0A0F;
+    --dark2: #12121A;
+    --dark3: #1A1A28;
+    --green: #00E676;
+    --red: #FF4444;
+    --white: #F0EEE8;
+    --gray: #888899;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark); color: var(--white);
+    font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; position: relative; z-index: 1; }
+
+  .lang-switch { text-align: right; margin-bottom: 40px; }
+  .lang-switch a {
+    color: var(--gold); text-decoration: none; font-family: 'Space Mono', monospace;
+    font-size: 13px; border: 1px solid var(--gold); padding: 6px 14px; border-radius: 4px; transition: all 0.2s;
+  }
+  .lang-switch a:hover { background: var(--gold); color: var(--dark); }
+
+  .hero { text-align: center; margin-bottom: 60px; animation: fadeUp 0.8s ease both; }
+  .tag {
+    display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4); padding: 4px 12px; border-radius: 2px;
+    letter-spacing: 3px; margin-bottom: 24px; text-transform: uppercase;
+  }
+  h1 { font-size: clamp(1.8rem, 4.6vw, 3.1rem); font-weight: 800; line-height: 1.12; margin-bottom: 20px; color: var(--white); }
+  h1 span { color: var(--gold); }
+  .subtitle { font-size: 1.05rem; color: var(--gray); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+  .stamp {
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gray);
+    margin-top: 22px; border: 1px solid rgba(201,168,76,0.2); border-radius: 4px;
+    padding: 8px 14px; display: inline-block;
+  }
+  .stamp b { color: var(--gold); }
+
+  .section { margin-bottom: 56px; animation: fadeUp 0.8s ease both; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+
+  .big-statement {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.15); border-left: 3px solid var(--gold);
+    padding: 28px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .big-statement.alert { border-left-color: var(--red); }
+  .big-statement p { font-size: 1.02rem; line-height: 1.8; color: var(--white); margin-bottom: 14px; }
+  .big-statement p:last-child { margin-bottom: 0; }
+  .big-statement h3 {
+    font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+
+  .math-line {
+    font-family: 'Space Mono', monospace; font-size: clamp(0.95rem, 2.4vw, 1.1rem); font-weight: 700;
+    color: var(--gold); text-align: center; padding: 20px; border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px; background: rgba(201,168,76,0.05); margin: 20px 0; letter-spacing: 1px;
+  }
+  .note {
+    background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px;
+    padding: 14px 18px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gray);
+    line-height: 1.7; margin: 16px 0;
+  }
+  code {
+    font-family: 'Space Mono', monospace; font-size: 0.86em; background: rgba(201,168,76,0.09);
+    border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 1px 6px;
+    color: var(--gold-light); word-break: break-word;
+  }
+  a { color: var(--gold); }
+
+  .table-wrap {
+    overflow-x: auto; margin: 22px 0; border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px; background: var(--dark2);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 0.92rem; }
+  th, td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  th {
+    font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.05);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .ko { color: var(--red); font-weight: 700; }
+  .ok { color: var(--green); font-weight: 700; }
+
+  ol.steps { margin: 18px 0 0 20px; }
+  ol.steps li { margin-bottom: 12px; line-height: 1.75; }
+
+  ul.plain { margin: 14px 0 0 20px; }
+  ul.plain li { margin-bottom: 10px; line-height: 1.75; }
+
+  .divider { height: 1px; background: rgba(201,168,76,0.15); margin: 50px 0; }
+
+  footer { border-top: 1px solid rgba(201,168,76,0.15); padding-top: 30px; color: var(--gray); font-size: 0.85rem; line-height: 1.8; }
+  footer a { color: var(--gray); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-switch">
+    <a href="vault-status-en.html">🇬🇧 English version</a>
+  </div>
+
+  <div class="hero">
+    <div class="tag">$MHT V2 — État du vault</div>
+    <h1>Le vault de $MHT V2<br>est <span>gelé</span>. Voici pourquoi.</h1>
+    <p class="subtitle">Le mécanisme de paliers ne peut plus se déclencher — et il ne l'a jamais pu. Ci-dessous : ce qui est cassé, à qui la faute, ce qui fonctionne encore, et comment vérifier chaque chiffre vous-même sans nous croire sur parole.</p>
+    <div class="stamp">Publié le <b>4 septembre 2026</b> &nbsp;·&nbsp; Tous les chiffres lus on-chain le jour même</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-label">01 — Ce que nous avons découvert</div>
+    <div class="big-statement alert">
+      <p><strong>761 706 453 MHT</strong> — soit <strong>76,17 % de la supply totale</strong> — sont dans le contrat $MHT V2 et n'en sortiront jamais.</p>
+      <p>Pas volés. Pas déplacés. Détenus par personne. Gelés dans le contrat, définitivement, y compris les 500 000 000 du Smart-Vault qui devaient être distribués aux détenteurs palier après palier.</p>
+      <p>Aucun palier ne s'est jamais déclenché : <code>milestonesReached</code> renvoie <strong>0</strong>, et <code>rewardsPool</code> renvoie <strong>0</strong>. Non pas parce que la capitalisation n'y est jamais arrivée, mais parce que la fonction qui libère les jetons ne peut pas aboutir. Elle ne l'a jamais pu.</p>
+    </div>
+    <div class="math-line">Le mécanisme était cassé dès le premier jour. Nous ne l'avons pas vu.</div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-label">02 — La cause : notre propre erreur de configuration</div>
+    <div class="big-statement">
+      <p>Le vault était libéré par <code>performUpkeep()</code>, une fonction que Chainlink Automation devait appeler. Cette fonction commence par une garde : elle vérifie que l'appelant est bien l'adresse enregistrée dans <code>automationRegistry</code>.</p>
+      <p>L'adresse que nous y avons mise est celle du <strong>Registry Chainlink</strong>. Or dans Chainlink Automation, l'appelant réel de <code>performUpkeep()</code> n'est jamais le Registry : c'est le <strong>Forwarder</strong> de l'upkeep, un autre contrat, à une autre adresse.</p>
+      <p>La garde comparait donc deux adresses qui ne pouvaient jamais correspondre. Chaque appel était rejeté. <code>_executeMilestone()</code> n'a jamais tourné, <code>rewardsPool</code> n'a jamais été alimenté, et pas un seul jeton n'est sorti du vault.</p>
+      <h3>Vérifiez vous-même</h3>
+      <p>Enregistrée dans le contrat : <code>0xDc21E279934fF6721CaDfDD112DAfb3261f09A2C</code><br>
+      Forwarder de notre upkeep : <code>0x4256…7Fb0</code></p>
+      <p>Deux adresses différentes. C'est tout le bug. Une ligne de configuration, choisie au déploiement, jamais éprouvée sur un vrai palier puisque la capitalisation n'avait pas encore atteint le premier.</p>
+    </div>
+    <div class="note">C'est notre erreur, pas celle de Chainlink. Leur documentation est juste. Nous l'avons mal lue, et nous avons déployé sans avoir prouvé le chemin de bout en bout.</div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-label">03 — La seconde cause : l'arrêt du service par Chainlink</div>
+    <div class="big-statement">
+      <p>Pendant que nous travaillions sur autre chose, Chainlink a annoncé le basculement de son offre vers CRE et <strong>l'arrêt du service Automation</strong> dont dépendait notre contrat. Nous avons annulé l'upkeep et retiré le LINK restant le <strong>20 août 2026</strong>.</p>
+      <p>Il y avait donc deux causes indépendantes, et chacune suffisait à elle seule. Notre erreur de configuration faisait que <code>performUpkeep()</code> ne pouvait jamais aboutir, même avec un service Chainlink en parfait état de marche. Et l'arrêt du service faisait qu'un contrat même correctement configuré aurait cessé d'être déclenché.</p>
+      <p>Chronologiquement, c'est cette migration qui nous a poussés à rouvrir le dossier — et c'est ainsi que nous avons découvert notre propre erreur, restée invisible jusque-là.</p>
+      <p><strong>Nous ne mettons pas la faute sur un tiers.</strong> Chainlink a fait évoluer son offre, ce qui est son droit. Notre contrat était déjà cassé avant, de notre fait.</p>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-label">04 — Pourquoi c'est irréparable</div>
+    <div class="big-statement">
+      <p>Le contrat possède exactement la fonction qu'il faudrait : <code>setAutomationRegistry()</code>. Elle est <code>onlyOwner</code>.</p>
+      <p>Et $MHT V2 <strong>a renoncé à son ownership le 5 mai 2026</strong>. <code>owner()</code> renvoie l'adresse zéro. Pas de clé admin, pas de multisig, pas de porte dérobée — exactement ce que nous avions promis, et exactement ce qui rend la situation définitive.</p>
+      <p>La propriété qui protège les détenteurs d'un fondateur qui viderait le vault est la même qui empêche quiconque, nous compris, de réparer. Nous ne reviendrions pas sur ce choix. Mais il a un prix, et cette page est ce prix.</p>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-label">05 — Ce qui fonctionne encore, ce qui ne fonctionne plus</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fonction</th><th>État</th><th>Détail</th></tr></thead>
+        <tbody>
+          <tr><td>Transferts, achats, ventes</td><td class="ok">Fonctionne</td><td>Le jeton s'échange normalement sur PancakeSwap. Rien n'est bloqué pour les détenteurs.</td></tr>
+          <tr><td>Taxes, burn, auto-LP</td><td class="ok">Fonctionne</td><td>Ils s'exécutent à chaque transaction, comme prévu.</td></tr>
+          <tr><td>Liquidité</td><td class="ok">Fonctionne</td><td>La pool est en place et verrouillée.</td></tr>
+          <tr><td>Déclenchement des paliers</td><td class="ko">Mort</td><td><code>performUpkeep()</code> ne peut jamais passer sa propre vérification d'appelant.</td></tr>
+          <tr><td>Libérations du vault</td><td class="ko">Mort</td><td>Les 500 000 000 MHT ne seront jamais libérés.</td></tr>
+          <tr><td>Rewards des détenteurs</td><td class="ko">Mort</td><td><code>rewardsPool</code> n'est jamais alimenté, il n'y a donc rien à réclamer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">En clair : $MHT V2 fonctionne toujours comme jeton. Il ne fonctionne plus comme mécanisme Proof-of-Performance — et ce mécanisme était toute la raison d'être du projet.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-label">06 — Ce qui est prévu pour les détenteurs</div>
+    <div class="big-statement">
+      <p>Une <strong>version 3 du contrat $MHT est en préparation</strong>. Elle est écrite selon le principe que nous aurions dû appliquer dès le départ : aucune dépendance à Chainlink, ni à aucun tiers, pour le déclenchement.</p>
+      <p>Un <strong>bonus de migration est prévu</strong> pour les détenteurs de $MHT V2. Ses modalités — ratio, date de snapshot, mécanique — seront publiées avant la migration, sur ce site. Nous n'annonçons pas de chiffres que nous n'avons pas arrêtés, et nous ne demandons à personne d'agir sur la foi de cette page.</p>
+      <p>Il n'y a pas encore de date de déploiement à annoncer. Quand il y en aura une, elle sera publiée ici, sur X et sur Telegram, et nulle part ailleurs.</p>
+    </div>
+    <div class="note">Rien sur cette page n'est une promesse de valeur, de cours ou de rendement. Elle décrit une défaillance technique et le mécanisme que nous comptons publier pour y répondre. La détention d'actifs numériques comporte un risque de perte totale.</div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-label">07 — Ce que nous avons changé sur $RMHT</div>
+    <div class="big-statement">
+      <p>$RMHT, lancé sur Robinhood Chain le 4 septembre 2026, a été conçu contre exactement cette défaillance. Les mêmes choix seront repris dans $MHT V3.</p>
+      <ul class="plain">
+        <li><strong>Aucun tiers dans le déclenchement.</strong> Les paliers sont déclenchés par <code>pokeMilestone()</code>, une fonction publique que <em>n'importe qui</em> peut appeler. Pas de keeper, pas d'abonnement à financer, pas de service qui peut être arrêté.</li>
+        <li><strong>Prix lu dans la pool elle-même.</strong> Une moyenne pondérée par le temps sur 30 minutes, lue directement on-chain, en fail-closed : si la donnée n'est pas là, le contrat ne fait rien plutôt que d'agir sur un chiffre faux.</li>
+        <li><strong>Trois confirmations espacées de dix minutes, dans une fenêtre de deux heures</strong> avant qu'un palier soit accepté. Une mèche ne débloque pas un vault.</li>
+        <li><strong>Pouvoirs résiduels écrits, pas cachés.</strong> Ce qui subsiste après le renoncement est documenté publiquement, y compris ce qu'il pourrait faire de mal.</li>
+      </ul>
+      <p style="margin-top:16px">Le mécanisme complet : <a href="https://rmht.apexpad.io/protocol-fr.html" target="_blank" rel="noopener">comment fonctionne $RMHT</a> — et la page où nous répondons un par un aux signalements des scanners automatiques, y compris ceux qui nous sont défavorables : <a href="https://rmht.apexpad.io/transparency-fr.html" target="_blank" rel="noopener">transparence $RMHT</a>. Les deux ont un sélecteur FR/EN en tête de page.</p>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-label">08 — Vérifiez tout vous-même</div>
+    <p style="line-height:1.8;color:var(--gray)">Tout ce qui précède est une variable publique du contrat. Pas besoin de terminal : six clics suffisent.</p>
+    <ol class="steps">
+      <li>Ouvrez le contrat sur BscScan : <a href="https://bscscan.com/address/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa#readContract" target="_blank" rel="noopener">0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</a></li>
+      <li>Cliquez sur l'onglet <strong>Contract</strong>, puis <strong>Read Contract</strong>.</li>
+      <li>Lisez les champs ci-dessous et comparez-les à ce tableau.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Champ à lire</th><th>Ce qu'il renvoie</th><th>Ce que ça prouve</th></tr></thead>
+        <tbody>
+          <tr><td><code>owner</code></td><td><code>0x0000…0000</code></td><td>Ownership renoncée — personne ne peut réparer le contrat</td></tr>
+          <tr><td><code>automationRegistry</code></td><td><code>0xDc21…9A2C</code></td><td>Ce n'est pas le Forwarder qui appelle réellement <code>performUpkeep()</code></td></tr>
+          <tr><td><code>milestonesReached</code></td><td><strong>0</strong></td><td>Aucun palier ne s'est jamais déclenché</td></tr>
+          <tr><td><code>rewardsPool</code></td><td><strong>0</strong></td><td>La réserve de rewards n'a jamais été alimentée</td></tr>
+          <tr><td><code>vaultBalance</code></td><td><strong>500 000 000</strong></td><td>Le vault est intact, et inatteignable</td></tr>
+          <tr><td><code>balanceOf</code> (collez l'adresse du contrat lui-même)</td><td><strong>761 706 453</strong></td><td>76,17 % de la supply détenus par le contrat lui-même</td></tr>
+          <tr><td><code>getMarketCap</code> / <code>nextMilestoneUSD</code></td><td>~316 355 / 1 000 000</td><td>Le premier palier n'était de toute façon pas atteint</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Valeurs telles que lues le 4 septembre 2026. La capitalisation bouge ; les six autres ne bougeront plus.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <p><strong>$MHT — Milestone HODL Token</strong> · BNB Chain · contrat <code>0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</code><br>
+    En cas de divergence entre cette page et le code déployé, <strong>c'est le code qui fait foi</strong>. Lisez-le, puis décidez.</p>
+    <p style="margin-top:14px"><a href="../index.html">Retour au site</a> · <a href="legal.html">Mentions légales</a> · <a href="https://rmht.apexpad.io/protocol-fr.html" target="_blank" rel="noopener">Protocole $RMHT</a></p>
+    <p style="margin-top:14px;font-size:.8rem;opacity:.75">Ce document décrit un mécanisme technique et sa défaillance. Il ne constitue ni un conseil en investissement, ni une promesse de rendement. La détention d'actifs numériques comporte un risque de perte totale.</p>
+  </footer>
+
+</div>
+</body>
+</html>
