@@ -16,6 +16,11 @@
  *    (remaining, migratableOf, quote, currentBonusBps, deadline) ;
  *  - en pré-lancement, le plafond vient de la table du snapshot ci-dessous,
  *    identique à script/DeployMHTV3.s.sol (_snapshot()).
+ *  - snapshotFinal (11/09/2026) : tant qu'il vaut false, le snapshot définitif
+ *    n'est pas encore pris (lundi 14/09, juste avant le déploiement). La table
+ *    n'est alors que la liste ACTUELLE : la vérification lit le solde V2 et
+ *    n'affiche aucun plafond. rafraichir_snapshot_mht_v3_*.py le passe à true
+ *    en réécrivant la table.
  */
 (function () {
   "use strict";
@@ -28,6 +33,7 @@
     v2: "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa",
     migration: "",   // <- adresse de MHTMigration, APRES le deploiement
     v3: "",          // <- adresse du MHT V3, APRES le deploiement
+    snapshotFinal: false,  // <- true quand le snapshot definitif est ecrit (script de rafraichissement)
     logo: "https://arweave.net/4Y7ayPRnQQwkK5HWESY-voYNkv2ghYNAI51qpHmVrik",
     // Barème figé dans MHTMigration (bornes INCLUSIVES, secondes UTC)
     tiers: [
@@ -86,6 +92,10 @@
       noBalance: "This address holds no V2 anymore: nothing to migrate.",
       partial: "V2 balance is below the snapshot cap: only the balance can be migrated.",
       eligiblePre: "Eligible. You will be able to migrate at launch.",
+      preListed: "This address is in the current list. The final snapshot (Monday 14 September, shortly before launch) will use the V2 it holds at that moment.",
+      preNotListed: "This address is not in the current list. The final snapshot is taken on Monday 14 September, shortly before launch: only V2 held at that moment will count.",
+      preHolds: "This address holds V2. If it still holds it at the final snapshot (Monday 14 September, shortly before launch), it will be able to migrate that balance at launch.",
+      preNoV2: "This address holds no V2 right now. Only V2 held at the final snapshot (Monday 14 September, shortly before launch) will count.",
       eligibleLive: "Eligible. Approve, then migrate.",
       readError: "Could not read the blockchain right now. Try again in a moment.",
       notActivated: "The migration contract is deployed but not activated yet.",
@@ -122,6 +132,10 @@
       noBalance: "Cette adresse ne détient plus de V2 : rien à migrer.",
       partial: "Le solde V2 est inférieur au plafond du snapshot : seul le solde peut être migré.",
       eligiblePre: "Éligible. Vous pourrez migrer au lancement.",
+      preListed: "Cette adresse est dans la liste actuelle. Le snapshot définitif (lundi 14 septembre, peu avant le lancement) retiendra les V2 qu'elle détiendra à ce moment-là.",
+      preNotListed: "Cette adresse n'est pas dans la liste actuelle. Le snapshot définitif est pris le lundi 14 septembre, peu avant le lancement : seuls les V2 détenus à ce moment-là compteront.",
+      preHolds: "Cette adresse détient du V2. Si elle le détient encore au snapshot définitif (lundi 14 septembre, peu avant le lancement), elle pourra migrer ce solde au lancement.",
+      preNoV2: "Cette adresse ne détient pas de V2 actuellement. Seuls les V2 détenus au snapshot définitif (lundi 14 septembre, peu avant le lancement) compteront.",
       eligibleLive: "Éligible. Approuvez, puis migrez.",
       readError: "Lecture de la blockchain impossible pour l'instant. Réessayez dans un moment.",
       notActivated: "Le contrat de migration est déployé mais pas encore activé.",
@@ -346,6 +360,23 @@
     current.address = address;
     var t = tierAt(nowSec());
     var isOwn = state.account && address.toLowerCase() === state.account.toLowerCase();
+
+    if (!isLive() && !CONFIG.snapshotFinal) {
+      // Snapshot définitif pas encore pris : aucun plafond à afficher, seul
+      // le solde V2 actuel compte.
+      var listed = snapshotCap(address) !== ZERO;
+      var prow = { address: address, bps: t ? t.bps : undefined };
+      fillRows(prow);
+      setButtons({ connectLabel: connectLabel(), approveLabel: L.opensAtLaunch, migrateLabel: L.opensAtLaunch });
+      if (!hasEthers()) { note(listed ? L.preListed : L.preNotListed, listed ? "ok" : "warn"); return Promise.resolve(); }
+      return chain.v2Balance(address).then(function (bal) {
+        prow.balance = bal; prow.migratable = bal;
+        prow.out = t ? quoteLocal(bal, t.bps).out : undefined;
+        fillRows(prow);
+        if (bal === ZERO) note(L.preNoV2, "warn");
+        else note(L.preHolds, "ok");
+      }).catch(function () { note((listed ? L.preListed : L.preNotListed) + " (" + L.readError + ")", "warn"); });
+    }
 
     if (!isLive()) {
       var cap = snapshotCap(address);
