@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-55GLFJLMM8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$MHT V2 → V3 — Migration</title>
+<meta name="description" content="Migrez vos $MHT V2 vers $MHT V3 sur BNB Chain : vérification d'éligibilité, barème du bonus, migration en une transaction et méthode manuelle sur BscScan." />
+<link rel="icon" href="../logo_piece.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C; --gold-light: #F0D080; --dark: #0A0A0F; --dark2: #12121A; --dark3: #1A1A28;
+    --green: #00E676; --red: #FF4444; --orange: #FFB347; --white: #F0EEE8; --gray: #888899;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--dark); color: var(--white); font-family: 'Syne', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: 0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; position: relative; z-index: 1; }
+  .lang-switch { text-align: right; margin-bottom: 40px; }
+  .lang-switch a { color: var(--gold); text-decoration: none; font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px;
+    border: 1px solid var(--gold); padding: 6px 14px; border-radius: 4px; transition: all 0.2s; }
+  .lang-switch a:hover { background: var(--gold); color: var(--dark); }
+  .hero { text-align: center; margin-bottom: 48px; }
+  .hero img.coin { width: 112px; height: 112px; margin-bottom: 18px; }
+  .tag { display: inline-block; font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4); padding: 4px 12px; border-radius: 2px; letter-spacing: 3px; margin-bottom: 24px; text-transform: uppercase; }
+  h1 { font-size: clamp(1.8rem, 4.6vw, 3.1rem); font-weight: 800; line-height: 1.12; margin-bottom: 20px; }
+  h1 span { color: var(--gold); }
+  .subtitle { font-size: 1.05rem; color: var(--gray); max-width: 660px; margin: 0 auto; line-height: 1.7; }
+  .m-mode { display: inline-block; margin-top: 22px; font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px;
+    padding: 8px 14px; border-radius: 4px; border: 1px solid rgba(201,168,76,0.3); color: var(--gold); }
+  .m-mode.live { border-color: var(--green); color: var(--green); }
+  .m-mode.closed { border-color: var(--red); color: var(--red); }
+  .section { margin-bottom: 56px; }
+  .section-label { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; color: var(--gold); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+  .big-statement { background: var(--dark2); border: 1px solid rgba(201,168,76,0.15); border-left: 3px solid var(--gold); padding: 26px; border-radius: 4px; margin-bottom: 20px; }
+  .big-statement.alert { border-left-color: var(--red); }
+  .big-statement p { font-size: 1.02rem; line-height: 1.8; margin-bottom: 14px; }
+  .big-statement p:last-child { margin-bottom: 0; }
+  .note { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 14px 18px;
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; color: var(--gray); line-height: 1.7; margin: 16px 0; }
+  code { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.86em; background: rgba(201,168,76,0.09);
+    border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; padding: 1px 6px; color: var(--gold-light); word-break: break-all; }
+  a { color: var(--gold); overflow-wrap: anywhere; }
+  ul.plain { margin: 10px 0 0 20px; } ul.plain li { margin-bottom: 10px; line-height: 1.75; }
+  ol.steps { margin: 14px 0 0 20px; } ol.steps li { margin-bottom: 12px; line-height: 1.75; }
+  .table-wrap { overflow-x: auto; margin: 18px 0; border: 1px solid rgba(201,168,76,0.2); border-radius: 6px; background: var(--dark2); }
+  table { width: 100%; border-collapse: collapse; min-width: 520px; font-size: 0.92rem; }
+  th, td { padding: 12px 15px; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(201,168,76,0.1); }
+  th { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.05); }
+  td.num { text-align: right; font-family: 'Space Mono', ui-monospace, monospace; white-space: nowrap; }
+  td.addr { font-family: 'Space Mono', ui-monospace, monospace; font-size: 0.82rem; word-break: break-all; }
+  tbody tr:last-child td { border-bottom: none; }
+  tr.current td { background: rgba(0,230,118,0.07); }
+  tr.current .tier-state { color: var(--green); font-weight: 700; }
+  tr.past td { opacity: 0.45; }
+  .tier-state { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+  /* Panneau de migration */
+  .panel { background: var(--dark3); border: 1px solid rgba(201,168,76,0.35); border-radius: 8px; padding: 24px; }
+  .panel-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .panel input { flex: 1 1 280px; min-width: 0; background: var(--dark); color: var(--white); border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 4px; padding: 11px 12px; font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px; }
+  .btn { font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
+    border-radius: 4px; padding: 11px 18px; border: 1px solid var(--gold); background: transparent; color: var(--gold); transition: all .2s; }
+  .btn:hover:not(:disabled) { background: var(--gold); color: var(--dark); }
+  .btn.primary { background: var(--gold); color: var(--dark); }
+  .btn:disabled { opacity: .38; cursor: not-allowed; }
+  .kv { display: grid; grid-template-columns: minmax(150px, 38%) 1fr; gap: 0; border: 1px solid rgba(201,168,76,0.15); border-radius: 6px; overflow: hidden; margin-bottom: 18px; }
+  .kv div { padding: 10px 14px; border-bottom: 1px solid rgba(201,168,76,0.08); font-size: .92rem; }
+  .kv div:nth-child(odd) { color: var(--gray); font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .kv div:nth-child(even) { font-family: 'Space Mono', ui-monospace, monospace; word-break: break-all; }
+  .kv div.big { color: var(--gold-light); font-weight: 700; }
+  .m-note { min-height: 1.4em; margin: 6px 0 16px; line-height: 1.6; font-size: .95rem; }
+  .m-note.ok { color: var(--green); } .m-note.ko { color: var(--red); } .m-note.warn { color: var(--orange); }
+  .m-log { font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; color: var(--gray); margin-top: 14px; line-height: 1.8; }
+  details summary { cursor: pointer; color: var(--gold); font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px; }
+  .divider { height: 1px; background: rgba(201,168,76,0.15); margin: 50px 0; }
+  footer { border-top: 1px solid rgba(201,168,76,0.15); padding-top: 30px; color: var(--gray); font-size: 0.85rem; line-height: 1.8; }
+  footer a { color: var(--gray); }
+  @media (max-width: 560px) { .kv { grid-template-columns: 1fr; } .kv div:nth-child(odd) { border-bottom: none; padding-bottom: 0; } .btn { flex: 1 1 100%; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-switch"><a href="migration-en.html">🇬🇧 English version</a></div>
+
+  <div class="hero">
+    <img class="coin" src="../logo_piece.png" alt="$MHT">
+    <div class="tag">$MHT V2 → V3 — Migration</div>
+    <h1>Migrez vos $MHT V2<br>vers le <span>V3</span></h1>
+    <p class="subtitle">Une seule transaction brûle vos V2 et vous livre vos V3, bonus compris. Seules les adresses du snapshot peuvent migrer, à hauteur de ce qu'elles détenaient. Vérifiez la vôtre ci-dessous.</p>
+    <div id="m-mode" class="m-mode pre">…</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">01 — Le principe</div>
+    <div class="big-statement">
+      <ul class="plain">
+        <li><strong>1 V2 = 1 V3 + bonus.</strong> Le bonus dépend du <em>moment</em> où vous migrez (barème ci-dessous).</li>
+        <li><strong>Une transaction atomique.</strong> <code>migrateAll()</code> envoie vos V2 à l'adresse de burn et vous livre vos V3 dans le même appel. Soit les deux se font, soit rien.</li>
+        <li><strong>Plafonné par le snapshot.</strong> Chaque adresse migre au plus les V2 qu'elle détenait au snapshot — pas davantage, même si elle rachète du V2 ensuite.</li>
+        <li><strong>Aucun admin.</strong> Le contrat de migration n'a ni propriétaire, ni fonction de retrait, ni date ou plafond modifiable.</li>
+        <li><strong>Rien n'est repris.</strong> Les V3 non réclamés à la fin de la fenêtre sont brûlés par une fonction publique — jamais rendus à l'équipe.</li>
+        <li><strong>Vendre juste après le lancement ?</strong> La pool V3 démarre avec du MHT uniquement : les BNB y entrent quand des gens achètent. Tant qu'il n'y a pas d'acheteurs, une vente ne rencontre qu'une petite bande de sécurité de 0,05 BNB, bloquée sous le prix de lancement. Même si tous les jetons migrés étaient vendus d'un coup, les vendeurs se partageraient 0,05 BNB au total et le prix s'effondrerait. La liquidité grandit à chaque achat.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">02 — Barème du bonus</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Palier</th><th>Bonus</th><th>Fin (incluse)</th><th></th></tr></thead>
+        <tbody>
+          <tr id="tier-0"><td>Palier 1</td><td><strong>+25 %</strong></td><td class="tier-end">4 novembre 2026, 13:21 UTC</td><td class="tier-state"></td></tr>
+          <tr id="tier-1"><td>Palier 2</td><td><strong>+10 %</strong></td><td class="tier-end">4 mars 2027, 13:21 UTC</td><td class="tier-state"></td></tr>
+          <tr id="tier-2"><td>Palier 3</td><td><strong>+5 %</strong></td><td class="tier-end">4 septembre 2027, 13:21 UTC</td><td class="tier-state"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Les dates sont figées dans le contrat et incluses : une migration qui arrive à la seconde exacte de la date de fin obtient encore ce palier. Après la dernière date, la migration est fermée pour de bon.</div>
+  </div>
+
+  <div class="section" id="migrate">
+    <div class="section-label">03 — Vérifier et migrer</div>
+    <div class="panel">
+      <div class="panel-row">
+        <button id="m-connect" class="btn primary" type="button">…</button>
+      </div>
+      <div class="panel-row">
+        <input id="m-input" type="text" spellcheck="false" autocomplete="off" placeholder="0x… collez n'importe quelle adresse">
+        <button id="m-check" class="btn" type="button">Vérifier</button>
+      </div>
+      <div class="kv">
+        <div>Adresse</div><div id="r-address">—</div>
+        <div>Plafond snapshot (restant)</div><div id="r-cap">—</div>
+        <div>Solde V2</div><div id="r-balance">—</div>
+        <div>Migrable maintenant</div><div id="r-migratable">—</div>
+        <div>Bonus actuel</div><div id="r-bonus">—</div>
+        <div>Vous recevez (V3)</div><div id="r-receive" class="big">—</div>
+      </div>
+      <div id="m-note" class="m-note"></div>
+      <div class="panel-row">
+        <button id="m-approve" class="btn" type="button" disabled>…</button>
+        <button id="m-migrate" class="btn primary" type="button" disabled>…</button>
+        <button id="m-addtoken" class="btn" type="button" hidden>…</button>
+      </div>
+      <div id="m-log" class="m-log"></div>
+    </div>
+    <div class="note">Vérifier une adresse ne demande pas de wallet. Migrer, si : les boutons d'approbation et de migration n'agissent que pour l'adresse connectée.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 — Méthode manuelle (BscScan)</div>
+    <p style="line-height:1.8;color:var(--gray)">Vous préférez ne pas connecter votre wallet à un site ? Faites-le directement sur BscScan, avec les adresses officielles ci-dessous (elles s'affichent ici dès que les contrats sont en ligne).</p>
+    <ol class="steps">
+      <li>Ouvrez le contrat de migration : <a data-addr="migration" data-tab="#readContract" href="#">publiée au lancement</a> → <strong>Read Contract</strong> → <code>migratableOf</code> avec votre adresse. Copiez le nombre exactement (il est en wei, 18 décimales).</li>
+      <li>Ouvrez le jeton V2 : <a href="https://bscscan.com/address/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa#writeContract" target="_blank" rel="noopener">0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</a> → <strong>Write Contract</strong> → <strong>Connect to Web3</strong> → <code>approve</code> : <em>spender</em> = le contrat de migration, <em>amount</em> = le nombre copié.</li>
+      <li>Revenez sur le contrat de migration → <strong>Write Contract</strong> → <code>migrateAll</code> → <strong>Write</strong>. Vos V3 arrivent dans la même transaction.</li>
+      <li>Ajoutez le jeton V3 à votre wallet avec son adresse : <a data-addr="v3" href="#">publiée au lancement</a>.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <div class="section-label">05 — Sécurité</div>
+    <div class="big-statement alert">
+      <ul class="plain">
+        <li>La seule page officielle est <strong>milestonehodl.apexpad.io</strong>. Vérifiez la barre d'adresse.</li>
+        <li>Vous approuvez le montant <strong>exact</strong> que vous migrez — jamais un montant illimité.</li>
+        <li>L'équipe ne vous écrira <strong>jamais</strong> en privé, ne demandera jamais votre phrase de récupération et ne vous demandera jamais d'envoyer des jetons. La migration n'exige jamais d'envoyer du V2 à une personne.</li>
+        <li>Les deux contrats sont vérifiés sur BscScan. Comparez les adresses de cette page avec celles annoncées sur X et Telegram.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06 — Le snapshot</div>
+    <div class="big-statement">
+      <p>18 adresses, <strong>14 605 045 MHT</strong> au total, tirées de l'export des détenteurs BscScan du 7 septembre 2026 et revérifiées le 11 septembre 2026 (aucun changement). Montants tronqués à l'unité.</p>
+      <p>Hors snapshot : le contrat V2 lui-même (son solde est gelé pour toujours, voir le <a href="vault-status-fr.html">rapport sur l'état du vault</a>), la pool PancakeSwap V2, l'adresse de burn, les wallets marketing et fondateur du projet (l'allocation V3 du fondateur est distincte et bloquée un an dans un custodian), une adresse de collecte de frais 0x détenant 50 MHT et une adresse de poussière.</p>
+    </div>
+    <details>
+      <summary>Afficher les 18 adresses du snapshot</summary>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Adresse</th><th>Plafond (MHT)</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td class="addr">0x26edab574810ffc0ba38a12dc7f5cd6025d1cab7</td><td class="num">4 267 767</td></tr>
+            <tr><td>2</td><td class="addr">0x9fee8db36d2caa1089d9efa45161b727262e00f2</td><td class="num">3 298 051</td></tr>
+            <tr><td>3</td><td class="addr">0x2bcf50530e882080ea06c6e6023a839a5948bd05</td><td class="num">2 151 305</td></tr>
+            <tr><td>4</td><td class="addr">0x218ad8e01b22b4fef94b6e90d90fb06f7d9f00cd</td><td class="num">1 309 184</td></tr>
+            <tr><td>5</td><td class="addr">0xc030101c10a2396c4ec44c211a420d26564bdf7c</td><td class="num">1 066 941</td></tr>
+            <tr><td>6</td><td class="addr">0x6c5c8b7f35d23d4578cbb78386e0878ea7be7901</td><td class="num">500 000</td></tr>
+            <tr><td>7</td><td class="addr">0x403112ce79f6a69a6b434eca83f852172f9b7760</td><td class="num">467 832</td></tr>
+            <tr><td>8</td><td class="addr">0xd62e11fedc2f447ecdbcb622950bbb80e2f3eae9</td><td class="num">320 082</td></tr>
+            <tr><td>9</td><td class="addr">0x42c3fccf8cfd3609492234eca0e8d36e36b7a84a</td><td class="num">313 283</td></tr>
+            <tr><td>10</td><td class="addr">0xacffad72d511b9c1fa45e7f4cc11a3511bf02b3b</td><td class="num">224 444</td></tr>
+            <tr><td>11</td><td class="addr">0x425b132938497927fc6b0fd8a7839572e6efeaca</td><td class="num">213 409</td></tr>
+            <tr><td>12</td><td class="addr">0x55b24c0f3ae68e7d674b988c3e464547da6bf98e</td><td class="num">150 000</td></tr>
+            <tr><td>13</td><td class="addr">0xdab56e1c1a63b56ccefbb36158b8d95f059d376e</td><td class="num">102 223</td></tr>
+            <tr><td>14</td><td class="addr">0x6e7e4567d9c7a8b087953ba16cc5fac145a2b3b6</td><td class="num">95 726</td></tr>
+            <tr><td>15</td><td class="addr">0x1ca3e27399772a66f0919835701ac7cfb8a5774d</td><td class="num">55 547</td></tr>
+            <tr><td>16</td><td class="addr">0xe516a3325caabd79bbc9cc46be5b3edc33e65718</td><td class="num">55 547</td></tr>
+            <tr><td>17</td><td class="addr">0x14cfa7c7e69dc40e0d56bc25dfe31966b3048c42</td><td class="num">13 383</td></tr>
+            <tr><td>18</td><td class="addr">0x1349c007edb3bd892bbd3f81fab1ac19bc83e4c9</td><td class="num">321</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <p><strong>$MHT — Milestone HODL Token</strong> · BNB Chain · V2 <code>0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</code> · V3 <a data-addr="v3" href="#">—</a> · Migration <a data-addr="migration" href="#">—</a><br>
+    Si cette page et le code déployé divergent, <strong>c'est le code qui fait foi</strong>.</p>
+    <p style="margin-top:14px"><a href="../index.html">Retour au site</a> · <a href="legal.html">Mentions légales</a></p>
+    <p style="margin-top:14px;font-size:.8rem;opacity:.75">Rien sur cette page n'est une promesse de valeur, de prix ou de rendement. Elle décrit un mécanisme de migration de jeton. Détenir des actifs numériques comporte un risque de perte totale.</p>
+  </footer>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+<script src="../js/migration.js"></script>
+</body>
+</html>
