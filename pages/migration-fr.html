@@ -110,7 +110,7 @@
       <ul class="plain">
         <li><strong>1 V2 = 1 V3 + bonus.</strong> Le bonus dépend du <em>moment</em> où vous migrez (barème ci-dessous).</li>
         <li><strong>Une transaction atomique.</strong> <code>migrateAll()</code> envoie vos V2 à l'adresse de burn et vous livre vos V3 dans le même appel. Soit les deux se font, soit rien.</li>
-        <li><strong>Plafonné par le snapshot.</strong> Chaque adresse migre au plus les V2 qu'elle détenait au snapshot — pas davantage, même si elle rachète du V2 ensuite.</li>
+        <li><strong>Plafonné par le snapshot.</strong> Chaque adresse migre au plus les V2 qu'elle détenait au snapshot — pas davantage, même si elle rachète du V2 après le snapshot.</li>
         <li><strong>Aucun admin.</strong> Le contrat de migration n'a ni propriétaire, ni fonction de retrait, ni date ou plafond modifiable.</li>
         <li><strong>Rien n'est repris.</strong> Les V3 non réclamés à la fin de la fenêtre sont brûlés par une fonction publique — jamais rendus à l'équipe.</li>
         <li><strong>Vendre juste après le lancement ?</strong> La pool V3 démarre avec du MHT uniquement : les BNB y entrent quand des gens achètent. Tant qu'il n'y a pas d'acheteurs, une vente ne rencontre qu'une petite bande de sécurité de 0,05 BNB, bloquée sous le prix de lancement. Même si tous les jetons migrés étaient vendus d'un coup, les vendeurs se partageraient 0,05 BNB au total et le prix s'effondrerait. La liquidité grandit à chaque achat.</li>
@@ -188,15 +188,15 @@
   <div class="section">
     <div class="section-label">06 — Le snapshot</div>
     <div class="big-statement">
-      <p>18 adresses, <strong>14 605 045 MHT</strong> au total, tirées de l'export des détenteurs BscScan du 7 septembre 2026 et revérifiées le 11 septembre 2026 (aucun changement). Montants tronqués à l'unité.</p>
-      <p>Hors snapshot : le contrat V2 lui-même (son solde est gelé pour toujours, voir le <a href="vault-status-fr.html">rapport sur l'état du vault</a>), la pool PancakeSwap V2, l'adresse de burn, les wallets marketing et fondateur du projet (l'allocation V3 du fondateur est distincte et bloquée un an dans un custodian), une adresse de collecte de frais 0x détenant 50 MHT et une adresse de poussière.</p>
+      <p id="snap-intro"><strong>Le snapshot définitif sera pris le lundi 14 septembre 2026 (en journée en Asie, UTC+7), peu avant le déploiement.</strong> Ce sont les V2 détenus à ce moment-là qui comptent. Par précaution, détenez vos V2 avant le lundi 14 septembre, 00:00 UTC. D'ici là, la liste ci-dessous est la liste actuelle : 18 adresses, <strong>14 605 045 MHT</strong>, tirées de l'export des détenteurs BscScan du 7 septembre 2026 (revérifié le 11 septembre). Elle sera remplacée par le snapshot définitif au lancement. Montants tronqués à l'unité.</p>
+      <p>Hors snapshot : le contrat V2 lui-même (son solde est gelé pour toujours, voir le <a href="vault-status-fr.html">rapport sur l'état du vault</a>), la pool PancakeSwap V2, l'adresse de burn, les wallets marketing et fondateur du projet (l'allocation V3 du fondateur est distincte et bloquée un an dans un custodian), une adresse de collecte de frais 0x et les poussières de moins de 1 MHT.</p>
     </div>
     <details>
-      <summary>Afficher les 18 adresses du snapshot</summary>
+      <summary id="snap-summary">Afficher la liste actuelle (18 adresses)</summary>
       <div class="table-wrap">
         <table>
           <thead><tr><th>#</th><th>Adresse</th><th>Plafond (MHT)</th></tr></thead>
-          <tbody>
+          <tbody id="snap-rows">
             <tr><td>1</td><td class="addr">0x26edab574810ffc0ba38a12dc7f5cd6025d1cab7</td><td class="num">4 267 767</td></tr>
             <tr><td>2</td><td class="addr">0x9fee8db36d2caa1089d9efa45161b727262e00f2</td><td class="num">3 298 051</td></tr>
             <tr><td>3</td><td class="addr">0x2bcf50530e882080ea06c6e6023a839a5948bd05</td><td class="num">2 151 305</td></tr>

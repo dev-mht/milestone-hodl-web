@@ -110,7 +110,7 @@
       <ul class="plain">
         <li><strong>1 V2 = 1 V3 + bonus.</strong> The bonus depends on <em>when</em> you migrate (schedule below).</li>
         <li><strong>One atomic transaction.</strong> <code>migrateAll()</code> sends your V2 to the burn address and delivers your V3 in the same call. Either both happen, or nothing does.</li>
-        <li><strong>Capped by the snapshot.</strong> Each address can migrate up to the V2 it held in the snapshot — no more, even if it buys V2 later.</li>
+        <li><strong>Capped by the snapshot.</strong> Each address can migrate up to the V2 it held in the snapshot — no more, even if it buys V2 after the snapshot.</li>
         <li><strong>No admin.</strong> The migration contract has no owner, no withdrawal function, no editable date or cap.</li>
         <li><strong>Nothing is taken back.</strong> V3 not claimed by the end of the window is burned by a public function — never returned to the team.</li>
         <li><strong>Selling right after launch?</strong> The V3 pool starts with MHT only: BNB enters the pool when people buy. Until there are buyers, a sale only meets a small 0.05 BNB safety band locked under the launch price. Even if every migrated token were sold at once, sellers would share 0.05 BNB in total and the price would crash. Liquidity grows with every buy.</li>
@@ -188,15 +188,15 @@
   <div class="section">
     <div class="section-label">06 — The snapshot</div>
     <div class="big-statement">
-      <p>18 addresses, <strong>14,605,045 MHT</strong> in total, taken from the BscScan holder export of 7 September 2026 and re-checked on 11 September 2026 (no change). Amounts are truncated to whole tokens.</p>
-      <p>Not in the snapshot: the V2 contract itself (its balance is frozen forever, see the <a href="vault-status-en.html">vault status report</a>), the PancakeSwap V2 pool, the burn address, the project's marketing and founder wallets (the founder's V3 allocation is separate and locked for one year in a custodian), a 0x fee-collector address holding 50 MHT and one dust address.</p>
+      <p id="snap-intro"><strong>The final snapshot will be taken on Monday 14 September 2026 (daytime in Asia, UTC+7), shortly before deployment.</strong> V2 held at that moment counts. To be safe, hold your V2 before Monday 14 September, 00:00 UTC. Until then, the list below is the current one: 18 addresses, <strong>14,605,045 MHT</strong>, from the BscScan holder export of 7 September 2026 (re-checked on 11 September). It will be replaced by the final snapshot at launch. Amounts are truncated to whole tokens.</p>
+      <p>Not in the snapshot: the V2 contract itself (its balance is frozen forever, see the <a href="vault-status-en.html">vault status report</a>), the PancakeSwap V2 pool, the burn address, the project's marketing and founder wallets (the founder's V3 allocation is separate and locked for one year in a custodian), a 0x fee-collector address, and dust balances under 1 MHT.</p>
     </div>
     <details>
-      <summary>Show the 18 snapshot addresses</summary>
+      <summary id="snap-summary">Show the current list (18 addresses)</summary>
       <div class="table-wrap">
         <table>
           <thead><tr><th>#</th><th>Address</th><th>Cap (MHT)</th></tr></thead>
-          <tbody>
+          <tbody id="snap-rows">
             <tr><td>1</td><td class="addr">0x26edab574810ffc0ba38a12dc7f5cd6025d1cab7</td><td class="num">4,267,767</td></tr>
             <tr><td>2</td><td class="addr">0x9fee8db36d2caa1089d9efa45161b727262e00f2</td><td class="num">3,298,051</td></tr>
             <tr><td>3</td><td class="addr">0x2bcf50530e882080ea06c6e6023a839a5948bd05</td><td class="num">2,151,305</td></tr>
