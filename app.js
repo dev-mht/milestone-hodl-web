@@ -1,74 +1,69 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  MHT — Milestone HODL Token — app.js V2.3
-//  Contrat V2.3 Mainnet BSC : 0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa
-//  Nouveautés vs V5 (V1) :
-//    - Nouvelle adresse contrat V2.3
-//    - ABI mis à jour : getLPStatus() 5 tranches LP + 6 flush, getFlushLPBalance()
-//    - Suppression fonctions V1 obsolètes : enableTrading, queueManualMarketCap,
-//      executeManualMarketCap, sweepLockedRewards, manualMarketCap
-//    - Affichage tranches LP MCap (5) + Flush LP (6 paliers prix)
-//    - Vault balance, flush LP balance, auto-LP buffer
+//  MHT — Milestone HODL Token — app.js V3
+//  Contrat $MHT V3 sur BSC : 0x4fb46E8630094F34D96B409EC1713793aD19b734
+//  Deploye et finalise le 14/09/2026 (propriete renoncee, config verrouillee).
+//
+//  CE QUI CHANGE PAR RAPPORT AU V2, ET POURQUOI CE FICHIER A ETE REECRIT
+//    1. ECHELLES. getMarketCap() et nextMilestoneUSD() renvoient des DOLLARS
+//       ENTIERS (le contrat divise deja par 1e54). Les passer dans
+//       formatUnits(x, 18) afficherait 0.0000000000001 au lieu de 99 772.
+//    2. FONCTIONS DISPARUES. getMHTPrice, getVaultBalance, getRewardsPool,
+//       getLPBalance, getFlushLPBalance, getAutoLpBuffer, getMarketingBuffer,
+//       getLPStatus et liquidityInitialized n'existent plus : tout le volet
+//       LP progressive / flush a ete retire du protocole. Les appeler faisait
+//       echouer le Promise.all ENTIER, donc plus rien ne s'affichait apres
+//       connexion du portefeuille.
+//    3. LE PRIX se recompose : getMHTPriceInBNB() x getBNBPriceUSD() / 1e18.
+//    4. LA BARRE DE PROGRESSION n'est plus ecrite ici. Elle a un seul auteur,
+//       reconcileDisplays() dans index.html, qui la derive de #market-cap —
+//       lui-meme rempli SANS portefeuille par loadPublicStats. Deux ecrivains
+//       pour un meme element, c'est l'oscillation garantie.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CONFIG = {
-    contractAddress : "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa", // ✅ V2.3 Mainnet
+    contractAddress : "0x4fb46E8630094F34D96B409EC1713793aD19b734", // $MHT V3
     chainId         : 56,
     rpcUrl          : "https://bsc-rpc.publicnode.com",
     explorerUrl     : "https://bscscan.com/tx/",
 };
 
 const ABI = [
-    // ── View ──────────────────────────────────────────────────────────────────
+    // ── Lecture ───────────────────────────────────────────────────────────────
     "function balanceOf(address) view returns (uint256)",
     "function pendingRewardsOf(address) view returns (uint256)",
-    "function vaultBalance() view returns (uint256)",
-    "function nextMilestoneUSD() view returns (uint256)",
+    "function getMarketCap() view returns (uint256)",          // dollars ENTIERS
+    "function nextMilestoneUSD() view returns (uint256)",      // dollars ENTIERS
     "function milestonesReached() view returns (uint256)",
-    "function getMarketCap() view returns (uint256)",
-    "function getMHTPrice() view returns (uint256)",
-    "function getRewardsPool() view returns (uint256)",
-    "function getCirculatingSupply() view returns (uint256)",
+    "function vaultBalance() view returns (uint256)",
     "function getEligibleSupply() view returns (uint256)",
-    "function getVaultBalance() view returns (uint256)",
-    "function getLPBalance() view returns (uint256)",
-    "function getFlushLPBalance() view returns (uint256)",
-    "function getAutoLpBuffer() view returns (uint256)",
-    "function getMarketingBuffer() view returns (uint256)",
-    "function lastMilestoneTimestamp() view returns (uint256)",
+    "function getReleasePreview() view returns (uint256)",
+    "function getCirculatingSupply() view returns (uint256)",
     "function getCooldownRemaining() view returns (uint256)",
-    "function getLPStatus() view returns (bool t1, bool t2, bool t3, bool t4, bool t5, bool f1, bool f2, bool f3, bool f4, bool f5, bool f6, uint256 remainingLP, uint256 remainingFlush)",
-    "function liquidityInitialized() view returns (bool)",
+    "function getMHTPriceInBNB() view returns (uint256)",
+    "function getBNBPriceUSD() view returns (uint256)",
+    "function isTwapReady() view returns (bool)",
     "function owner() view returns (address)",
 
-    // ── Write ─────────────────────────────────────────────────────────────────
+    // ── Ecriture ──────────────────────────────────────────────────────────────
     "function claimRewards() external",
+    "function pokeMilestone() external",
 ];
 
 let _provider, _signer, _contract, _userAddress;
 let _refreshInterval = null;
 
-// ── Helpers formatage (ethers v6) ─────────────────────────────────────────────
+// ── Helpers de formatage (ethers v6) ─────────────────────────────────────────
 const fmt = (v, d = 2) =>
     parseFloat(ethers.formatUnits(v, 18)).toLocaleString("fr-FR", {
         minimumFractionDigits: d,
         maximumFractionDigits: d,
     });
 
-const fmtUSD = (v) =>
-    "$" + parseFloat(ethers.formatUnits(v, 18)).toLocaleString("en-US", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    });
+// Market cap et paliers : entiers, PAS de formatUnits.
+const fmtUSDInt = (v) =>
+    "$" + Number(v).toLocaleString("en-US", { maximumFractionDigits: 0 });
 
-const fmtCountdown = (secondsLeft) => {
-    if (secondsLeft <= 0) return "Ready ✅";
-    const h = Math.floor(secondsLeft / 3600);
-    const m = Math.floor((secondsLeft % 3600) / 60);
-    const s = secondsLeft % 60;
-    return `${h}h ${m}m ${s}s`;
-};
-
-// ── Appelée par le modal après connexion ──────────────────────────────────────
+// ── Appelee par le modal apres connexion ─────────────────────────────────────
 window.initMHT = async function(provider, signer, address) {
     _provider    = provider;
     _signer      = signer;
@@ -81,145 +76,66 @@ window.initMHT = async function(provider, signer, address) {
     _refreshInterval = setInterval(updateUI, 30000);
 };
 
-// ── Mise à jour de l'interface ────────────────────────────────────────────────
+// ── Mise a jour de l'interface ───────────────────────────────────────────────
 async function updateUI() {
     if (!_contract || !_userAddress) return;
 
-    try {
-        const [
-            balance,
-            pending,
-            nextMilestone,
-            milestonesDone,
-            marketCap,
-            rewardsPool,
-            eligibleSupply,
-            vaultBal,
-            flushBal,
-            cooldownRemaining,
-            lpStatus,
-        ] = await Promise.all([
-            _contract.balanceOf(_userAddress),
-            _contract.pendingRewardsOf(_userAddress),
-            _contract.nextMilestoneUSD(),
-            _contract.milestonesReached(),
-            _contract.getMarketCap(),
-            _contract.getRewardsPool(),
-            _contract.getEligibleSupply(),
-            _contract.getVaultBalance(),
-            _contract.getFlushLPBalance(),
-            _contract.getCooldownRemaining(),
-            _contract.getLPStatus(),
+    // Chaque lecture est independante : une fonction qui reverte ne doit pas
+    // emporter tout le tableau de bord avec elle. C'est exactement ce qui
+    // arrivait avec le Promise.all du V2 des qu'une fonction disparaissait.
+    const safe = async (fn) => { try { return await fn(); } catch (e) { console.warn("call failed:", e); return null; } };
+
+    const [balance, pending, marketCap, nextMilestone, vaultBal, eligibleSupply, priceBnb, bnbUsd] =
+        await Promise.all([
+            safe(() => _contract.balanceOf(_userAddress)),
+            safe(() => _contract.pendingRewardsOf(_userAddress)),
+            safe(() => _contract.getMarketCap()),
+            safe(() => _contract.nextMilestoneUSD()),
+            safe(() => _contract.vaultBalance()),
+            safe(() => _contract.getEligibleSupply()),
+            safe(() => _contract.getMHTPriceInBNB()),
+            safe(() => _contract.getBNBPriceUSD()),
         ]);
 
-        // ── Balance utilisateur ───────────────────────────────────────────────
-        const balEl = document.getElementById("mht-balance");
-        if (balEl) balEl.textContent = fmt(balance, 2) + " MHT";
+    // ── Solde de l'utilisateur ───────────────────────────────────────────────
+    const balEl = document.getElementById("mht-balance");
+    if (balEl && balance != null) balEl.textContent = fmt(balance, 2) + " MHT";
 
-        // ── Market Cap ────────────────────────────────────────────────────────
-        const mcEl = document.getElementById("market-cap");
-        if (mcEl) mcEl.textContent = fmtUSD(marketCap);
+    // ── Market Cap — dollars entiers ─────────────────────────────────────────
+    const mcEl = document.getElementById("market-cap");
+    if (mcEl && marketCap != null) mcEl.textContent = fmtUSDInt(marketCap);
 
-        // ── Vault Balance ─────────────────────────────────────────────────────
-        const vaultEl = document.getElementById("vault-balance");
-        if (vaultEl) vaultEl.textContent = fmt(vaultBal, 0) + " MHT";
+    // Palier vise : lu on-chain, pour que la barre reste juste apres le 1er palier
+    if (nextMilestone != null) window._mhtNextMilestone = Number(nextMilestone);
 
-        // ── Rewards Pool ──────────────────────────────────────────────────────
-        const rpEl = document.getElementById("rewards-pool");
-        if (rpEl) rpEl.textContent = fmt(rewardsPool, 2) + " MHT";
+    // ── Prix USD : prix en BNB x BNB/USD ─────────────────────────────────────
+    if (priceBnb != null && bnbUsd != null) {
+        window._mhtPrice = parseFloat(ethers.formatUnits((priceBnb * bnbUsd) / (10n ** 18n), 18));
+    }
 
-        // ── Eligible Supply ───────────────────────────────────────────────────
-        const esEl = document.getElementById("eligible-supply");
-        if (esEl) esEl.textContent = fmt(eligibleSupply, 0) + " MHT";
+    // ── Smart-Vault ──────────────────────────────────────────────────────────
+    const vaultEl = document.getElementById("vault-balance");
+    if (vaultEl && vaultBal != null) vaultEl.textContent = fmt(vaultBal, 0) + " MHT";
 
-        // ── Flush LP Balance ──────────────────────────────────────────────────
-        const flushEl = document.getElementById("flush-lp-balance");
-        if (flushEl) flushEl.textContent = fmt(flushBal, 0) + " MHT";
+    // ── Supply eligible aux recompenses ──────────────────────────────────────
+    const esEl = document.getElementById("eligible-supply");
+    if (esEl && eligibleSupply != null) esEl.textContent = fmt(eligibleSupply, 0) + " MHT";
 
-        // ── Statut connexion ──────────────────────────────────────────────────
-        const statusEl = document.getElementById("accountStatus");
-        if (statusEl) {
-            statusEl.textContent = "Connected (BSC Mainnet)";
-            statusEl.className = "fw-bold text-success";
-        }
-
-        // ── Milestones ────────────────────────────────────────────────────────
-        const msEl = document.getElementById("milestoneStatus");
-        if (msEl) msEl.textContent = milestonesDone.toString() + " Milestone(s) Reached! 🎉";
-
-        // ── Cooldown prochain milestone ───────────────────────────────────────
-        const cooldownEl = document.getElementById("milestoneCooldown");
-        if (cooldownEl) {
-            const remaining = Number(cooldownRemaining);
-            cooldownEl.textContent = remaining > 0
-                ? `⏳ Next milestone in: ${fmtCountdown(remaining)}`
-                : "✅ Milestone available";
-            cooldownEl.className = `info-badge ${remaining > 0 ? "badge-cooldown" : "badge-ready"}`;
-        }
-
-        // ── Barre de progression milestone ───────────────────────────────────
-        const STEP = ethers.parseUnits("1000000", 18);
-        const prevMilestone = nextMilestone - STEP;
-        let progress = 0;
-        if (marketCap >= nextMilestone) {
-            progress = 100;
-        } else if (marketCap > prevMilestone) {
-            const numerator   = marketCap - prevMilestone;
-            const denominator = nextMilestone - prevMilestone;
-            progress = Number((numerator * 100n) / denominator);
-        }
-
-        const progressBar = document.getElementById("milestoneBar");
-        if (progressBar) {
-            progressBar.style.width = progress + "%";
-            progressBar.textContent = fmtUSD(marketCap) + " / " + fmtUSD(nextMilestone);
-        }
-
-        // ── Statut tranches LP MCap (5 tranches) ──────────────────────────────
-        const lpStatusEl = document.getElementById("lp-status");
-        if (lpStatusEl) {
-            const { t1, t2, t3, t4, t5 } = lpStatus;
-            const triggers = ["$1.5M", "$10M", "$25M", "$50M", "$75M"];
-            const flags    = [t1, t2, t3, t4, t5];
-            lpStatusEl.innerHTML = flags.map((f, i) =>
-                `<span style="color:${f ? "#22c55e" : "#f97316"}">
-                    ${f ? "✅" : "🔒"} LP T${i + 1} : 40M @ ${triggers[i]}
-                </span>`
-            ).join("<br>");
-        }
-
-        // ── Statut Flush LP (6 paliers prix) ─────────────────────────────────
-        const flushStatusEl = document.getElementById("flush-status");
-        if (flushStatusEl) {
-            const { f1, f2, f3, f4, f5, f6 } = lpStatus;
-            const prices = ["$0.0003", "$0.0004", "$0.0005", "$0.0006", "$0.0007", "$0.0008"];
-            const flags  = [f1, f2, f3, f4, f5, f6];
-            flushStatusEl.innerHTML = flags.map((f, i) =>
-                `<span style="color:${f ? "#22c55e" : "#f97316"}">
-                    ${f ? "✅" : "🔒"} Flush F${i + 1} @ ${prices[i]}
-                </span>`
-            ).join("<br>");
-        }
-
-        // ── Bouton Claim ──────────────────────────────────────────────────────
-        const claimBtn = document.getElementById("claimBtn");
+    // ── Bouton Claim ─────────────────────────────────────────────────────────
+    const claimBtn = document.getElementById("claimBtn");
+    if (claimBtn && pending != null) {
         const pendingFloat = parseFloat(ethers.formatUnits(pending, 18));
-        if (claimBtn) {
-            if (pendingFloat > 0) {
-                claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>Claim ${fmt(pending, 2)} MHT`;
-                claimBtn.disabled = false;
-            } else {
-                claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>No Rewards Yet`;
-                claimBtn.disabled = true;
-            }
+        if (pendingFloat > 0) {
+            claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>Claim ${fmt(pending, 2)} MHT`;
+            claimBtn.disabled = false;
+        } else {
+            claimBtn.innerHTML = `<i class="bi bi-gift me-2"></i>No Rewards Yet`;
+            claimBtn.disabled = true;
         }
-
-    } catch (err) {
-        console.error("updateUI error:", err);
     }
 }
 
-// ── Claim Rewards ─────────────────────────────────────────────────────────────
+// ── Claim Rewards ────────────────────────────────────────────────────────────
 async function claimRewards() {
     if (!_contract) return;
     try {
@@ -239,12 +155,12 @@ async function claimRewards() {
     }
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── Init ─────────────────────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
     const claimBtn = document.getElementById("claimBtn");
     if (claimBtn) claimBtn.addEventListener("click", claimRewards);
 
-    // Auto-connect si déjà connecté
+    // Auto-connect si deja connecte
     if (window.ethereum && window.ethereum.selectedAddress) {
         const provider = new ethers.BrowserProvider(window.ethereum);
         provider.getSigner().then(signer => {

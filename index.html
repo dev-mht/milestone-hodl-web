@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Milestone HODL Token — $MHT | Proof-of-Performance on BSC</title>
-  <meta name="description" content="$MHT is the first Proof-of-Performance token on BNB Chain. 50% supply locked in a Smart-Vault, auto-released by Chainlink at every $1M Market Cap milestone. Buy, hold, earn." />
-  <meta name="keywords" content="MHT, Milestone HODL Token, BSC token, BNB Chain, DeFi, Smart-Vault, Chainlink, PancakeSwap, crypto rewards" />
+  <meta name="description" content="$MHT is the first Proof-of-Performance token on BNB Chain. 50% of supply locked in a Smart-Vault, released to holders at every $1M Market Cap milestone, proven by an on-chain TWAP oracle. 0% tax, ownership renounced, liquidity locked forever." />
+  <meta name="keywords" content="MHT, Milestone HODL Token, BSC token, BNB Chain, DeFi, Smart-Vault, TWAP oracle, PancakeSwap V3, zero tax, ownership renounced, crypto rewards" />
   <meta property="og:title" content="Milestone HODL Token — $MHT" />
   <meta property="og:description" content="Proof-of-Performance on BSC. Every $1M MCap → 5% vault auto-released to HODLers." />
   <meta property="og:url" content="https://milestonehodl.apexpad.io" />
@@ -1006,8 +1006,8 @@
   <!-- TRUST BAR -->
   <div class="trust-bar">
     <div class="trust-item">
-      <span>SOLIDPROOF AUDIT V2.3</span>
-      <span class="badge badge-gold">85.36/100</span>
+      <span>TAX</span>
+      <span class="badge badge-gold">0% BUY / 0% SELL</span>
     </div>
     <span class="trust-divider">|</span>
     <div class="trust-item">
@@ -1020,7 +1020,7 @@
     <span class="trust-divider">|</span>
     <div class="trust-item">
       <span>CONTRACT:</span>
-      <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank">0x22E0...33fa</a>
+      <a href="https://bscscan.com/token/0x4fb46E8630094F34D96B409EC1713793aD19b734" target="_blank">0x4fb4...b734</a>
     </div>
   </div>
 
@@ -1034,7 +1034,7 @@
       🔥 <strong>TRUST THE PROCESS</strong> &nbsp;🤝&nbsp; EARN THE GROWTH 🔥
     </div>
     <div class="nav-right">
-      <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="nav-btn nav-btn-ghost">🥞 Buy $MHT</a>
+      <a href="https://pancakeswap.finance/swap?outputCurrency=0x4fb46E8630094F34D96B409EC1713793aD19b734" target="_blank" class="nav-btn nav-btn-ghost">🥞 Buy $MHT</a>
       <button class="nav-btn nav-btn-primary" id="connectWalletBtn">⚡ Connect Wallet</button>
     </div>
   </nav>
@@ -1049,11 +1049,11 @@
 
   <!-- QUICK LINKS -->
   <div class="quick-links">
-    <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="ql ql-highlight">🥞 BUY ON PANCAKESWAP</a>
-    <a href="https://www.geckoterminal.com/bsc/pools/0xe2e777cebca27a61ca8d2862e9d36c548cdd6e4e" target="_blank" rel="noopener" class="ql">📊 GECKOTERMINAL</a>
-    <a href="https://coinbrain.com/coins/bnb-0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa" target="_blank" class="ql">🧠 COINBRAIN</a>
-    <a href="https://v2.bubblemaps.io/map?address=0x22e0fcec929c4f38c8d8c03b2b2f225e98f133fa&chain=bsc" target="_blank" class="ql">🫧 BUBBLEMAPS</a>
-    <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="ql">🛡️ AUDIT & KYC</a>
+    <a href="https://pancakeswap.finance/swap?outputCurrency=0x4fb46E8630094F34D96B409EC1713793aD19b734" target="_blank" class="ql ql-highlight">🥞 BUY ON PANCAKESWAP</a>
+    <a href="https://www.geckoterminal.com/bsc/pools/0x5BB24C4f0Be106AEaEF18841ADd3944E9F1f60Ab" target="_blank" rel="noopener" class="ql">📊 GECKOTERMINAL</a>
+    <a href="https://coinbrain.com/coins/bnb-0x4fb46e8630094f34d96b409ec1713793ad19b734" target="_blank" class="ql">🧠 COINBRAIN</a>
+    <a href="https://v2.bubblemaps.io/map?address=0x4fb46e8630094f34d96b409ec1713793ad19b734&chain=bsc" target="_blank" class="ql">🫧 BUBBLEMAPS</a>
+    <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" class="ql">🛡️ KYC & V2 AUDIT</a>
     <a href="pages/vault-status-en.html" class="ql ql-highlight">⚠️ V2 VAULT STATUS (EN)</a>
     <a href="pages/vault-status-fr.html" class="ql ql-highlight">⚠️ ÉTAT DU VAULT V2 (FR)</a>
     <a href="pages/migration-en.html" class="ql ql-highlight">🔁 MIGRATE V2 → V3 (EN)</a>
@@ -1077,7 +1077,7 @@
       <div class="mht-ticker">$MHT</div>
       <p class="hero-sub">
         The first token where <strong>Market Cap growth = automatic rewards</strong>.<br>
-        Every +$1M MCap → Chainlink triggers 5% vault release to HODLers. Forever.
+        Every +$1M MCap, proven by an on-chain TWAP oracle, unlocks a vault release to every holder. Forever.
       </p>
     </div>
 
@@ -1106,8 +1106,8 @@
       </div>
 
       <div class="hero-ctas">
-        <a href="https://pancakeswap.finance/swap?outputCurrency=0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank" class="cta-main">🥞 Buy $MHT Now</a>
-        <a href="pages/vault-status-en.html" class="cta-secondary">V2 vault status →</a>
+        <a href="https://pancakeswap.finance/swap?outputCurrency=0x4fb46E8630094F34D96B409EC1713793aD19b734" target="_blank" class="cta-main">🥞 Buy $MHT Now</a>
+        <a href="pages/migration-en.html" class="cta-secondary">Migrate V2 → V3 →</a>
       </div>
 
       <div class="hero-stats">
@@ -1117,13 +1117,13 @@
         </div>
         <div class="stat-div"></div>
         <div class="stat">
-          <div class="stat-val" id="statHolders">—</div>
-          <div class="stat-label">Holders</div>
+          <div class="stat-val">0%</div>
+          <div class="stat-label">Buy &amp; Sell Tax</div>
         </div>
         <div class="stat-div"></div>
         <div class="stat">
-          <div class="stat-val">85.36</div>
-          <div class="stat-label">Audit Score</div>
+          <div class="stat-val">+25%</div>
+          <div class="stat-label">Migration Bonus</div>
         </div>
         <div class="stat-div"></div>
         <div class="stat">
@@ -1156,24 +1156,21 @@
         <div class="donut-wrap">
           <div class="donut-container">
             <svg class="donut-svg" viewBox="0 0 100 100">
-              <!-- Smart-Vault 50% -->
+              <!-- Smart-Vault 50 % -->
               <circle cx="50" cy="50" r="38" fill="none" stroke="#f5c842" stroke-width="12"
-                stroke-dasharray="119.4 238.8" stroke-dashoffset="0" opacity="0.9"/>
-              <!-- LP Progressive 20% -->
+                stroke-dasharray="119.38 119.38" stroke-dashoffset="0" opacity="0.9"/>
+              <!-- Liquidite 43,15 % -->
               <circle cx="50" cy="50" r="38" fill="none" stroke="#5a6478" stroke-width="12"
-                stroke-dasharray="47.75 310.45" stroke-dashoffset="-119.4" opacity="0.7"/>
-              <!-- Marketing 15% -->
-              <circle cx="50" cy="50" r="38" fill="none" stroke="#e8501a" stroke-width="12"
-                stroke-dasharray="35.81 322.39" stroke-dashoffset="-167.15" opacity="0.8"/>
-              <!-- START LP flush 5% -->
+                stroke-dasharray="103.03 135.73" stroke-dashoffset="-119.38" opacity="0.75"/>
+              <!-- Fondateur 5 % -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#a0aec0" stroke-width="12"
+                stroke-dasharray="11.94 226.82" stroke-dashoffset="-222.41"/>
+              <!-- Reserve de migration 1,83 % -->
               <circle cx="50" cy="50" r="38" fill="none" stroke="#00e096" stroke-width="12"
-                stroke-dasharray="11.94 326.26" stroke-dashoffset="-202.96"/>
-              <!-- Founder 5% -->
-              <circle cx="50" cy="50" r="38" fill="none" stroke="#4a5568" stroke-width="12"
-                stroke-dasharray="11.94 326.26" stroke-dashoffset="-214.9"/>
-              <!-- Bonus V1 5% -->
-              <circle cx="50" cy="50" r="38" fill="none" stroke="#2d3a4f" stroke-width="12"
-                stroke-dasharray="11.94 326.26" stroke-dashoffset="-226.84"/>
+                stroke-dasharray="4.36 234.40" stroke-dashoffset="-234.35"/>
+              <!-- Burn de lancement 0,02 % -->
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#e8501a" stroke-width="12"
+                stroke-dasharray="0.05 238.71" stroke-dashoffset="-238.71"/>
             </svg>
             <div class="donut-center">
               <video autoplay muted loop playsinline style="width:168px;height:168px;object-fit:cover;border-radius:50%;border:2px solid rgba(245,200,66,0.35);box-shadow:0 0 28px rgba(245,200,66,0.25)">
@@ -1192,36 +1189,29 @@
             <div class="legend-item">
               <div class="legend-dot" style="background:#5a6478"></div>
               <div>
-                <div class="legend-label">LP Progressive</div>
-                <div class="legend-pct">20%</div>
+                <div class="legend-label">Liquidity (locked)</div>
+                <div class="legend-pct">43.15%</div>
               </div>
             </div>
             <div class="legend-item">
-              <div class="legend-dot" style="background:#e8501a"></div>
+              <div class="legend-dot" style="background:#a0aec0"></div>
               <div>
-                <div class="legend-label">Marketing</div>
-                <div class="legend-pct">15%</div>
+                <div class="legend-label">Founder (locked 365d)</div>
+                <div class="legend-pct">5%</div>
               </div>
             </div>
             <div class="legend-item">
               <div class="legend-dot" style="background:#00e096"></div>
               <div>
-                <div class="legend-label">START (LP flush)</div>
-                <div class="legend-pct">5%</div>
+                <div class="legend-label">Migration reserve</div>
+                <div class="legend-pct">1.83%</div>
               </div>
             </div>
             <div class="legend-item">
-              <div class="legend-dot" style="background:#4a5568"></div>
+              <div class="legend-dot" style="background:#e8501a"></div>
               <div>
-                <div class="legend-label">Founder</div>
-                <div class="legend-pct">5%</div>
-              </div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot" style="background:#2d3a4f"></div>
-              <div>
-                <div class="legend-label">Bonus V1</div>
-                <div class="legend-pct">5%</div>
+                <div class="legend-label">Launch burn</div>
+                <div class="legend-pct">0.02%</div>
               </div>
             </div>
           </div>
@@ -1229,13 +1219,13 @@
           <div class="tax-grid" style="width:100%">
             <div class="tax-card">
               <div class="tax-type">Buy Tax</div>
-              <div class="tax-pct">2%</div>
-              <div class="tax-breakdown">1% Burn<br>1% Mkt → BNB</div>
+              <div class="tax-pct">0%</div>
+              <div class="tax-breakdown">No tax.<br>Not now, not ever.</div>
             </div>
             <div class="tax-card">
               <div class="tax-type">Sell Tax</div>
-              <div class="tax-pct">5%</div>
-              <div class="tax-breakdown">1% Burn<br>2% Auto-LP burned<br>2% Mkt → BNB</div>
+              <div class="tax-pct">0%</div>
+              <div class="tax-breakdown">No tax.<br>Not now, not ever.</div>
             </div>
           </div>
         </div>
@@ -1251,50 +1241,54 @@
           </div>
           <div class="tstat-card">
             <span class="tstat-label">Eligible Supply (Rewards)</span>
-            <span class="tstat-val green" id="eligibleSupply"><span id="eligible-supply">~58M MHT</span></span>
+            <span class="tstat-val green" id="eligibleSupply"><span id="eligible-supply">— MHT</span></span>
           </div>
           <div class="tstat-card">
             <span class="tstat-label">Owner Holdings</span>
             <span class="tstat-val green">0.00% — RENOUNCED ✓</span>
           </div>
           <div class="tstat-card">
-            <span class="tstat-label">Audit</span>
-            <span class="tstat-val">SolidProof 85.36/100</span>
+            <span class="tstat-label">Code review</span>
+            <span class="tstat-val">Slither · Mythril · Aderyn · Echidna</span>
+          </div>
+          <div class="tstat-card">
+            <span class="tstat-label">Liquidity</span>
+            <span class="tstat-val green">Locked — no withdraw function ✓</span>
           </div>
 
           <div style="margin-top:8px">
-            <div class="tranches-title">LP TRANCHES — AUTO-RELEASED</div>
+            <div class="tranches-title">VAULT RELEASES — AUTOMATIC</div>
             <div class="tranche-row">
-              <span class="tranche-lock">🔒</span>
+              <span class="tranche-lock">🎯</span>
               <div class="tranche-info">
-                <div class="tranche-name">T1</div>
-                <div class="tranche-mcap">$1.5M MCap</div>
+                <div class="tranche-name">Every +$1M market cap</div>
+                <div class="tranche-mcap">Proven by a 30-min on-chain TWAP, confirmed 3 times</div>
               </div>
-              <span class="tranche-amount">40M MHT</span>
+              <span class="tranche-amount">5% of vault</span>
             </div>
             <div class="tranche-row">
-              <span class="tranche-lock">🔒</span>
+              <span class="tranche-lock">🔓</span>
               <div class="tranche-info">
-                <div class="tranche-name">T2</div>
-                <div class="tranche-mcap">$10M MCap</div>
+                <div class="tranche-name">First 5 milestones</div>
+                <div class="tranche-mcap">Capped at 20M per milestone</div>
               </div>
-              <span class="tranche-amount">40M MHT</span>
+              <span class="tranche-amount">20M each</span>
             </div>
             <div class="tranche-row">
-              <span class="tranche-lock">🔒</span>
+              <span class="tranche-lock">👥</span>
               <div class="tranche-info">
-                <div class="tranche-name">T3</div>
-                <div class="tranche-mcap">$25M MCap</div>
+                <div class="tranche-name">Who receives it</div>
+                <div class="tranche-mcap">Every eligible holder, pro rata — nothing is kept</div>
               </div>
-              <span class="tranche-amount">40M MHT</span>
+              <span class="tranche-amount">100%</span>
             </div>
             <div class="tranche-row">
-              <span class="tranche-lock">🔒</span>
+              <span class="tranche-lock">⏱️</span>
               <div class="tranche-info">
-                <div class="tranche-name">T4 · T5</div>
-                <div class="tranche-mcap">$50M · $75M MCap</div>
+                <div class="tranche-name">Who triggers it</div>
+                <div class="tranche-mcap">Anyone — pokeMilestone() is permissionless, 24h cooldown</div>
               </div>
-              <span class="tranche-amount">40M each</span>
+              <span class="tranche-amount">No admin</span>
             </div>
           </div>
         </div>
@@ -1460,21 +1454,21 @@
           <div class="how-icon">📈</div>
           <div class="how-step">STEP 02</div>
           <div class="how-title">Market Cap Grows</div>
-          <div class="how-desc">Every +$1,000,000 in Market Cap triggers the Smart-Vault. Burns accelerate scarcity. Time concentrates value.</div>
+          <div class="how-desc">Every +$1,000,000 in Market Cap arms the Smart-Vault. Market cap counts only the tokens someone actually paid for — never the ones still sitting in the pool.</div>
         </div>
         <div class="how-card">
           <div class="how-num">3</div>
           <div class="how-icon">⚡</div>
           <div class="how-step">STEP 03</div>
-          <div class="how-title">Chainlink Executes</div>
-          <div class="how-desc">5% of vault auto-released (floor 1M, cap 20M MHT) — tamper-proof, zero human action. The math runs itself.</div>
+          <div class="how-title">The Oracle Proves It</div>
+          <div class="how-desc">A 30-minute on-chain TWAP, confirmed 3 times over 2 hours, releases 5% of the remaining vault (floor 1M, cap 20M MHT). No oracle subscription, no admin — anyone can trigger it.</div>
         </div>
         <div class="how-card">
           <div class="how-num">4</div>
           <div class="how-icon">🎁</div>
           <div class="how-step">STEP 04</div>
-          <div class="how-title">Auto-Split & Rewards</div>
-          <div class="how-desc">70% to eligible holders pro-rata. 30% marketing swapped to BNB. Distributed automatically. Forever.</div>
+          <div class="how-title">100% to Holders</div>
+          <div class="how-desc">Every released token goes to eligible holders, pro-rata. Nothing is taken for marketing, nothing is kept by the founder. Claim them whenever you like — they cannot expire.</div>
         </div>
       </div>
     </div>
@@ -1491,52 +1485,63 @@
         <div class="phase-card">
           <div class="phase-dot done"></div>
           <div class="phase-label">PHASE 1 ✅</div>
-          <div class="phase-title">Genesis & Launch</div>
+          <div class="phase-title">Genesis — V1 &amp; V2</div>
           <ul class="phase-items">
-            <li class="phase-item done"><span class="icon">✅</span> Smart Contract Security Audit — SolidProof 85.36/100</li>
-            <li class="phase-item done"><span class="icon">✅</span> MHT Dashboard V5 Release</li>
-            <li class="phase-item done"><span class="icon">✅</span> PancakeSwap Listed — LIVE 🔥</li>
-            <li class="phase-item done"><span class="icon">✅</span> DEX Launch — 17 April 2026</li>
-            <li class="phase-item done"><span class="icon">✅</span> renounceOwnership() — Trustless Forever</li>
+            <li class="phase-item done"><span class="icon">✅</span> SolidProof audit &amp; KYC — V2 contract</li>
+            <li class="phase-item done"><span class="icon">✅</span> DEX launch on PancakeSwap — 17 April 2026</li>
+            <li class="phase-item done"><span class="icon">✅</span> V1 holders: hardcoded snapshot, +92.08% bonus at deploy</li>
+            <li class="phase-item done"><span class="icon">✅</span> 30M MHT + 10 BNB → LP, PinkLock 6 months</li>
+            <li class="phase-item done"><span class="icon">✅</span> renounceOwnership() — trustless from day one</li>
+          </ul>
+        </div>
+
+        <div class="phase-card">
+          <div class="phase-dot done"></div>
+          <div class="phase-label">PHASE 2 ✅</div>
+          <div class="phase-title">What V2 Taught Us</div>
+          <ul class="phase-items">
+            <li class="phase-item done"><span class="icon">✅</span> Milestone engine ran on Chainlink Automation</li>
+            <li class="phase-item done"><span class="icon">⚠️</span> That dependency became a single point of failure — the vault could no longer be triggered</li>
+            <li class="phase-item done"><span class="icon">✅</span> Decision: rebuild with zero external dependency, nothing to renew, no privileged address</li>
           </ul>
         </div>
 
         <div class="phase-card">
           <div class="phase-dot active"></div>
-          <div class="phase-label">PHASE 2 ✅ LIVE</div>
-          <div class="phase-title">V2.3 DEX Launch</div>
+          <div class="phase-label">PHASE 3 ✅ LIVE</div>
+          <div class="phase-title">V3 — 14 September 2026</div>
           <ul class="phase-items">
-            <li class="phase-item done"><span class="icon">✅</span> MHT V2.3 Deploy — SolidProof 85.36/100 — BSC Mainnet</li>
-            <li class="phase-item done"><span class="icon">✅</span> V1 Holders: snapshot hardcoded — airdrop at deploy</li>
-            <li class="phase-item done"><span class="icon">✅</span> 30M MHT + 10 BNB → LP initial PinkLock 6 months</li>
-            <li class="phase-item done"><span class="icon">✅</span> Chainlink Automation active</li>
-            <li class="phase-item pending"><span class="icon">🔥</span> T1 LP 40M auto @ $1.5M MCap — CoinGecko & CMC listing</li>
-            <li class="phase-item pending"><span class="icon">🔥</span> First Milestone Reward Distribution</li>
-          </ul>
-        </div>
-
-        <div class="phase-card">
-          <div class="phase-dot future"></div>
-          <div class="phase-label">PHASE 3</div>
-          <div class="phase-title">$10M Market Cap</div>
-          <ul class="phase-items">
-            <li class="phase-item future"><span class="icon">◦</span> Recurring Milestone Reward Distribution</li>
-            <li class="phase-item future"><span class="icon">◦</span> T2 LP 40M auto @ $10M MCap</li>
-            <li class="phase-item future"><span class="icon">◦</span> Global Marketing Blitz & Influencer Partnerships</li>
-            <li class="phase-item future"><span class="icon">◦</span> Tier-2 Centralized Exchange (CEX) Listings</li>
-            <li class="phase-item future"><span class="icon">◦</span> Secondary Tier-1 Security Audit (Certik/Hacken)</li>
+            <li class="phase-item done"><span class="icon">✅</span> V3 deployed on BSC — ownership renounced, config locked</li>
+            <li class="phase-item done"><span class="icon">✅</span> On-chain TWAP replaces Chainlink — pokeMilestone() callable by anyone</li>
+            <li class="phase-item done"><span class="icon">✅</span> 6 liquidity bands + BNB safety band, custodian with no withdraw function</li>
+            <li class="phase-item done"><span class="icon">✅</span> 0% tax · 100% of every release to holders</li>
+            <li class="phase-item done"><span class="icon">✅</span> On-chain metadata, launched via ApexPad</li>
+            <li class="phase-item pending"><span class="icon">🔥</span> V2 → V3 migration open — +25% until 4 November 2026</li>
           </ul>
         </div>
 
         <div class="phase-card">
           <div class="phase-dot future"></div>
           <div class="phase-label">PHASE 4</div>
+          <div class="phase-title">First Milestones — $1M → $10M</div>
+          <ul class="phase-items">
+            <li class="phase-item future"><span class="icon">◦</span> Milestone #1 — 20M MHT released to holders</li>
+            <li class="phase-item future"><span class="icon">◦</span> Aggregator coverage: DexScreener, GeckoTerminal, Mobula, Bitquery</li>
+            <li class="phase-item future"><span class="icon">◦</span> CoinGecko &amp; CoinMarketCap listings</li>
+            <li class="phase-item future"><span class="icon">◦</span> Marketing push &amp; partnerships</li>
+            <li class="phase-item future"><span class="icon">◦</span> Independent third-party audit</li>
+          </ul>
+        </div>
+
+        <div class="phase-card">
+          <div class="phase-dot future"></div>
+          <div class="phase-label">PHASE 5</div>
           <div class="phase-title">$25M → $100M+ MCap</div>
           <ul class="phase-items">
-            <li class="phase-item future"><span class="icon">◦</span> Ultimate Milestone Holder Payouts</li>
-            <li class="phase-item future"><span class="icon">◦</span> T3 40M @ $25M / T4 40M @ $50M / T5 40M @ $75M MCap</li>
-            <li class="phase-item future"><span class="icon">◦</span> Top-10 CEX Listings (Binance/OKX/KuCoin)</li>
-            <li class="phase-item future"><span class="icon">◦</span> Full Baron Ecosystem Expansion & Governance DAO</li>
+            <li class="phase-item future"><span class="icon">◦</span> Recurring milestone payouts — 20M each for the first five</li>
+            <li class="phase-item future"><span class="icon">◦</span> Centralized exchange listings</li>
+            <li class="phase-item future"><span class="icon">◦</span> $RMHT on Robinhood Chain &amp; the wider ApexPad ecosystem</li>
+            <li class="phase-item future"><span class="icon">◦</span> Baron ecosystem expansion &amp; governance</li>
           </ul>
         </div>
       </div>
@@ -1575,19 +1580,19 @@
             </div>
             <div class="exec-item">
               <i class="bi bi-check-circle-fill"></i>
-              <span><strong>Chainlink</strong> MCap on (TOTAL_SUPPLY − burned) × price — tamper-proof.</span>
+              <span><strong>On-chain TWAP</strong> — 30-min PancakeSwap V3 oracle, 3 confirmations. Market cap counts only tokens someone actually paid for.</span>
             </div>
             <div class="exec-item">
               <i class="bi bi-check-circle-fill"></i>
-              <span><strong>70% Holders / 30% Marketing BNB</strong> — per milestone.</span>
+              <span><strong>100% to holders</strong> — every milestone, pro-rata, nothing withheld.</span>
             </div>
             <div class="exec-item">
               <i class="bi bi-check-circle-fill"></i>
-              <span><strong>5 LP tranches × 40M</strong> auto-released at $1.5M / $10M / $25M / $50M / $75M MCap.</span>
+              <span><strong>Liquidity in 6 locked bands</strong> — held by a custodian contract with no withdraw function, ever.</span>
             </div>
             <div class="exec-item">
               <i class="bi bi-check-circle-fill"></i>
-              <span><strong>LP tokens burned</strong> on every injection — permanent price floor.</span>
+              <span><strong>0% tax</strong> on every buy and every sell — no exceptions, no switch to flip.</span>
             </div>
             <div class="exec-item">
               <i class="bi bi-check-circle-fill"></i>
@@ -1596,10 +1601,10 @@
           </div>
           <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:20px;flex-wrap:wrap">
             <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank">
-              <img src="sp_badge.png" alt="SolidProof Audit 85.36 — KYC Bronze" style="height:80px;border-radius:10px;border:1px solid rgba(245,200,66,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s;display:block" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+              <img src="sp_badge.png" alt="SolidProof — KYC verifie, audit du contrat V2" style="height:80px;border-radius:10px;border:1px solid rgba(245,200,66,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.4);transition:transform 0.2s;display:block" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
             </a>
             <a href="https://app.solidproof.io/projects/milestone-hodl-token?audit=a6114b43-f4d5-46e9-ab7c-047dbda36eba" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid rgba(245,200,66,0.3);border-radius:10px;text-decoration:none;color:var(--gold);font-size:13px;font-weight:700;transition:all 0.2s" onmouseover="this.style.background='rgba(245,200,66,0.06)'" onmouseout="this.style.background='transparent'">
-              🛡️ AUDIT V2.3 — SolidProof <strong>85.36/100</strong> <i class="bi bi-box-arrow-up-right"></i>
+              🛡️ KYC &amp; AUDIT — SolidProof <strong>(contrat V2)</strong> <i class="bi bi-box-arrow-up-right"></i>
             </a>
           </div>
         </div>
@@ -1616,7 +1621,7 @@
       <div class="faq-list reveal" style="max-width:760px">
         <details class="faq-item">
           <summary class="faq-q">How does the $1M Milestone system work? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">Every time the Market Cap grows by $1,000,000, Chainlink Automation automatically triggers a release of 5% of the remaining vault (floor: 1M MHT, cap: 20M MHT). 70% goes to eligible holders pro-rata. 30% is swapped to BNB for marketing. Zero human action required — ever.</div>
+          <div class="faq-a">Every time the Market Cap grows by $1,000,000, 5% of the remaining vault is released (floor: 1M MHT, cap: 20M MHT — so the first five milestones release exactly 20M each). 100% of it goes to eligible holders, pro-rata. The milestone is proven by a 30-minute on-chain TWAP confirmed three times over two hours, and anyone can trigger the check by calling pokeMilestone() — there is no privileged address, and a 24h cooldown separates two milestones.</div>
         </details>
         <details class="faq-item">
           <summary class="faq-q">What happens if the Market Cap drops after a payout? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
@@ -1624,19 +1629,19 @@
         </details>
         <details class="faq-item">
           <summary class="faq-q">Is the Milestone Vault secure? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">Yes. The Vault is governed entirely by the Smart Contract, audited by SolidProof (85.36/100). Releases are restricted to the Chainlink Automation trigger only. The founder has renounced ownership — there is no admin key, no backdoor, no override possible.</div>
+          <div class="faq-a">The Vault is governed entirely by the contract. Its code was put through static analysis and fuzzing (Slither, Mythril, Aderyn, Echidna, Wake) before launch, and every finding was reviewed. Releases can only follow a milestone proven by the on-chain oracle. Ownership was renounced at launch — there is no admin key, no backdoor, no override possible, and the configuration is locked for good.</div>
         </details>
         <details class="faq-item">
           <summary class="faq-q">How do I receive my rewards? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">Rewards are allocated pro-rata based on your MHT balance at the exact block when a Milestone triggers. Only eligible supply counts (excludes vault, LP tranches, marketing wallet, burn address, and PancakeSwap pair). Rewards are sent directly to your wallet — no claim needed.</div>
+          <div class="faq-a">Rewards are allocated pro-rata based on your MHT balance at the exact block when a Milestone triggers. Only eligible supply counts — the vault, the migration reserve, the burn address and the tokens still sitting in the pool are all excluded. Your share is then held for you in the contract: connect your wallet and press Claim whenever you want. It never expires, and selling your tokens afterwards does not take it away — rewards follow the person, not the tokens.</div>
         </details>
         <details class="faq-item">
           <summary class="faq-q">How is the vault release split? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">Each release is split automatically by the contract: 70% goes directly to eligible holders pro-rata and 30% is swapped to BNB for marketing. The split is hardcoded and cannot be changed.</div>
+          <div class="faq-a">There is no split. 100% of every release goes to eligible holders, pro-rata. Nothing is swapped for marketing, nothing is kept by the founder. That is hardcoded and, ownership being renounced, it cannot be changed by anyone.</div>
         </details>
         <details class="faq-item">
-          <summary class="faq-q">Why is the Sell Tax higher than the Buy Tax? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">The asymmetric tax structure (2% Buy / 5% Sell) is by design. It mathematically rewards patience and penalizes short-term selling. The extra sell tax feeds the auto-LP burn mechanism, creating a permanent price floor that grows over time.</div>
+          <summary class="faq-q">I hold $MHT V2 — what do I do? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
+          <div class="faq-a">Migrate. A snapshot of every V2 holder was taken on 14 September 2026, just before deployment, and your allocation is written into the migration contract — nothing to claim, nothing to prove. Burn your V2 and receive V3 with a bonus: <strong>+25% until 4 November 2026</strong>, then +10%, then +5% until the window closes for good. The migration page walks you through it in two clicks.</div>
         </details>
       </div>
     </div>
@@ -1658,7 +1663,7 @@
       <div class="footer-bottom">
         <span>© 2026 Milestone HODL Token. All rights reserved.</span>
         <span class="footer-contract">
-          <a href="https://bscscan.com/token/0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa" target="_blank">0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa</a>
+          <a href="https://bscscan.com/token/0x4fb46E8630094F34D96B409EC1713793aD19b734" target="_blank">0x4fb46E8630094F34D96B409EC1713793aD19b734</a>
         </span>
         <a href="pages/contact.html" style="color:var(--muted);text-decoration:none;font-size:12px">Contact</a>
         <a href="https://rmht.apexpad.io" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;font-size:12px">Official $RMHT portal ↗</a>
@@ -1670,13 +1675,18 @@
   <script>
   // ── CHARGEMENT PUBLIC MCap + Holders (sans wallet) ──────────────────────────
   (async function loadPublicStats() {
-    const CONTRACT = "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa";
+    const CONTRACT = "0x4fb46E8630094F34D96B409EC1713793aD19b734";
     const RPC      = "https://bsc-rpc.publicnode.com";
+    // ABI V3. Trois fonctions du V2 n'existent plus : getMHTPrice (remplacee par
+    // getMHTPriceInBNB x getBNBPriceUSD), getVaultBalance (variable publique
+    // vaultBalance) et tout le volet LP/flush, supprime du protocole.
     const ABI_MIN  = [
       "function getMarketCap() view returns (uint256)",
       "function nextMilestoneUSD() view returns (uint256)",
-      "function getMHTPrice() view returns (uint256)",
-      "function getVaultBalance() view returns (uint256)",
+      "function getMHTPriceInBNB() view returns (uint256)",
+      "function getBNBPriceUSD() view returns (uint256)",
+      "function vaultBalance() view returns (uint256)",
+      "function getEligibleSupply() view returns (uint256)",
     ];
     try {
       const provider = new ethers.JsonRpcProvider(RPC);
@@ -1685,29 +1695,47 @@
       // Chaque lecture est indépendante : si une fonction reverte sur le contrat,
       // les autres s'affichent quand même (avant, un seul revert cassait tout le hero).
       const safeCall = async (fn) => { try { return await fn(); } catch(e){ console.warn('call failed:', e); return null; } };
-      const [mcapRaw, nextRaw, priceRaw, vaultRaw] = await Promise.all([
+      const [mcapRaw, nextRaw, priceBnbRaw, bnbUsdRaw, vaultRaw, eligRaw] = await Promise.all([
         safeCall(() => contract.getMarketCap()),
         safeCall(() => contract.nextMilestoneUSD()),
-        safeCall(() => contract.getMHTPrice()),
-        safeCall(() => contract.getVaultBalance()),
+        safeCall(() => contract.getMHTPriceInBNB()),
+        safeCall(() => contract.getBNBPriceUSD()),
+        safeCall(() => contract.vaultBalance()),
+        safeCall(() => contract.getEligibleSupply()),
       ]);
 
-      const mcap  = mcapRaw  != null ? parseFloat(ethers.formatUnits(mcapRaw, 18))  : NaN;
-      const next  = nextRaw  != null ? parseFloat(ethers.formatUnits(nextRaw, 18))  : NaN;
-      const price = priceRaw != null ? parseFloat(ethers.formatUnits(priceRaw, 18)) : NaN;
+      // ⚠️ ECHELLES V3, differentes du V2 :
+      //   getMarketCap() et nextMilestoneUSD() renvoient des DOLLARS ENTIERS
+      //   (le contrat divise deja par 1e54), surtout pas du 1e18.
+      //   Le prix USD se recompose : prix en BNB (1e18) x BNB/USD (1e18) / 1e18.
+      const mcap  = mcapRaw != null ? Number(mcapRaw) : NaN;
+      const next  = nextRaw != null ? Number(nextRaw) : NaN;
+      const price = (priceBnbRaw != null && bnbUsdRaw != null)
+        ? parseFloat(ethers.formatUnits((priceBnbRaw * bnbUsdRaw) / (10n ** 18n), 18))
+        : NaN;
       const vault = vaultRaw != null ? parseFloat(ethers.formatUnits(vaultRaw, 18)) : NaN;
+      const elig  = eligRaw  != null ? parseFloat(ethers.formatUnits(eligRaw, 18))  : NaN;
       // Expose pour le simulateur, le calcul walletUsd et le réconciliateur
       window._mhtPrice = price;
       window._mhtMcap  = mcap;
-      const STEP = 1_000_000;
-      const prev = next - STEP;
-      const pct  = mcap <= prev ? 0 : mcap >= next ? 100 : Math.round(((mcap - prev) / STEP) * 100);
+      window._mhtNextMilestone = next;
 
-      // NOTE : on n'écrit PLUS le Market Cap depuis loadPublicStats.
-      // getMarketCap() renvoie ici une valeur à la mauvaise échelle (~×1000 trop petit),
-      // ce qui entrait en conflit avec la vraie valeur d'app.js (#market-cap) et faisait
-      // osciller la barre. Source de vérité unique = #market-cap (app.js) ; le
-      // réconciliateur (reconcileDisplays) en dérive statMcap / milestoneBar / mcapDisplay.
+      // Affichage PUBLIC du market cap, sans portefeuille connecte. C'est la
+      // ligne qui rend la barre de progression vivante pour un visiteur.
+      // Elle etait desactivee sur le V2 parce que getMarketCap() y renvoyait une
+      // valeur a la mauvaise echelle ; le V3 renvoie la bonne, cette reserve
+      // n'a plus lieu d'etre. reconcileDisplays() propage ensuite #market-cap
+      // vers #mcapDisplay, #statMcap et #milestoneBar toutes les 3 s.
+      const mcElPub = document.getElementById("market-cap");
+      if (mcElPub && Number.isFinite(mcap) && mcap > 0) {
+        mcElPub.textContent = "$" + Math.round(mcap).toLocaleString("en-US");
+      }
+
+      // Supply eligible aux recompenses
+      const eligEl = document.getElementById("eligible-supply");
+      if (eligEl && Number.isFinite(elig)) {
+        eligEl.textContent = Math.round(elig).toLocaleString("en-US") + " MHT";
+      }
 
 
       // Smart-Vault Balance — tokenomics + panneau wallet (visibles avant connexion)
@@ -1724,19 +1752,6 @@
       if (simPriceEl && price > 0) {
         simPriceEl.value = price.toFixed(8);
         if (typeof simulate === "function") simulate();
-      }
-
-      // Holders via BscScan API (public, no key needed for basic)
-      try {
-        const res = await fetch(
-          "https://api.bscscan.com/api?module=token&action=tokeninfo&contractaddress=" + CONTRACT + "&apikey=YourApiKeyToken"
-        );
-        const data = await res.json();
-        const holders = data?.result?.[0]?.holdersCount;
-        const statHoldersEl = document.getElementById("statHolders");
-        if (statHoldersEl && holders) statHoldersEl.textContent = parseInt(holders).toLocaleString("en-US");
-      } catch(e) {
-        // holders unavailable without API key — leave as —
       }
 
     } catch(e) {
@@ -1798,7 +1813,7 @@
     // ── CONSTANTES ON-CHAIN ET VARIABLES COMMUNES ──
     let currentMilestone = 1;
     const MAX_MILESTONE  = 20;
-    const MHT_CONTRACT_ADDR = '0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa';
+    const MHT_CONTRACT_ADDR = '0x4fb46E8630094F34D96B409EC1713793aD19b734';
     const BSC_RPC_URL       = 'https://bsc-rpc.publicnode.com';
     // Requête Blockchain pour l'Eligible Supply
     async function fetchEligibleSupplyOnChain() {
@@ -2245,8 +2260,18 @@
           if (statEl) statEl.textContent = compact;
           if (dispEl) dispEl.textContent = compact;
           if (barEl) {
-            barEl.style.width = Math.min(mc / 1000000 * 100, 100) + "%";
-            barEl.textContent = "$" + Math.round(mc).toLocaleString("en-US") + " / $1,000,000";
+            // Le palier vise est LU on-chain (nextMilestoneUSD). Apres le premier
+            // palier il passe a 2 M, puis 3 M... : le figer a 1 000 000 afficherait
+            // une barre bloquee a 100 % pour toujours.
+            const STEP = 1000000;
+            const nextMs = (Number.isFinite(window._mhtNextMilestone) && window._mhtNextMilestone > mc)
+              ? window._mhtNextMilestone
+              : Math.ceil((mc + 1) / STEP) * STEP;
+            const prevMs = nextMs - STEP;
+            const pct = Math.max(0, Math.min(100, ((mc - prevMs) / STEP) * 100));
+            barEl.style.width = pct + "%";
+            barEl.textContent = "$" + Math.round(mc).toLocaleString("en-US")
+                              + " / $" + Math.round(nextMs).toLocaleString("en-US");
           }
         }
       }
