@@ -31,9 +31,9 @@
     chainIdHex: "0x38",
     rpc: "https://bsc-dataseed.bnbchain.org",
     v2: "0x22E0fcEc929c4F38c8D8c03B2B2F225E98F133fa",
-    migration: "",   // <- adresse de MHTMigration, APRES le deploiement
-    v3: "",          // <- adresse du MHT V3, APRES le deploiement
-    snapshotFinal: false,  // <- true quand le snapshot definitif est ecrit (script de rafraichissement)
+    migration: "0x99E56011439534918146da8A90a8280561fcc13A",   // MHTMigration, deploye le 14/09/2026
+    v3: "0x4fb46E8630094F34D96B409EC1713793aD19b734",          // $MHT V3, deploye le 14/09/2026
+    snapshotFinal: true,  // <- true quand le snapshot definitif est ecrit (script de rafraichissement)
     logo: "https://arweave.net/4Y7ayPRnQQwkK5HWESY-voYNkv2ghYNAI51qpHmVrik",
     // Barème figé dans MHTMigration (bornes INCLUSIVES, secondes UTC)
     tiers: [
