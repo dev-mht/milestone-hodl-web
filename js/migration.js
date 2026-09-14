@@ -230,8 +230,11 @@
 
   function hasEthers() { return typeof window.ethers !== "undefined"; }
 
+  // Les LECTURES passent toujours par le RPC public de BNB Chain, jamais par
+  // le portefeuille. Sinon, un portefeuille resté sur une autre chaîne ferait
+  // lire les soldes sur cette chaîne-là et afficherait « rien à migrer » à
+  // quelqu'un de parfaitement éligible. Le portefeuille ne sert qu'à signer.
   function reader() {
-    if (state.browserProvider) return state.browserProvider;
     if (!state.readProvider) state.readProvider = new window.ethers.JsonRpcProvider(CONFIG.rpc, CONFIG.chainId);
     return state.readProvider;
   }
@@ -433,10 +436,19 @@
   function connect() {
     if (!window.ethereum) { note(L.noWallet, "warn"); return; }
     if (!hasEthers()) { note(L.noEthers, "ko"); return; }
-    state.browserProvider = new window.ethers.BrowserProvider(window.ethereum);
     return window.ethereum.request({ method: "eth_requestAccounts" })
       .then(ensureChain)
-      .then(function () { return state.browserProvider.getSigner(); })
+      .then(adopt)
+      .catch(function (e) { note(errText(e), "ko"); });
+  }
+
+  /** Reconstruit le signataire depuis le portefeuille courant et réévalue.
+   *  Appelée à la connexion ET sur changement de compte ou de réseau —
+   *  À LA PLACE d'un location.reload(), qui provoquait une boucle. */
+  function adopt() {
+    if (!window.ethereum || !hasEthers()) return;
+    state.browserProvider = new window.ethers.BrowserProvider(window.ethereum);
+    return state.browserProvider.getSigner()
       .then(function (s) {
         state.signer = s;
         return s.getAddress();
@@ -449,12 +461,19 @@
       .catch(function (e) { note(errText(e), "ko"); });
   }
 
+  /** Demande le passage sur BNB Chain. NON BLOQUANT : si le portefeuille
+   *  refuse ou ne sait pas le faire, on continue — les lectures se font de
+   *  toute façon sur le RPC BSC, et la signature échouera proprement avec un
+   *  message du portefeuille si le réseau est mauvais. */
   function ensureChain() {
-    return window.ethereum.request({ method: "eth_chainId" }).then(function (id) {
-      if (parseInt(id, 16) === CONFIG.chainId) return;
-      return window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: CONFIG.chainIdHex }] })
-        .then(function () { state.browserProvider = new window.ethers.BrowserProvider(window.ethereum); });
-    });
+    return window.ethereum.request({ method: "eth_chainId" })
+      .then(function (id) {
+        if (parseInt(id, 16) === CONFIG.chainId) return;
+        return window.ethereum
+          .request({ method: "wallet_switchEthereumChain", params: [{ chainId: CONFIG.chainIdHex }] })
+          .catch(function () { note(L.switchNet, "warn"); });
+      })
+      .catch(function () { note(L.switchNet, "warn"); });
   }
 
   function errText(e) {
@@ -510,15 +529,28 @@
     var ad = $("m-addtoken"); if (ad) ad.addEventListener("click", addToken);
 
     if (window.ethereum && window.ethereum.on) {
-      window.ethereum.on("accountsChanged", function () { location.reload(); });
-      window.ethereum.on("chainChanged", function () { location.reload(); });
+      // ⚠️ NE JAMAIS faire location.reload() ici. Dans le navigateur interne
+      // d'un portefeuille mobile (Trust Wallet), se connecter déclenche
+      // accountsChanged et/ou chainChanged ; le rechargement relance la
+      // reconnexion silencieuse plus bas, qui redéclenche l'événement, qui
+      // recharge... La page clignote à l'infini et ne se connecte jamais.
+      // Constaté le 14/09/2026 chez le premier détenteur à migrer.
+      // On rafraîchit sur place au lieu de recharger.
+      window.ethereum.on("accountsChanged", function (accs) {
+        if (!accs || !accs.length) { location.reload(); return; } // déconnexion : pas de boucle possible
+        adopt();
+      });
+      window.ethereum.on("chainChanged", function () { adopt(); });
     }
 
     // Reconnexion silencieuse (aucune fenêtre) si le site est déjà autorisé,
     // par exemple après le rechargement qui suit un changement de réseau.
     if (window.ethereum && hasEthers()) {
       window.ethereum.request({ method: "eth_accounts" })
-        .then(function (accs) { if (accs && accs.length) return connect(); })
+        // adopt() et non connect() : le site est deja autorise, inutile de
+        // redemander l'acces ni de reclamer un changement de reseau a chaque
+        // ouverture de la page — le portefeuille afficherait une fenetre.
+        .then(function (accs) { if (accs && accs.length) return adopt(); })
         .catch(function () {});
     }
   }
