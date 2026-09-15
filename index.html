@@ -1372,7 +1372,7 @@
           </div>
           <div class="field">
             <label>Eligible Supply <span style="cursor:help;" title="Auto-filled from on-chain data">ⓘ</span></label>
-            <input type="number" id="calcCirc" min="1" style="color:var(--success); outline:none;" oninput="calcReward()" />
+            <input type="number" id="calcCirc" min="1" placeholder="loading..." style="color:var(--success); outline:none;" oninput="this.dataset.userModified='1'; calcReward()" />
           </div>
 
           <div id="calcResult" style="display:none; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:16px; font-family:var(--mono); font-size:12px; color:var(--muted);">
@@ -1621,7 +1621,7 @@
       <div class="faq-list reveal" style="max-width:760px">
         <details class="faq-item">
           <summary class="faq-q">How does the $1M Milestone system work? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
-          <div class="faq-a">Every time the Market Cap grows by $1,000,000, 5% of the remaining vault is released (floor: 1M MHT, cap: 20M MHT — so the first five milestones release exactly 20M each). 100% of it goes to eligible holders, pro-rata. The milestone is proven by a 30-minute on-chain TWAP confirmed three times over two hours, and anyone can trigger the check by calling pokeMilestone() — there is no privileged address, and a 24h cooldown separates two milestones.</div>
+          <div class="faq-a">Every time the Market Cap grows by $1,000,000, 5% of the remaining vault is released (floor: 1M MHT, cap: 20M MHT — so the first six milestones release exactly 20M each). 100% of it goes to eligible holders, pro-rata. The milestone is proven by a 30-minute on-chain TWAP confirmed three times over two hours, and anyone can trigger the check by calling pokeMilestone() — there is no privileged address, and a 24h cooldown separates two milestones.</div>
         </details>
         <details class="faq-item">
           <summary class="faq-q">What happens if the Market Cap drops after a payout? <span class="faq-arrow"><i class="bi bi-plus"></i></span></summary>
@@ -1719,6 +1719,7 @@
       window._mhtPrice = price;
       window._mhtMcap  = mcap;
       window._mhtNextMilestone = next;
+      window._mhtVault = Number.isFinite(vault) ? vault : NaN;
 
       // Affichage PUBLIC du market cap, sans portefeuille connecte. C'est la
       // ligne qui rend la barre de progression vivante pour un visiteur.
@@ -1731,10 +1732,20 @@
         mcElPub.textContent = "$" + Math.round(mcap).toLocaleString("en-US");
       }
 
-      // Supply eligible aux recompenses
-      const eligEl = document.getElementById("eligible-supply");
-      if (eligEl && Number.isFinite(elig)) {
-        eligEl.textContent = Math.round(elig).toLocaleString("en-US") + " MHT";
+      // Supply eligible : le badge ET le champ du calculateur sont ecrits
+      // ENSEMBLE, ici comme dans fetchEligibleSupplyOnChain(). Avant, le badge
+      // n'etait ecrit qu'une fois au chargement pendant que le champ se
+      // rafraichissait toutes les 60 s : sur un onglet laisse ouvert les deux
+      // affichages divergeaient (625 000 MHT d'ecart apres la 1re migration,
+      // constate le 14/09/2026).
+      if (Number.isFinite(elig)) {
+        const eligEl = document.getElementById("eligible-supply");
+        if (eligEl) eligEl.textContent = Math.round(elig).toLocaleString("en-US") + " MHT";
+        const circEl = document.getElementById("calcCirc");
+        if (circEl && !circEl.dataset.userModified) {
+          circEl.value = Math.round(elig);
+          if (typeof calcReward === "function") calcReward();
+        }
       }
 
 
@@ -1815,6 +1826,11 @@
     const MAX_MILESTONE  = 20;
     const MHT_CONTRACT_ADDR = '0x4fb46E8630094F34D96B409EC1713793aD19b734';
     const BSC_RPC_URL       = 'https://bsc-rpc.publicnode.com';
+    // Derniere supply eligible lue on-chain, et repli si la chaine ne repond
+    // pas. L'ancien repli 58 290 727 etait un chiffre du V2 : il n'a aucun
+    // sens sur le V3 (supply eligible ~50 M au lancement).
+    let   lastEligibleSupply = 0;
+    const FALLBACK_ELIGIBLE  = 50000000;
     // Requête Blockchain pour l'Eligible Supply
     async function fetchEligibleSupplyOnChain() {
         try {
@@ -1823,20 +1839,27 @@
             const json = await res.json();
             if (json.result && json.result !== '0x') {
                 const supply = Number(BigInt(json.result)) / 1e18;
-                const el = document.getElementById('calcCirc');
-                if (el && supply > 0) {
-                    el.value = Math.round(supply);
-                    calcReward(); // Met à jour le calculateur avec la vraie data
+                if (supply > 0) {
+                    lastEligibleSupply = supply;
+                    // Le badge ET le champ, ensemble : un seul chiffre a l'ecran.
+                    const badge = document.getElementById('eligible-supply');
+                    if (badge) badge.textContent = Math.round(supply).toLocaleString('en-US') + ' MHT';
+                    const el = document.getElementById('calcCirc');
+                    if (el && !el.dataset.userModified) {
+                        el.value = Math.round(supply);
+                        calcReward(); // Met à jour le calculateur avec la vraie data
+                    }
                 }
                 return supply;
             }
         } catch(e) { console.warn('On-chain fetch failed:', e); }
-        return 58290727; // Fallback par défaut
+        return lastEligibleSupply || FALLBACK_ELIGIBLE;
     }
 
     function getEligibleSupply() {
         const el = document.getElementById('calcCirc');
-        return (el && el.value) ? parseFloat(el.value) : 58290727;
+        const v  = (el && el.value) ? parseFloat(el.value) : NaN;
+        return (Number.isFinite(v) && v > 0) ? v : (lastEligibleSupply || FALLBACK_ELIGIBLE);
     }
 
     // Calcul du Vault asymptotique (5%)
@@ -1844,11 +1867,17 @@
         return Math.min(Math.max(vaultBalance * 0.05, 1000000), 20000000);
     }
 
+    // Prix du MHT au palier n. Le palier se declenche sur le market cap de la
+    // supply ELIGIBLE (total - burn - contrat - reserve de migration - pool) :
+    // getMarketCap() du V3 multiplie _getEligibleSupply() puis divise par 1e54.
+    // Diviser par 1e9 etait la convention FDV du V2 et sous-estimait le prix
+    // cible d'un facteur ~20.
     function getMilestonePriceTarget(n) {
-        return (n * 1000000) / 1000000000;
+        const circ = getEligibleSupply();
+        return circ > 0 ? (n * 1000000) / circ : 0;
     }
 
-    // ── LE VRAI BUY SIMULATOR (AVEC TAXES) ──
+    // ── LE VRAI BUY SIMULATOR (V3 : AUCUNE TAXE) ──
     function calcBuy() {
         const usd         = parseFloat(document.getElementById('buyUSD').value) || 0;
         const targetPrice = parseFloat(document.getElementById('buyTargetPrice').value) || 0;
@@ -1860,11 +1889,14 @@
 
         if (usd <= 0 || curPrice <= 0) { result.style.display='none'; placeholder.style.display='flex'; return; }
 
-        const taxRate     = 0.02; // Taxe de 2% prise en compte !
-        const mhtReceived = (usd / curPrice) * (1 - taxRate);
+        // V3 : 0 % a l'achat, 0 % a la vente. L'ancien taxRate = 0.02 etait la
+        // taxe du V2 ; il retirait 2 % de jetons que le contrat ne prend plus.
+        const mhtReceived = usd / curPrice;
         const circ        = getEligibleSupply();
         const sharePct    = mhtReceived / circ;
-        const rewardPool  = vaultReleaseFor(500000000) * 0.70;
+        // V3 : 100 % de chaque release va aux detenteurs. Ni split marketing,
+        // ni split auto-LP : ces destinations n'existent plus dans le contrat.
+        const rewardPool  = vaultReleaseFor(window._mhtVault || 500000000);
         const mhtReward   = sharePct * rewardPool;
 
         result.style.display      = 'block';
@@ -1924,12 +1956,13 @@
         const sharePct = mht / circ;
 
         // Le coeur du Smart-Vault : La boucle asymptotique
-        let vault       = 500000000;
+        let vault       = (Number.isFinite(window._mhtVault) && window._mhtVault > 0)
+                          ? window._mhtVault : 500000000;
         let totalReward = 0;
         let rewardAtN   = 0;
         for (let i = 1; i <= n; i++) {
             const release    = vaultReleaseFor(vault);
-            const holderPool = release * 0.70;
+            const holderPool = release;   // V3 : 100 % aux detenteurs
             const reward     = sharePct * holderPool;
             totalReward     += reward;
             if (i === n) rewardAtN = reward;
@@ -1954,8 +1987,8 @@
 
     // ── INITIALISATION ET ÉCOUTEURS ──
     window.addEventListener('load', () => {
-        const circEl = document.getElementById('calcCirc');
-        if (circEl && !circEl.value) circEl.value = 58290727;
+        // Plus de pre-remplissage en dur : le champ reste vide (placeholder
+        // "loading...") jusqu'a la lecture on-chain, une seconde plus tard.
         fetchEligibleSupplyOnChain();
         setInterval(fetchEligibleSupplyOnChain, 60000); // Mise à jour de la supply chaque minute
 

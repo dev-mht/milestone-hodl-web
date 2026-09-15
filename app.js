@@ -118,8 +118,10 @@ async function updateUI() {
     if (vaultEl && vaultBal != null) vaultEl.textContent = fmt(vaultBal, 0) + " MHT";
 
     // ── Supply eligible aux recompenses ──────────────────────────────────────
-    const esEl = document.getElementById("eligible-supply");
-    if (esEl && eligibleSupply != null) esEl.textContent = fmt(eligibleSupply, 0) + " MHT";
+    // NE PAS ecrire #eligible-supply ici : un seul auteur, dans index.html
+    // (loadPublicStats puis fetchEligibleSupplyOnChain, qui ecrivent ENSEMBLE
+    // le badge et le champ du calculateur, toutes les 60 s). Deux auteurs
+    // avaient fait diverger les deux affichages le 14/09/2026.
 
     // ── Bouton Claim ─────────────────────────────────────────────────────────
     const claimBtn = document.getElementById("claimBtn");
