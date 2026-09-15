@@ -12,7 +12,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$MHT — Comment ça marche vraiment</title>
+<title>$MHT V3 — Comment ça marche vraiment</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -423,40 +423,55 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="tag">$MHT V2.3 — Éducation</div>
+    <div class="tag">$MHT V3 — Éducation</div>
     <h1>Pour ceux qui n'ont pas encore<br>compris comment <span>$MHT</span> fonctionne.</h1>
-    <p class="subtitle">Voici comment ça se passe. Sans hype. Sans promesses. Juste des maths — vérifiables on-chain, automatisées par Chainlink.</p>
+    <p class="subtitle">Sans hype. Sans promesses. De l'arithmétique vérifiable on-chain, dans un contrat que plus personne ne possède.</p>
   </div>
 
-  <!-- HOW IT WORKS -->
+  <!-- 01 -->
   <div class="section">
     <div class="section-label">01 — Le mécanisme</div>
     <div class="big-statement">
-      <p>Tu achètes <strong>1 BNB</strong> de $MHT au prix de lancement DEX → tu reçois <strong>~2 995 000 MHT</strong>.</p>
-      <p>Ensuite tu <strong>hodl</strong>. Tu ne vends pas. Tu ne stakes pas. Rien.</p>
-      <p>À chaque fois que le market cap atteint un nouveau <strong>palier de $1M</strong>, Chainlink Automation libère automatiquement des tokens du Smart-Vault :</p>
-      <p>→ <strong>70% distribués pro-rata à tous les holders éligibles</strong> — automatiquement, trustless, on-chain.<br>
-      → 15% injectés en liquidité (LP tokens brûlés).<br>
-      → 15% vers le marketing (auto-swappés en BNB).</p>
-      <p class="highlight">Au Milestone 10 — ton 1 BNB devient $223 000+.</p>
+      <p>Tu achètes du $MHT. Ensuite tu <strong>gardes</strong>. Tu ne stakes pas, tu ne verrouilles rien, tu ne signes rien.</p>
+      <p>La moitié de la supply — <strong>500 000 000 MHT</strong> — dort dans un coffre à l'intérieur du contrat. Chaque fois que la capitalisation franchit le <strong>million de dollars</strong> suivant, le contrat libère 5 % de ce qu'il reste dans ce coffre, avec un plancher de 1 M et un plafond de 20 M MHT.</p>
+      <p>→ <strong>100 % de chaque libération va aux détenteurs éligibles, au prorata.</strong> Aucune part marketing. Aucune part fondateur. Aucun partage d'aucune sorte.</p>
+      <p>Le franchissement est prouvé par un prix moyen sur 30 minutes, lu sur la chaîne et confirmé trois fois en deux heures. La vérification est une fonction publique : <strong>n'importe qui peut l'appeler</strong> — toi, un robot, un inconnu. Il ne reste aucune adresse privilégiée dans le protocole.</p>
+      <p class="highlight">Comme le plafond mord tant que le coffre est plein, les six premiers paliers libèrent exactement 20 000 000 MHT chacun.</p>
     </div>
-    <div class="math-line">Ce n'est pas une promesse. C'est des maths.</div>
+    <div class="math-line">Personne n'a besoin d'agir pour que ça fonctionne. C'est tout l'intérêt.</div>
   </div>
 
-  <!-- SIMULATOR -->
+  <div class="divider"></div>
+
+  <!-- 02 -->
   <div class="section">
-    <div class="section-label">02 — Simulateur de rewards en direct</div>
+    <div class="section-label">02 — Le chiffre qui compte vraiment</div>
+    <div class="big-statement">
+      <p>DexScreener et GeckoTerminal t'afficheront une capitalisation autour de <strong>2 M$</strong>. Le contrat, lui, lit environ <strong>100 000 $</strong>. Les deux ont raison. Ils ne mesurent pas la même chose.</p>
+      <p>Les agrégateurs multiplient le prix par la supply <strong>totale</strong> — le milliard de jetons en entier, coffre compris, réserve de migration comprise, adresse de burn comprise, et jetons encore invendus dans la pool compris.</p>
+      <p>Le contrat multiplie le prix par la <strong>supply éligible</strong> : uniquement les jetons que quelqu'un a réellement payés. Des jetons que personne n'a achetés ne sont pas une richesse, et les compter ferait tomber les paliers sur de l'argent qui n'a jamais été dépensé.</p>
+      <p>→ Au lancement, la supply éligible valait <strong>50 000 000 MHT</strong>. Le prix nécessaire au palier 1, c'est simplement 1 000 000 $ divisé par ce nombre.</p>
+      <p class="highlight">Et voilà ce qu'il faut comprendre : la supply éligible <em>grandit</em> à chaque migration et à chaque achat — donc le prix requis pour le palier suivant <em>baisse</em> tout seul, avec le temps.</p>
+    </div>
+    <div class="note">📌 Exclus de la supply éligible : le coffre, la réserve de migration, l'adresse de burn, et les MHT encore détenus par la pool de liquidité. Tout le reste compte. Vérifiable à tout moment en appelant <strong>getEligibleSupply()</strong> et <strong>getMarketCap()</strong> sur le contrat.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-label">03 — Simulateur</div>
     <div class="warning-note">
-      📌 Ajuste le prix du BNB et ton investissement ci-dessous — tout se recalcule en temps réel. Basé sur la mécanique V2.3 : vault 500M, release 5% par milestone, 70% aux holders, supply éligible ≈ 58,3M MHT au launch.
+      📌 Bouge les curseurs. Tout se recalcule en direct, selon les règles du V3 : coffre de 500 M, 5 % libérés par palier (plancher 1 M, plafond 20 M), <strong>100 %</strong> aux détenteurs, et un prix dérivé de la supply éligible — pas de la FDV.
     </div>
 
     <div class="simulator-wrap">
       <div class="controls-grid">
         <div class="control-group">
-          <label>Prix BNB (USD)</label>
+          <label>Prix du BNB (USD)</label>
           <div class="control-row">
-            <input type="range" id="bnbPrice" min="400" max="1000" value="620" step="10">
-            <span class="val-display" id="bnbDisplay">$620</span>
+            <input type="range" id="bnbPrice" min="300" max="1200" value="720" step="10">
+            <span class="val-display" id="bnbDisplay">720 $</span>
           </div>
         </div>
         <div class="control-group">
@@ -466,20 +481,34 @@
             <span class="val-display" id="investDisplay">1.0 BNB</span>
           </div>
         </div>
+        <div class="control-group">
+          <label>Supply éligible à l'entrée</label>
+          <div class="control-row">
+            <input type="range" id="eligible" min="50" max="400" value="50" step="5">
+            <span class="val-display" id="eligibleDisplay">50M MHT</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Prix d'entrée par MHT (USD)</label>
+          <div class="control-row">
+            <input type="range" id="entry" min="0.0005" max="0.01" value="0.001992" step="0.0001">
+            <span class="val-display" id="entryDisplay">0,001992 $</span>
+          </div>
+        </div>
       </div>
 
       <div class="summary-cards">
         <div class="scard">
-          <div class="scard-label">Prix d'entrée</div>
-          <div class="scard-value gold" id="entryPrice">$0.000207</div>
-        </div>
-        <div class="scard">
           <div class="scard-label">MHT reçus</div>
-          <div class="scard-value gold" id="mhtReceived">2 995 169</div>
+          <div class="scard-value gold" id="mhtReceived">—</div>
         </div>
         <div class="scard">
-          <div class="scard-label">Valeur au M10</div>
-          <div class="scard-value" id="valueM10">$223 042</div>
+          <div class="scard-label">Capitalisation à l'entrée</div>
+          <div class="scard-value" id="mcapEntry">—</div>
+        </div>
+        <div class="scard">
+          <div class="scard-label">Valeur au palier 10</div>
+          <div class="scard-value gold" id="valueM10">—</div>
         </div>
       </div>
 
@@ -487,12 +516,13 @@
         <table>
           <thead>
             <tr>
-              <th>Milestone</th>
+              <th>Palier</th>
               <th>Cible MCap</th>
-              <th>MHT détenus</th>
-              <th>Reward reçu</th>
-              <th>Prix / MHT</th>
-              <th>Valeur totale</th>
+              <th>Prix requis</th>
+              <th>Libéré</th>
+              <th>Ta récompense</th>
+              <th>Tes MHT</th>
+              <th>Ta valeur</th>
               <th>ROI</th>
             </tr>
           </thead>
@@ -500,130 +530,138 @@
         </table>
       </div>
 
-      <div class="math-line-dynamic" id="mathLine">
-        1,0 BNB investi → $223 042 au Milestone 10.<br>Ce n'est pas une promesse. C'est des maths.
-      </div>
+      <div class="math-line-dynamic" id="mathLine"></div>
     </div>
 
     <div class="note">
-      ⚠️ Simulation conservative (DYOR) — Prix modélisé comme MCap / (Total Supply - Brûlés). Supply éligible au launch ≈ 54,3M MHT (fondateur + holders bonus V1). Les tranches LP progressives ($1,5M→$75M) et le flush LP (~65,7M MHT) ne sont pas modélisés — les injections de liquidité supplémentaires peuvent impacter le prix et les rewards. 1% de chaque transaction est définitivement brûlé 🔥 augmentant ta part proportionnelle au fil du temps. Les résultats réels dépendent des conditions de marché et du volume de trading.
+      ⚠️ Simulation, pas une prévision (DYOR). Elle suppose que tu gardes tout du début à la fin, et que chaque jeton libéré reste entre les mains des détenteurs — c'est ce qui fait grandir la supply éligible d'un palier au suivant. Elle ne modélise ni les autres acheteurs, ni les vendeurs, ni les migrations ; le premier et le troisième feraient <em>baisser</em> le prix requis pour le palier suivant. Les résultats réels dépendent du volume réel.
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- ELIGIBLE SUPPLY -->
+  <!-- 04 -->
   <div class="section">
-    <div class="section-label">03 — Pourquoi les rewards sont si élevés</div>
+    <div class="section-label">04 — Ce qui a changé depuis le V2, et pourquoi</div>
     <div class="big-statement">
-      <p>En V2.3, la <strong>supply éligible aux rewards est ~58,3M MHT</strong> au launch.</p>
-      <p>500M sont bloqués dans le vault. 200M en LP progressive. 150M en marketing. 65,7M en flush LP. Aucun de ces tokens n'est éligible.</p>
-      <p>→ Quand 70% d'une release de milestone est distribuée sur seulement 54M tokens, <strong>chaque token reçoit une reward massive</strong>.</p>
-      <p>→ Au fil des milestones et des injections LP, la supply augmente — mais le MCap aussi. Les maths sont conçues pour récompenser avant tout les HODLers précoces.</p>
+      <p>Le coffre du V2 ne s'est jamais ouvert. Sa fonction de libération vérifiait que l'appelant était une adresse que nous avions enregistrée — et nous avions enregistré la mauvaise. Chainlink Automation appelle via un forwarder, pas via le registre que nous avions inscrit.</p>
+      <p>Le correctif était réservé au propriétaire, et la propriété avait déjà été renoncée. L'erreur était donc définitive. Le coffre fonctionnait exactement comme écrit ; il était simplement devenu inatteignable.</p>
+      <p>→ Le V3 supprime l'appelant privilégié. <strong>Aucun service externe. Aucun abonnement. Aucune clé d'administration. Aucune taxe. Aucune liste noire. Aucune limite de transfert.</strong></p>
+      <p>La sécurité ne vient plus d'une restriction sur qui appelle, mais de ce que la fonction lit. Restreindre l'appelant n'a jamais été de la sécurité : c'était une dépendance, et c'est cette dépendance qui a tué le V2.</p>
     </div>
-    <div class="note">
-      📌 Supply éligible exclut : vault, wallet marketing, paire LP, contrats LP progressifs, balance flush LP. Le wallet fondateur et les holders bonus V1 sont INCLUS. Vérifiable on-chain à tout moment.
-    </div>
+    <div class="note">📌 Le post-mortem complet, avec les deux adresses côte à côte, est sur la <a href="vault-status-fr.html">page d'état du coffre V2</a>.</div>
   </div>
 
   <!-- CTA -->
   <div class="cta-block">
-    <div class="cta-title">Hodl. Gagne. C'est tout.</div>
-    <div class="cta-sub">🔥 $MHT V2.3 est LIVE sur PancakeSwap — <a href="https://www.geckoterminal.com/bsc/pools/0xe2e777cebca27a61ca8d2862e9d36c548cdd6e4e" target="_blank" rel="noopener">Voir le Chart</a></div>
-    <a href="https://t.me/Milestone_HODL_Official" class="btn">Rejoindre Telegram →</a>
-    <a href="https://x.com/apexpad_io" class="btn btn-outline">Suivre sur X</a>
+    <div class="cta-title">Garde. Encaisse. C'est tout.</div>
+    <div class="cta-sub">$MHT V3 est en ligne sur PancakeSwap — <a href="https://www.geckoterminal.com/bsc/pools/0x5BB24C4f0Be106AEaEF18841ADd3944E9F1f60Ab" target="_blank" rel="noopener">Voir le graphique</a> · <a href="migration-fr.html">Tu migres depuis le V2 ?</a></div>
+    <a href="https://pancakeswap.finance/swap?outputCurrency=0x4fb46E8630094F34D96B409EC1713793aD19b734" class="btn">Acheter du $MHT →</a>
+    <a href="https://t.me/Community_Milestone_hodl" class="btn btn-outline">Rejoindre Telegram</a>
+    <a href="https://x.com/milestone_hodl" class="btn btn-outline">Suivre sur X</a>
     <div class="slogan">🔥🔥 Trust the process 🤝 Earn the growth 🔥🔥</div>
   </div>
 
 </div>
 
 <script>
-const TOTAL_SUPPLY = 1_000_000_000;
-const INITIAL_VAULT = 500_000_000;
-const INITIAL_BURNED = 33_004;
-const ELIGIBLE_LAUNCH = 54_300_574;
-const MHT_IN_POOL = 30_000_000;
-const BNB_IN_POOL = 10;
+/* ------------------------------------------------------------------
+   $MHT V3 — simulateur de récompenses
+   Règles implémentées, toutes vérifiables dans le contrat :
+     VAULT_SUPPLY    500 000 000 MHT
+     RELEASE_BPS     500  (5 % du coffre RESTANT)
+     RELEASE_FLOOR   1 000 000 MHT     RELEASE_CAP  20 000 000 MHT
+     MILESTONE_STEP  1 000 000 $
+     Répartition     100 % aux détenteurs éligibles, au prorata
+     Capitalisation  prix x supply ÉLIGIBLE  (jamais la supply totale)
+   ------------------------------------------------------------------ */
+const VAULT_SUPPLY   = 500_000_000;
+const RELEASE_RATE   = 0.05;
+const RELEASE_FLOOR  =  1_000_000;
+const RELEASE_CAP    = 20_000_000;
+const STEP_USD       =  1_000_000;
+const MILESTONES     = 10;
 
-function fmt(n) {
-  if (n >= 1_000_000) return '$' + (n / 1_000_000).toFixed(2) + 'M';
-  if (n >= 1_000) return '$' + Math.round(n).toLocaleString('fr');
-  return '$' + n.toFixed(2);
-}
+const fmtUSD = n =>
+  n >= 1e6 ? (n / 1e6).toFixed(2) + ' M$'
+: n >= 1e3 ? Math.round(n).toLocaleString('fr-FR') + ' $'
+:            n.toFixed(2) + ' $';
 
-function fmtMHT(n) {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(3) + 'M';
-  return Math.round(n).toLocaleString('fr');
-}
+const fmtMHT = n =>
+  n >= 1e6 ? (n / 1e6).toFixed(2) + 'M'
+:            Math.round(n).toLocaleString('fr-FR');
 
-function simulate(bnbPrice, investBNB) {
-  const launchPrice = (BNB_IN_POOL * bnbPrice) / MHT_IN_POOL;
-  const mhtBought = (investBNB * bnbPrice) / launchPrice;
+function simulate(bnbPrice, investBNB, eligible0, entryPrice) {
   const investUSD = investBNB * bnbPrice;
+  const holderStart = investUSD / entryPrice;
 
-  let vault = INITIAL_VAULT;
-  let burned = INITIAL_BURNED;
-  let eligible = ELIGIBLE_LAUNCH;
-  let holderMHT = mhtBought;
-  let rows = [];
+  let vault    = VAULT_SUPPLY;
+  let eligible = eligible0 + holderStart;   // ton propre achat rejoint la supply éligible
+  let holder   = holderStart;
 
-  rows.push({
-    label: 'Entrée DEX', mcap: 0, mht: holderMHT,
-    reward: 0, price: launchPrice, value: investUSD, roi: 0, isEntry: true
-  });
+  const rows = [{
+    label: 'Entrée', mcap: eligible * entryPrice, price: entryPrice,
+    release: 0, reward: 0, mht: holder, value: investUSD, roi: 0, isEntry: true
+  }];
 
-  for (let m = 1; m <= 10; m++) {
-    const mcapTarget = m * 1_000_000;
-    const mhtPrice = mcapTarget / (TOTAL_SUPPLY - burned);
-    let release = vault * 0.05;
-    release = Math.max(1_000_000, Math.min(20_000_000, release));
-    const holdersShare = release * 0.70;
-    const reward = (holderMHT / eligible) * holdersShare;
-    holderMHT += reward;
-    vault -= release;
-    burned += release * 0.005;
-    eligible += reward * 0.1;
-    const value = holderMHT * mhtPrice;
-    const roi = ((value - investUSD) / investUSD) * 100;
-    rows.push({ label: 'M' + m, mcap: mcapTarget, mht: holderMHT, reward, price: mhtPrice, value, roi, isEntry: false });
+  for (let m = 1; m <= MILESTONES; m++) {
+    const mcapTarget = m * STEP_USD;
+    const priceNeeded = mcapTarget / eligible;      // supply éligible AVANT la libération
+
+    let release = Math.min(vault, Math.max(RELEASE_FLOOR, Math.min(RELEASE_CAP, vault * RELEASE_RATE)));
+    const reward = eligible > 0 ? (holder / eligible) * release : 0;
+
+    holder   += reward;
+    vault    -= release;
+    eligible += release;                            // les jetons libérés sont désormais détenus
+
+    const value = holder * priceNeeded;
+    rows.push({
+      label: 'P' + m, mcap: mcapTarget, price: priceNeeded,
+      release, reward, mht: holder, value,
+      roi: ((value - investUSD) / investUSD) * 100, isEntry: false
+    });
   }
-  return { rows, launchPrice, mhtBought, investUSD };
+  return { rows, holderStart, investUSD, mcapEntry: (eligible0 + holderStart) * entryPrice };
 }
 
 function render() {
-  const bnbPrice = parseFloat(document.getElementById('bnbPrice').value);
-  const investBNB = parseFloat(document.getElementById('invest').value);
+  const bnbPrice   = parseFloat(document.getElementById('bnbPrice').value);
+  const investBNB  = parseFloat(document.getElementById('invest').value);
+  const eligible0  = parseFloat(document.getElementById('eligible').value) * 1e6;
+  const entryPrice = parseFloat(document.getElementById('entry').value);
 
-  document.getElementById('bnbDisplay').textContent = '$' + bnbPrice;
-  document.getElementById('investDisplay').textContent = investBNB.toFixed(1) + ' BNB';
+  document.getElementById('bnbDisplay').textContent      = bnbPrice + ' $';
+  document.getElementById('investDisplay').textContent   = investBNB.toFixed(1) + ' BNB';
+  document.getElementById('eligibleDisplay').textContent = (eligible0 / 1e6).toFixed(0) + 'M MHT';
+  document.getElementById('entryDisplay').textContent    = entryPrice.toFixed(6).replace('.', ',') + ' $';
 
-  const { rows, launchPrice, mhtBought, investUSD } = simulate(bnbPrice, investBNB);
-  const lastRow = rows[rows.length - 1];
+  const { rows, holderStart, investUSD, mcapEntry } = simulate(bnbPrice, investBNB, eligible0, entryPrice);
+  const last = rows[rows.length - 1];
 
-  document.getElementById('entryPrice').textContent = '$' + launchPrice.toFixed(6);
-  document.getElementById('mhtReceived').textContent = fmtMHT(mhtBought);
-  document.getElementById('valueM10').textContent = fmt(lastRow.value);
+  document.getElementById('mhtReceived').textContent = fmtMHT(holderStart);
+  document.getElementById('mcapEntry').textContent   = fmtUSD(mcapEntry);
+  document.getElementById('valueM10').textContent    = fmtUSD(last.value);
 
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = rows.map(r => {
-    const roiStr = r.isEntry ? '—' : (r.roi >= 0 ? '+' : '') + Math.round(r.roi) + '%';
-    return `<tr class="${r.isEntry ? 'entry-row' : ''}">
+  document.getElementById('tableBody').innerHTML = rows.map(r => `
+    <tr class="${r.isEntry ? 'entry-row' : ''}">
       <td class="td-m">${r.label}</td>
-      <td class="td-price">${r.isEntry ? 'Launch' : '$' + (r.mcap / 1e6).toFixed(0) + 'M MCap'}</td>
-      <td class="td-mht">${fmtMHT(r.mht)}</td>
+      <td class="td-price">${r.isEntry ? 'maintenant' : (r.mcap / 1e6).toFixed(0) + ' M$'}</td>
+      <td class="td-price">${r.price.toFixed(6).replace('.', ',')} $</td>
+      <td class="td-mht">${r.isEntry ? '—' : fmtMHT(r.release)}</td>
       <td class="td-reward">${r.isEntry ? '—' : '+' + fmtMHT(r.reward)}</td>
-      <td class="td-price">$${r.price.toFixed(5)}</td>
-      <td class="td-val">${fmt(r.value)}</td>
-      <td class="${r.roi > 0 ? 'td-roi-pos' : 'td-m'}" style="font-family:'Space Mono',monospace;font-size:12px">${roiStr}</td>
-    </tr>`;
-  }).join('');
+      <td class="td-mht">${fmtMHT(r.mht)}</td>
+      <td class="td-val">${fmtUSD(r.value)}</td>
+      <td class="${r.roi > 0 ? 'td-roi-pos' : 'td-m'}" style="font-family:'Space Mono',monospace;font-size:12px">${r.isEntry ? '—' : (r.roi >= 0 ? '+' : '') + Math.round(r.roi) + ' %'}</td>
+    </tr>`).join('');
 
   document.getElementById('mathLine').innerHTML =
-    investBNB.toFixed(1).replace('.', ',') + ' BNB investi → ' + fmt(lastRow.value) + ' au Milestone 10.<br>Ce n\'est pas une promesse. C\'est des maths.';
+    investBNB.toFixed(1) + ' BNB (' + fmtUSD(investUSD) + ') gardés jusqu’au palier 10 → ' + fmtUSD(last.value) +
+    '.<br>Ce n’est pas une promesse. C’est l’arithmétique du contrat.';
 }
 
-document.getElementById('bnbPrice').addEventListener('input', render);
-document.getElementById('invest').addEventListener('input', render);
+['bnbPrice','invest','eligible','entry'].forEach(id =>
+  document.getElementById(id).addEventListener('input', render));
 render();
 </script>
 </body>

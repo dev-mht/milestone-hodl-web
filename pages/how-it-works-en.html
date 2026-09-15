@@ -12,7 +12,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>$MHT — How It Really Works</title>
+<title>$MHT V3 — How It Really Works</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -427,31 +427,46 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="tag">$MHT V2.3 — Education</div>
+    <div class="tag">$MHT V3 — Education</div>
     <h1>For those who still don't<br>get how <span>$MHT</span> works.</h1>
-    <p class="subtitle">Let me show you. No hype. No promises. Just math — verifiable on-chain, automated by Chainlink.</p>
+    <p class="subtitle">No hype. No promises. Just arithmetic you can verify on-chain, in a contract nobody owns any more.</p>
   </div>
 
-  <!-- HOW IT WORKS -->
+  <!-- 01 -->
   <div class="section">
-    <div class="section-label">01 — The Mechanism</div>
+    <div class="section-label">01 — The mechanism</div>
     <div class="big-statement">
-      <p>Buy <strong>1 BNB</strong> worth of $MHT at DEX launch price → you receive <strong>~2,995,000 MHT</strong>.</p>
-      <p>Then just <strong>hold</strong>. Don't sell. Don't stake. Nothing.</p>
-      <p>Every time the market cap hits a new <strong>$1M milestone</strong>, Chainlink Automation automatically releases tokens from the Smart-Vault:</p>
-      <p>→ <strong>70% distributed pro-rata to all eligible holders</strong> — automatically, trustlessly, on-chain.<br>
-      → 15% injected into liquidity (LP tokens burned).<br>
-      → 15% goes to marketing (auto-swapped to BNB).</p>
-      <p class="highlight">At Milestone 10 — your 1 BNB becomes $223,000+.</p>
+      <p>You buy $MHT. Then you <strong>hold</strong>. You don't stake, you don't lock, you don't sign anything.</p>
+      <p>Half the supply — <strong>500,000,000 MHT</strong> — sits in a vault inside the contract. Each time the market cap crosses the next <strong>$1,000,000</strong> level, the contract releases 5% of what remains in that vault, with a floor of 1M and a cap of 20M MHT.</p>
+      <p>→ <strong>100% of every release goes to eligible holders, pro-rata.</strong> No marketing cut. No founder cut. No split of any kind.</p>
+      <p>The crossing is proven by a 30-minute on-chain average price, confirmed three times over two hours. The check is a public function: <strong>anyone can call it</strong> — you, a bot, a stranger. There is no privileged address left in the protocol.</p>
+      <p class="highlight">Because the cap binds while the vault is full, the first six milestones release exactly 20,000,000 MHT each.</p>
     </div>
-    <div class="math-line">This is not a promise. This is math.</div>
+    <div class="math-line">Nobody has to act for this to work. That is the point.</div>
   </div>
 
-  <!-- SIMULATOR -->
+  <div class="divider"></div>
+
+  <!-- 02 -->
   <div class="section">
-    <div class="section-label">02 — Live Reward Simulator</div>
+    <div class="section-label">02 — The number that actually matters</div>
+    <div class="big-statement">
+      <p>DexScreener and GeckoTerminal will show you a market cap around <strong>$2M</strong>. The contract reads about <strong>$100,000</strong>. Both are right. They measure different things.</p>
+      <p>Aggregators multiply the price by the <strong>total</strong> supply — all one billion tokens, including the vault, the migration reserve, the burn address, and the tokens still sitting unsold in the pool.</p>
+      <p>The contract multiplies the price by the <strong>eligible supply</strong>: only the tokens somebody has actually paid for. Tokens nobody bought are not wealth, and counting them would fire milestones on money that was never spent.</p>
+      <p>→ At launch, eligible supply was <strong>50,000,000 MHT</strong>. The price needed for Milestone 1 is simply $1,000,000 divided by that number.</p>
+      <p class="highlight">And here is the part worth understanding: eligible supply <em>grows</em> with every migration and every purchase — so the price required for the next milestone <em>falls</em> on its own, over time.</p>
+    </div>
+    <div class="note">📌 Excluded from eligible supply: the vault, the migration reserve, the burn address, and the MHT still held by the liquidity pool. Everything else counts. Verifiable at any time by calling <strong>getEligibleSupply()</strong> and <strong>getMarketCap()</strong> on the contract.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-label">03 — Simulator</div>
     <div class="warning-note">
-      📌 Adjust BNB price and your investment below — everything recalculates in real time. Based on V2.3 mechanics: 500M vault, 5% release per milestone, 70% to holders, eligible supply ≈ 58.3M MHT at launch.
+      📌 Move the sliders. Everything recalculates live, on V3 rules: 500M vault, 5% release per milestone (floor 1M, cap 20M), <strong>100%</strong> to holders, and a price derived from eligible supply — not from FDV.
     </div>
 
     <div class="simulator-wrap">
@@ -459,8 +474,8 @@
         <div class="control-group">
           <label>BNB Price (USD)</label>
           <div class="control-row">
-            <input type="range" id="bnbPrice" min="400" max="1000" value="620" step="10">
-            <span class="val-display" id="bnbDisplay">$620</span>
+            <input type="range" id="bnbPrice" min="300" max="1200" value="720" step="10">
+            <span class="val-display" id="bnbDisplay">$720</span>
           </div>
         </div>
         <div class="control-group">
@@ -470,20 +485,34 @@
             <span class="val-display" id="investDisplay">1.0 BNB</span>
           </div>
         </div>
+        <div class="control-group">
+          <label>Eligible Supply at entry</label>
+          <div class="control-row">
+            <input type="range" id="eligible" min="50" max="400" value="50" step="5">
+            <span class="val-display" id="eligibleDisplay">50M MHT</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Entry price per MHT (USD)</label>
+          <div class="control-row">
+            <input type="range" id="entry" min="0.0005" max="0.01" value="0.001992" step="0.0001">
+            <span class="val-display" id="entryDisplay">$0.001992</span>
+          </div>
+        </div>
       </div>
 
       <div class="summary-cards">
         <div class="scard">
-          <div class="scard-label">Entry Price</div>
-          <div class="scard-value gold" id="entryPrice">$0.000207</div>
-        </div>
-        <div class="scard">
           <div class="scard-label">MHT Received</div>
-          <div class="scard-value gold" id="mhtReceived">2,995,169</div>
+          <div class="scard-value gold" id="mhtReceived">—</div>
         </div>
         <div class="scard">
-          <div class="scard-label">Value at M10</div>
-          <div class="scard-value" id="valueM10">$223,042</div>
+          <div class="scard-label">Market cap at entry</div>
+          <div class="scard-value" id="mcapEntry">—</div>
+        </div>
+        <div class="scard">
+          <div class="scard-label">Value at Milestone 10</div>
+          <div class="scard-value gold" id="valueM10">—</div>
         </div>
       </div>
 
@@ -492,11 +521,12 @@
           <thead>
             <tr>
               <th>Milestone</th>
-              <th>MCap Target</th>
-              <th>MHT Holdings</th>
-              <th>Reward Received</th>
-              <th>Price / MHT</th>
-              <th>Total Value</th>
+              <th>MCap target</th>
+              <th>Price needed</th>
+              <th>Released</th>
+              <th>Your reward</th>
+              <th>Your MHT</th>
+              <th>Your value</th>
               <th>ROI</th>
             </tr>
           </thead>
@@ -504,130 +534,138 @@
         </table>
       </div>
 
-      <div class="math-line-dynamic" id="mathLine">
-        1.0 BNB invested → $223,042 at Milestone 10.<br>This is not a promise. This is math.
-      </div>
+      <div class="math-line-dynamic" id="mathLine"></div>
     </div>
 
     <div class="note">
-      ⚠️ Conservative simulation (DYOR) — Price modeled as MCap / (Total Supply - Burned). Eligible supply at launch ≈ 58.3M MHT (founder + V1 bonus holders). LP tranches ($1.5M→$75M) and flush LP (~65.7M MHT) are not modeled — additional liquidity injections may impact price and rewards. 1% of every transaction is permanently burned 🔥 increasing your proportional share over time. Real results depend on market conditions and trading volume.
+      ⚠️ Simulation, not a forecast (DYOR). It assumes you hold throughout and that every released token stays in holders' hands, which is what makes eligible supply grow from one milestone to the next. It does not model other buyers, sellers, or migrations — all three would change the numbers, and the first and third would <em>lower</em> the price needed for the next milestone. Real results depend on real volume.
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- ELIGIBLE SUPPLY -->
+  <!-- 04 -->
   <div class="section">
-    <div class="section-label">03 — Why Rewards Are So High</div>
+    <div class="section-label">04 — What changed from V2, and why</div>
     <div class="big-statement">
-      <p>In V2.3, the <strong>eligible supply for rewards is ~58.3M MHT</strong> at launch.</p>
-      <p>500M are locked in the vault. 200M in progressive LP. 150M in marketing. 65.7M in flush LP. None of these are eligible.</p>
-      <p>→ When 70% of a milestone release is distributed across just 54M tokens, <strong>each token receives a massive reward</strong>.</p>
-      <p>→ As milestones hit and LP tranches inject liquidity, supply grows — but so does the market cap. The math is designed to reward early HODLers most.</p>
+      <p>The V2 vault never opened. Its release function checked that the caller was an address we had registered — and we registered the wrong one. Chainlink Automation calls through a forwarder, not through the registry we had written down.</p>
+      <p>The fix was owner-only, and ownership had already been renounced. So the mistake was permanent. The vault worked exactly as written; it just could not be reached.</p>
+      <p>→ V3 removes the privileged caller entirely. <strong>No external service. No subscription. No admin key. No tax. No blacklist. No transfer limit.</strong></p>
+      <p>Security no longer comes from restricting who may call. It comes from what the function reads. Restricting the caller was never security — it was a dependency, and it is the dependency that killed V2.</p>
     </div>
-    <div class="note">
-      📌 Eligible supply excludes: vault, marketing wallet, LP pair, progressive LP contracts, flush LP balance. Founder wallet and V1 bonus holders ARE included. This is verifiable on-chain at any time.
-    </div>
+    <div class="note">📌 The full post-mortem, with both addresses side by side, is on the <a href="vault-status-en.html">V2 vault status page</a>.</div>
   </div>
 
   <!-- CTA -->
   <div class="cta-block">
     <div class="cta-title">Hold. Earn. That's it.</div>
-    <div class="cta-sub">🔥 $MHT V2.3 is LIVE on PancakeSwap — <a href="https://www.geckoterminal.com/bsc/pools/0xe2e777cebca27a61ca8d2862e9d36c548cdd6e4e" target="_blank" rel="noopener">View Chart</a></div>
-    <a href="https://t.me/Milestone_HODL_Official" class="btn">Join Telegram →</a>
-    <a href="https://x.com/apexpad_io" class="btn btn-outline">Follow on X</a>
+    <div class="cta-sub">$MHT V3 is live on PancakeSwap — <a href="https://www.geckoterminal.com/bsc/pools/0x5BB24C4f0Be106AEaEF18841ADd3944E9F1f60Ab" target="_blank" rel="noopener">View chart</a> · <a href="migration-en.html">Migrating from V2?</a></div>
+    <a href="https://pancakeswap.finance/swap?outputCurrency=0x4fb46E8630094F34D96B409EC1713793aD19b734" class="btn">Buy $MHT →</a>
+    <a href="https://t.me/Community_Milestone_hodl" class="btn btn-outline">Join Telegram</a>
+    <a href="https://x.com/milestone_hodl" class="btn btn-outline">Follow on X</a>
     <div class="slogan">🔥🔥 Trust the process 🤝 Earn the growth 🔥🔥</div>
   </div>
 
 </div>
 
 <script>
-const TOTAL_SUPPLY = 1_000_000_000;
-const INITIAL_VAULT = 500_000_000;
-const INITIAL_BURNED = 33_004;
-const ELIGIBLE_LAUNCH = 54_300_574;
-const MHT_IN_POOL = 30_000_000;
-const BNB_IN_POOL = 10;
+/* ------------------------------------------------------------------
+   $MHT V3 — reward simulator
+   Rules implemented, all verifiable in the contract:
+     VAULT_SUPPLY    500,000,000 MHT
+     RELEASE_BPS     500  (5% of the REMAINING vault)
+     RELEASE_FLOOR   1,000,000 MHT     RELEASE_CAP  20,000,000 MHT
+     MILESTONE_STEP  $1,000,000
+     Distribution    100% to eligible holders, pro-rata
+     Market cap      price x ELIGIBLE supply  (never total supply)
+   ------------------------------------------------------------------ */
+const VAULT_SUPPLY   = 500_000_000;
+const RELEASE_RATE   = 0.05;
+const RELEASE_FLOOR  =  1_000_000;
+const RELEASE_CAP    = 20_000_000;
+const STEP_USD       =  1_000_000;
+const MILESTONES     = 10;
 
-function fmt(n) {
-  if (n >= 1_000_000) return '$' + (n / 1_000_000).toFixed(2) + 'M';
-  if (n >= 1_000) return '$' + Math.round(n).toLocaleString('en');
-  return '$' + n.toFixed(2);
-}
+const fmtUSD = n =>
+  n >= 1e6 ? '$' + (n / 1e6).toFixed(2) + 'M'
+: n >= 1e3 ? '$' + Math.round(n).toLocaleString('en')
+:            '$' + n.toFixed(2);
 
-function fmtMHT(n) {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(3) + 'M';
-  return Math.round(n).toLocaleString('en');
-}
+const fmtMHT = n =>
+  n >= 1e6 ? (n / 1e6).toFixed(2) + 'M'
+:            Math.round(n).toLocaleString('en');
 
-function simulate(bnbPrice, investBNB) {
-  const launchPrice = (BNB_IN_POOL * bnbPrice) / MHT_IN_POOL;
-  const mhtBought = (investBNB * bnbPrice) / launchPrice;
+function simulate(bnbPrice, investBNB, eligible0, entryPrice) {
   const investUSD = investBNB * bnbPrice;
+  const holderStart = investUSD / entryPrice;
 
-  let vault = INITIAL_VAULT;
-  let burned = INITIAL_BURNED;
-  let eligible = ELIGIBLE_LAUNCH;
-  let holderMHT = mhtBought;
-  let rows = [];
+  let vault    = VAULT_SUPPLY;
+  let eligible = eligible0 + holderStart;   // your own buy joins eligible supply
+  let holder   = holderStart;
 
-  rows.push({
-    label: 'DEX Entry', mcap: 0, mht: holderMHT,
-    reward: 0, price: launchPrice, value: investUSD, roi: 0, isEntry: true
-  });
+  const rows = [{
+    label: 'Entry', mcap: eligible * entryPrice, price: entryPrice,
+    release: 0, reward: 0, mht: holder, value: investUSD, roi: 0, isEntry: true
+  }];
 
-  for (let m = 1; m <= 10; m++) {
-    const mcapTarget = m * 1_000_000;
-    const mhtPrice = mcapTarget / (TOTAL_SUPPLY - burned);
-    let release = vault * 0.05;
-    release = Math.max(1_000_000, Math.min(20_000_000, release));
-    const holdersShare = release * 0.70;
-    const reward = (holderMHT / eligible) * holdersShare;
-    holderMHT += reward;
-    vault -= release;
-    burned += release * 0.005;
-    eligible += reward * 0.1;
-    const value = holderMHT * mhtPrice;
-    const roi = ((value - investUSD) / investUSD) * 100;
-    rows.push({ label: 'M' + m, mcap: mcapTarget, mht: holderMHT, reward, price: mhtPrice, value, roi, isEntry: false });
+  for (let m = 1; m <= MILESTONES; m++) {
+    const mcapTarget = m * STEP_USD;
+    const priceNeeded = mcapTarget / eligible;      // eligible supply BEFORE the release
+
+    let release = Math.min(vault, Math.max(RELEASE_FLOOR, Math.min(RELEASE_CAP, vault * RELEASE_RATE)));
+    const reward = eligible > 0 ? (holder / eligible) * release : 0;
+
+    holder   += reward;
+    vault    -= release;
+    eligible += release;                            // released tokens are now held by holders
+
+    const value = holder * priceNeeded;
+    rows.push({
+      label: 'M' + m, mcap: mcapTarget, price: priceNeeded,
+      release, reward, mht: holder, value,
+      roi: ((value - investUSD) / investUSD) * 100, isEntry: false
+    });
   }
-  return { rows, launchPrice, mhtBought, investUSD };
+  return { rows, holderStart, investUSD, mcapEntry: (eligible0 + holderStart) * entryPrice };
 }
 
 function render() {
-  const bnbPrice = parseFloat(document.getElementById('bnbPrice').value);
-  const investBNB = parseFloat(document.getElementById('invest').value);
+  const bnbPrice   = parseFloat(document.getElementById('bnbPrice').value);
+  const investBNB  = parseFloat(document.getElementById('invest').value);
+  const eligible0  = parseFloat(document.getElementById('eligible').value) * 1e6;
+  const entryPrice = parseFloat(document.getElementById('entry').value);
 
-  document.getElementById('bnbDisplay').textContent = '$' + bnbPrice;
-  document.getElementById('investDisplay').textContent = investBNB.toFixed(1) + ' BNB';
+  document.getElementById('bnbDisplay').textContent      = '$' + bnbPrice;
+  document.getElementById('investDisplay').textContent   = investBNB.toFixed(1) + ' BNB';
+  document.getElementById('eligibleDisplay').textContent = (eligible0 / 1e6).toFixed(0) + 'M MHT';
+  document.getElementById('entryDisplay').textContent    = '$' + entryPrice.toFixed(6);
 
-  const { rows, launchPrice, mhtBought, investUSD } = simulate(bnbPrice, investBNB);
-  const lastRow = rows[rows.length - 1];
+  const { rows, holderStart, investUSD, mcapEntry } = simulate(bnbPrice, investBNB, eligible0, entryPrice);
+  const last = rows[rows.length - 1];
 
-  document.getElementById('entryPrice').textContent = '$' + launchPrice.toFixed(6);
-  document.getElementById('mhtReceived').textContent = fmtMHT(mhtBought);
-  document.getElementById('valueM10').textContent = fmt(lastRow.value);
+  document.getElementById('mhtReceived').textContent = fmtMHT(holderStart);
+  document.getElementById('mcapEntry').textContent   = fmtUSD(mcapEntry);
+  document.getElementById('valueM10').textContent    = fmtUSD(last.value);
 
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = rows.map(r => {
-    const roiStr = r.isEntry ? '—' : (r.roi >= 0 ? '+' : '') + Math.round(r.roi) + '%';
-    return `<tr class="${r.isEntry ? 'entry-row' : ''}">
+  document.getElementById('tableBody').innerHTML = rows.map(r => `
+    <tr class="${r.isEntry ? 'entry-row' : ''}">
       <td class="td-m">${r.label}</td>
-      <td class="td-price">${r.isEntry ? 'Launch' : '$' + (r.mcap / 1e6).toFixed(0) + 'M MCap'}</td>
-      <td class="td-mht">${fmtMHT(r.mht)}</td>
+      <td class="td-price">${r.isEntry ? 'now' : '$' + (r.mcap / 1e6).toFixed(0) + 'M'}</td>
+      <td class="td-price">$${r.price.toFixed(6)}</td>
+      <td class="td-mht">${r.isEntry ? '—' : fmtMHT(r.release)}</td>
       <td class="td-reward">${r.isEntry ? '—' : '+' + fmtMHT(r.reward)}</td>
-      <td class="td-price">$${r.price.toFixed(5)}</td>
-      <td class="td-val">${fmt(r.value)}</td>
-      <td class="${r.roi > 0 ? 'td-roi-pos' : 'td-m'}" style="font-family:'Space Mono',monospace;font-size:12px">${roiStr}</td>
-    </tr>`;
-  }).join('');
+      <td class="td-mht">${fmtMHT(r.mht)}</td>
+      <td class="td-val">${fmtUSD(r.value)}</td>
+      <td class="${r.roi > 0 ? 'td-roi-pos' : 'td-m'}" style="font-family:'Space Mono',monospace;font-size:12px">${r.isEntry ? '—' : (r.roi >= 0 ? '+' : '') + Math.round(r.roi) + '%'}</td>
+    </tr>`).join('');
 
   document.getElementById('mathLine').innerHTML =
-    investBNB.toFixed(1) + ' BNB invested → ' + fmt(lastRow.value) + ' at Milestone 10.<br>This is not a promise. This is math.';
+    investBNB.toFixed(1) + ' BNB (' + fmtUSD(investUSD) + ') held through Milestone 10 → ' + fmtUSD(last.value) +
+    '.<br>This is not a promise. This is the contract’s arithmetic.';
 }
 
-document.getElementById('bnbPrice').addEventListener('input', render);
-document.getElementById('invest').addEventListener('input', render);
+['bnbPrice','invest','eligible','entry'].forEach(id =>
+  document.getElementById(id).addEventListener('input', render));
 render();
 </script>
 </body>
