@@ -235,7 +235,20 @@
   // lire les soldes sur cette chaîne-là et afficherait « rien à migrer » à
   // quelqu'un de parfaitement éligible. Le portefeuille ne sert qu'à signer.
   function reader() {
-    if (!state.readProvider) state.readProvider = new window.ethers.JsonRpcProvider(CONFIG.rpc, CONFIG.chainId);
+    if (!state.readProvider) {
+      // Reseau FIGE : sans cela, ethers interroge d'abord eth_chainId pour
+      // "detecter" la chaine, et si ce tout premier appel echoue (RPC public
+      // froid ou limite), le provider refuse de demarrer et TOUTES les
+      // lectures en vol echouent d'un coup. Constate le 19/09/2026 :
+      // "JsonRpcProvider failed to detect network and cannot start up".
+      var opts = {};
+      try {
+        if (window.ethers.Network && window.ethers.Network.from) {
+          opts.staticNetwork = window.ethers.Network.from(CONFIG.chainId);
+        }
+      } catch (e) { /* build d'ethers sans Network : on garde la detection */ }
+      state.readProvider = new window.ethers.JsonRpcProvider(CONFIG.rpc, CONFIG.chainId, opts);
+    }
     return state.readProvider;
   }
 
@@ -561,7 +574,8 @@
   // Numérateur   : pour chaque adresse, plafond - remaining(), soit ce
   //                qu'elle a déjà migré. Tout est lu on-chain, aucun
   //                chiffre codé en dur. En cas d'échec le bloc reste caché.
-  function renderProgress() {
+  function renderProgress(attempt) {
+    attempt = attempt || 1;
     var block = $("mp-block");
     if (!block || !isLive() || !hasEthers()) return;
     var addrs = Object.keys(SNAPSHOT);
@@ -595,7 +609,9 @@
           if (mm > 0n) open += mm;
         }
       });
-      if (!known) return;
+      // Aucune reponse : RPC public froid ou limite. On retente au lieu
+      // d'abandonner definitivement — sinon la barre reste cachee a jamais.
+      if (!known) { if (attempt < 3) setTimeout(function () { renderProgress(attempt + 1); }, 2500); return; }
       var gone = total - done - open;
       if (gone < 0n) gone = 0n;
       var pctOf = function (x) {
@@ -618,7 +634,9 @@
           : "<strong>" + d + " days</strong> left at the +25 % bonus";
       }
       block.hidden = false;
-    }, function () { /* la barre reste cachée, la page fonctionne */ });
+    }, function () {
+      if (attempt < 3) setTimeout(function () { renderProgress(attempt + 1); }, 2500);
+    });
   }
 
   // Exposé pour les tests hors navigateur (node) — sans effet sur la page.
