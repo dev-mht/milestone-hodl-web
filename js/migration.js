@@ -638,10 +638,15 @@
       $("mp-pct").textContent = pct.toFixed(pct < 10 ? 2 : 1) + " %";
       $("mp-fill").style.width = pctOf(done) + "%";
       $("mp-open").style.width = pctOf(open) + "%";
-      $("mp-done").textContent = fmt(done);
-      $("mp-openv").textContent = fmt(open);
-      $("mp-gone").textContent = fmt(gone);
-      $("mp-total").textContent = fmt(total);
+      // Affichage en jetons entiers : "gone" est calcule par soustraction,
+      // il ramasse donc les poussieres de wei des deux autres (on voyait
+      // "5 010 488,9999 MHT"). Arrondi au plus proche, affichage seulement.
+      var UN = 1000000000000000000n;
+      var rond = function (x) { return ((x + UN / 2n) / UN) * UN; };
+      $("mp-done").textContent = fmt(rond(done));
+      $("mp-openv").textContent = fmt(rond(open));
+      $("mp-gone").textContent = fmt(rond(gone));
+      $("mp-total").textContent = fmt(rond(total));
       var left = $("mp-left");
       if (left) {
         var d = Math.ceil((CONFIG.tiers[0].end - nowSec()) / 86400);
