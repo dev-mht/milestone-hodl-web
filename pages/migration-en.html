@@ -89,6 +89,24 @@
   footer { border-top: 1px solid rgba(201,168,76,0.15); padding-top: 30px; color: var(--gray); font-size: 0.85rem; line-height: 1.8; }
   footer a { color: var(--gray); }
   @media (max-width: 560px) { .kv { grid-template-columns: 1fr; } .kv div:nth-child(odd) { border-bottom: none; padding-bottom: 0; } .btn { flex: 1 1 100%; } }
+
+  /* Barre de progression de la migration V2 -> V3 (19/09/2026) */
+  .mp { max-width: 620px; margin: 22px auto 0; text-align: left; }
+  .mp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+  .mp-title { font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+  .mp-pct { font-size: 1.15rem; font-weight: 700; color: var(--green); }
+  .mp-track { display: flex; height: 10px; border-radius: 6px; background: var(--dark3); overflow: hidden; border: 1px solid rgba(201,168,76,.18); }
+  .mp-seg { height: 100%; width: 0; transition: width .7s ease; }
+  .mp-seg-done { background: linear-gradient(90deg, var(--green), #7BE8A8); }
+  .mp-seg-open { background: linear-gradient(90deg, var(--gold), var(--gold-light)); opacity: .75; }
+  .mp-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 9px; font-size: .8rem; color: var(--gray); }
+  .mp-legend strong { color: var(--white); }
+  .mp-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: baseline; }
+  .k-done { background: var(--green); }
+  .k-open { background: var(--gold); }
+  .k-gone { background: var(--dark3); border: 1px solid var(--gray); }
+  .mp-foot { display: flex; justify-content: space-between; gap: 14px; margin-top: 7px; font-size: .82rem; color: var(--gray); flex-wrap: wrap; }
+  .mp-foot strong { color: var(--white); }
 </style>
 </head>
 <body>
@@ -102,6 +120,25 @@
     <h1>Migrate your $MHT V2<br>to <span>V3</span></h1>
     <p class="subtitle">One transaction burns your V2 and delivers your V3 plus the bonus. Only addresses from the snapshot can migrate, up to what they held. Check yours below.</p>
     <div id="m-mode" class="m-mode pre">…</div>
+    <div class="mp" id="mp-block" hidden>
+      <div class="mp-head">
+        <span class="mp-title">Migration progress</span>
+        <span class="mp-pct" id="mp-pct">—</span>
+      </div>
+      <div class="mp-track">
+        <div class="mp-seg mp-seg-done" id="mp-fill"></div>
+        <div class="mp-seg mp-seg-open" id="mp-open"></div>
+      </div>
+      <div class="mp-legend">
+        <span><i class="k-done"></i><strong id="mp-done">—</strong> migrated</span>
+        <span><i class="k-open"></i><strong id="mp-openv">—</strong> still migratable</span>
+        <span><i class="k-gone"></i><strong id="mp-gone">—</strong> no longer held</span>
+      </div>
+      <div class="mp-foot">
+        <span>out of <strong id="mp-total">—</strong> eligible V2</span>
+        <span id="mp-left"></span>
+      </div>
+    </div>
   </div>
 
   <div class="section">

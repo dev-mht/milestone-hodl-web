@@ -555,11 +555,78 @@
     }
   }
 
+
+  // ── Barre de progression globale (19/09/2026) ─────────────────
+  // Dénominateur : la somme du snapshot = le V2 migrable total.
+  // Numérateur   : pour chaque adresse, plafond - remaining(), soit ce
+  //                qu'elle a déjà migré. Tout est lu on-chain, aucun
+  //                chiffre codé en dur. En cas d'échec le bloc reste caché.
+  function renderProgress() {
+    var block = $("mp-block");
+    if (!block || !isLive() || !hasEthers()) return;
+    var addrs = Object.keys(SNAPSHOT);
+    var capOf = {}, total = 0n;
+    addrs.forEach(function (a) {
+      var w = BigInt(SNAPSHOT[a]) * 1000000000000000000n;
+      capOf[a] = w; total += w;
+    });
+    if (total === 0n) return;
+    var mig = new window.ethers.Contract(CONFIG.migration, MIG_ABI, reader());
+    var nul = function () { return null; };
+    Promise.all([
+      Promise.all(addrs.map(function (a) { return mig.remaining(a).then(function (r) { return r; }, nul); })),
+      Promise.all(addrs.map(function (a) { return mig.migratableOf(a).then(function (r) { return r; }, nul); }))
+    ]).then(function (res) {
+      var rems = res[0], migs = res[1];
+      var done = 0n, open = 0n, known = 0;
+      rems.forEach(function (r, i) {
+        if (r === null || r === undefined) return;
+        known++;
+        var rem = BigInt(r);
+        var used = capOf[addrs[i]] - rem;
+        if (used > 0n) done += used;
+        // migratableOf = min(plafond restant, solde V2 detenu aujourd'hui).
+        // La difference avec le plafond restant, c'est du V2 vendu : plus
+        // personne ne peut le migrer tant qu'il n'est pas rachete.
+        var m = migs[i];
+        if (m !== null && m !== undefined) {
+          var mm = BigInt(m);
+          if (mm > rem) mm = rem;
+          if (mm > 0n) open += mm;
+        }
+      });
+      if (!known) return;
+      var gone = total - done - open;
+      if (gone < 0n) gone = 0n;
+      var pctOf = function (x) {
+        var v = Number((x * 10000n) / total) / 100;
+        return x > 0n ? Math.max(v, 0.5) : 0;
+      };
+      var pct = Number((done * 10000n) / total) / 100;
+      $("mp-pct").textContent = pct.toFixed(pct < 10 ? 2 : 1) + " %";
+      $("mp-fill").style.width = pctOf(done) + "%";
+      $("mp-open").style.width = pctOf(open) + "%";
+      $("mp-done").textContent = fmt(done);
+      $("mp-openv").textContent = fmt(open);
+      $("mp-gone").textContent = fmt(gone);
+      $("mp-total").textContent = fmt(total);
+      var left = $("mp-left");
+      if (left) {
+        var d = Math.ceil((CONFIG.tiers[0].end - nowSec()) / 86400);
+        if (d > 0) left.innerHTML = LANG === "fr"
+          ? "<strong>" + d + " jours</strong> restants au bonus +25 %"
+          : "<strong>" + d + " days</strong> left at the +25 % bonus";
+      }
+      block.hidden = false;
+    }, function () { /* la barre reste cachée, la page fonctionne */ });
+  }
+
   // Exposé pour les tests hors navigateur (node) — sans effet sur la page.
   if (typeof window.MIG_EXPORT_PURE !== "undefined") {
     window.MIG_EXPORT_PURE = { fmt: fmt, tierAt: tierAt, snapshotCap: snapshotCap, quoteLocal: quoteLocal, isAddress: isAddress, CONFIG: CONFIG, SNAPSHOT: SNAPSHOT };
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  function boot() { init(); try { renderProgress(); } catch (e) {} }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
 })();
