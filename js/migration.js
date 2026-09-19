@@ -247,6 +247,10 @@
           opts.staticNetwork = window.ethers.Network.from(CONFIG.chainId);
         }
       } catch (e) { /* build d'ethers sans Network : on garde la detection */ }
+      // Pas de lots : bsc-dataseed repond « method eth_call in batch
+      // triggered rate limit » (-32005) des qu'ethers regroupe les appels,
+      // et TOUT le lot echoue. Une requete par lecture. Constate le 19/09.
+      opts.batchMaxCount = 1;
       state.readProvider = new window.ethers.JsonRpcProvider(CONFIG.rpc, CONFIG.chainId, opts);
     }
     return state.readProvider;
@@ -587,10 +591,22 @@
     if (total === 0n) return;
     var mig = new window.ethers.Contract(CONFIG.migration, MIG_ABI, reader());
     var nul = function () { return null; };
-    Promise.all([
-      Promise.all(addrs.map(function (a) { return mig.remaining(a).then(function (r) { return r; }, nul); })),
-      Promise.all(addrs.map(function (a) { return mig.migratableOf(a).then(function (r) { return r; }, nul); }))
-    ]).then(function (res) {
+    // 36 lectures d'un coup font tomber le RPC public. On avance par paquets.
+    function parPaquets(items, taille, fn) {
+      var out = [], i = 0;
+      function suite() {
+        if (i >= items.length) return Promise.resolve(out);
+        var lot = items.slice(i, i + taille); i += taille;
+        return Promise.all(lot.map(fn)).then(function (r) { out = out.concat(r); return suite(); });
+      }
+      return suite();
+    }
+    parPaquets(addrs, 4, function (a) { return mig.remaining(a).then(function (r) { return r; }, nul); })
+      .then(function (rems) {
+        return parPaquets(addrs, 4, function (a) { return mig.migratableOf(a).then(function (r) { return r; }, nul); })
+          .then(function (migs) { return [rems, migs]; });
+      })
+    .then(function (res) {
       var rems = res[0], migs = res[1];
       var done = 0n, open = 0n, known = 0;
       rems.forEach(function (r, i) {
